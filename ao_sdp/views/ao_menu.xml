@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Cost type action -->
+
+        <record id="wbs_cost_type" model="ir.actions.act_window">
+            <field name="name">Types de dépense</field>
+            <field name="res_model">wbs.cost.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menus -->
+
+        <menuitem action="wbs_cost_type" id="cost_type_menu" name="Types de dépense"  parent="project.menu_project_config"/>
+
+
+    </data>
+</odoo>

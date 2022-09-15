@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+         <record id="edit_project_inherited_pmo" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.pmo</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="condition_facturation"/>
+                </field>
+            </field>
+         </record>
+    </data>
+</odoo>

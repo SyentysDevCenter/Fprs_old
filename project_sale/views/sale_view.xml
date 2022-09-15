@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+     <record id="product_template_sale_tree_view" model="ir.ui.view">
+      <field name="name">product.template.ebay.tree</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_tree_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+          <field name="description_sale" optional="show"/>
+        </xpath>
+      </field>
+    </record>
+    <record id="product_product_tree_view_fsm" model="ir.ui.view">
+      <field name="name">product.product.fsm.tree</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_product_tree_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+          <field name="description_sale" optional="show" />
+        </xpath>
+          <field name="product_template_attribute_value_ids" position="attributes">
+              <attribute name="optional">hide</attribute>
+          </field>
+          <field name="name" position="attributes">
+              <attribute name="optional">show</attribute>
+
+          </field>
+      </field>
+    </record>
+    <record id="product_template_search_viewsale" model="ir.ui.view">
+      <field name="name">product.template.ebay.tree</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_search_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="after">
+          <field name="description_sale" optional="show"/>
+        </xpath>
+      </field>
+    </record>
+
+ <record id="view_order_form_inherit_project" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="chantier_id"
+                           attrs="{'readonly':[('state','in', ('done', 'sale','cancel'))]}"/>
+                </field>
+                <button name="preview_sale_order" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+            </field>
+ </record>
+    <record id="view_order_tree_quoatation_inherit_project" model="ir.ui.view">
+            <field name="name">view.quotation.tree.project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="chantier_id" attrs="{'readonly':[('state','in', ('done', 'sale','cancel'))]}"/>
+                </field>
+            </field>
+ </record> <record id="view_order_tree_inherit_project" model="ir.ui.view">
+            <field name="name">view.sale.tree.project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="chantier_id" attrs="{'readonly':[('state','in', ('done', 'sale','cancel'))]}"/>
+                </field>
+            </field>
+ </record>
+    <record id="edit_project_inherited_sale_ids" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.sale</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+	           <notebook position="inside">
+                   <page string="Commandes" invisible="1">
+                       <field name="chantier_sale_ids"/>
+                   </page>
+               </notebook>
+            </field>
+	</record>
+
+
+
+</odoo>

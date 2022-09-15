@@ -1,0 +1,24 @@
+<odoo>
+	<data>
+		<record id="email_template_edi_intervention" model="mail.template">
+			<field name="name">Rapport d'Intervention</field>
+			<field name="model_id" ref="project.model_project_task"/>
+			<field name="partner_to">${object.partner_id != False and object.partner_id.id}</field>
+			<field name="email_to">${(not object.partner_id and object.partner_email)|safe}</field>
+			<field name="subject">Rapport d'Intervention ${object.name}</field>
+			<field name="lang">${object.partner_id.lang}</field>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+				<![CDATA[
+						<p>Bonjour,</p>
+						<br/>
+						<p>Veuillez trouver ci-joint le rapport d'intervention faisant référence au N° de bon commande suivant: "<b>N° ${object.client_order_ref}</b>"</p>
+						<br/>
+						<p>Bien cordialement.</p>
+					]]>
+			</field>
+			<field name="report_template" ref="sale_fsm_extend.project_task_report_id"/>
+            <field name="report_name">Intervention_${(object.name or '').replace('/','_')}</field>
+		</record>
+	</data>
+</odoo>

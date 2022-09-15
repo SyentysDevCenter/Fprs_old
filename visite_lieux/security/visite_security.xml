@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+
+        <record model="ir.module.category" id="module_visite_lieux">
+                <field name="name">Visite des lieux</field>
+                <field name="description">Visite des lieux</field>
+                <field name="sequence">8</field>
+        </record>
+
+        <record id="group_visite_lieux_user" model="res.groups">
+            <field name="name">Utilisateur</field>
+            <field name="category_id" ref="module_visite_lieux"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_visite_lieux_resp" model="res.groups">
+            <field name="name">Responsable</field>
+            <field name="category_id" ref="module_visite_lieux"/>
+            <field name="implied_ids" eval="[(4, ref('group_visite_lieux_user'))]"/>
+        </record>
+
+
+    </data>
+
+</odoo>

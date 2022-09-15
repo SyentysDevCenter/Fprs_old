@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ts_report_assistant_action" model="ir.actions.act_window">
+            <field name="name">Rapport TS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ts.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="project.model_project_project"/>
+            <field name="binding_type">report</field>
+            <field name="target">new</field>
+            <field name="context">{'default_chantier_id': active_id}</field>
+        </record>
+
+
+
+        <record id="ts_report_wizard_form" model="ir.ui.view">
+            <field name="name">ts.report.wizard.form</field>
+            <field name="model">ts.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="chantier_id" options="{'no_create':1}" required="1"/>
+
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button string="IMPRIMER" name="print_report" type="object" class="oe_highlight"/>
+                        <button string="ANNULER" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

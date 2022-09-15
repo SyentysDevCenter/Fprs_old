@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_task_status_user,project_task_status_user,sale_fsm_extend.model_project_task_status,industry_fsm.group_fsm_user,1,1,1,1
+access_fsm_intervenant_group_sale_order_user,fsm_intervenant_group_sale_order_user,sale.model_sale_order,sale_fsm_extend.group_fsm_intervenant,1,0,0,0
+access_fsm_intervenant_group_project_task_user,fsm_intervenant_group_project_task_user,project.model_project_task,sale_fsm_extend.group_fsm_intervenant,1,1,0,0
+project.access_project_task,project.task,project.model_project_task,project.group_project_user,1,1,0,0
+access_project_task_manager,project.task,project.model_project_task,project.group_project_manager,1,1,1,0
+access_project_task_super_manager,project.task super_manager,project.model_project_task,sale_fsm_extend.group_project_super_manager,1,1,1,1
+access_project_task_fsm_manager,project.task,project.model_project_task,industry_fsm.group_fsm_manager,1,1,1,0
+access_project_task_fsm_super_manager,project.task super manager,project.model_project_task,sale_fsm_extend.group_fsm_super_manager,1,1,1,1
+access_sale_order_line_intervenant,sale_order_line,sale.model_sale_order_line,sale_fsm_extend.group_fsm_intervenant,1,0,0,0
+access_stock_picking_intervenant,stock.picking intervenant,stock.model_stock_picking,sale_fsm_extend.group_fsm_intervenant,1,0,0,0
+access_project_project_intervenant,project_project intervenant,project.model_project_project,sale_fsm_extend.group_fsm_intervenant,1,0,0,0
+access_suivi_emetteur,access.suivi.emetteur,sale_fsm_extend.model_suivi_emetteur_bc,base.group_user,1,1,1,1
+access_corps_etat,access.corps.etat,sale_fsm_extend.model_corps_etat,base.group_user,1,1,1,1
+project_task_status_user_r_only,project_task_status_user_r_only,sale_fsm_extend.model_project_task_status,project_extend.group_read_only_service,1,0,0,0

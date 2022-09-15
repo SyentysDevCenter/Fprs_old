@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_actualise_prix_form" model="ir.ui.view">
+            <field name="name">view.actualise_prix.form</field>
+            <field name="model">actualisation.prix.contrat</field>
+            <field name="arch" type="xml">
+                <form string="Actualisation prix contrat">
+                        <group>
+                            <field name="pourcentage"/>
+                            <field name="sale_contrat_id" readonly="True" invisible="True"/>
+                        </group>
+                    <footer>
+                        <button name="actualise" string="Actualiser" type="object" class="oe_highlight"/>
+                        <button string="Annuler" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

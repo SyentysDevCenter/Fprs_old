@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ao_lot_form" model="ir.ui.view">
+        <field name="name">AO Lot form view</field>
+        <field name="model">ao.lot</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_gagner" string='gagné' type="object" states="new" class="oe_highlight"/>
+                    <button name="action_perdu" string='perdu' type="object" states="new" class="oe_highlight"/>
+
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                name="action_open_lot_wbs" icon="fa-files-o">
+                            <field name="wbs_count" string="BDP" widget="statinfo"/>
+                        </button>
+                        <button type="object" attrs="{'invisible':[('wbs_count', '=', 0)]}"
+                                name="action_open_gantt" icon="fa-files-o" string="Gantt">
+                        </button>
+                    <button type="object" attrs="{'invisible':[('wbs_count', '=', 0)]}"
+                            name="action_open_gantt" icon="fa-files-o" string="Gantt">
+                    </button>
+
+                </div>
+                <group>
+                    <field name="name"/>
+                    <field name="ao_id" readonly="1" force-save="1"/>
+                    <field name="user_id"/>
+                    <field name="conducteur_travaux_id"/>
+                    <field name="motif_rejet"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+<record id="ao_view_form_inherit_lot" model="ir.ui.view">
+<field name="name">AO lot form extend</field>
+<field name="model">ao.ao</field>
+<field name="inherit_id" ref="ao.ao_view_form"></field>
+<field name="arch" type="xml">
+    <div class="oe_button_box" name="button_box">
+        <button type="object"
+                name="action_open_ao_lot" icon="fa-files-o">
+            <field name="lot_count" string="Lots" widget="statinfo"/>
+        </button>
+        <button type="object" attrs="{'invisible':[('project_id', '=', False)]}"
+                name="action_open_gantt" icon="fa-files-o" string="Gantt">
+        </button>
+
+    </div>
+
+</field>
+</record>
+<record id="project_wbs_form_view_inherit_lot" model="ir.ui.view">
+<field name="name">project.wbs.form.view</field>
+<field name="model">project.wbs</field>
+<field name="inherit_id" ref="project_wbs.project_wbs_form_view"/>
+<field name="arch" type="xml">
+    <field name="name" position="after">
+        <field name="lot_id"/>
+    </field>
+</field>
+</record>
+<record id="view_project_wbs_filter_inherit_lot" model="ir.ui.view">
+<field name="name">view.project.wbs.filter</field>
+<field name="model">project.wbs</field>
+<field name="inherit_id" ref="project_wbs.view_project_wbs_filter"></field>
+<field name="arch" type="xml">
+    <xpath expr="//group[1]" position="after">
+        <group expand="1" string="Group By">
+            <filter string="Lot" name="group_by_lot" domain="[]" context="{'group_by':'lot_id'}"/>
+        </group>
+    </xpath>
+</field>
+</record>
+        </odoo>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--	 <record id="project_task_action_fsm_sale" model="ir.actions.act_window">-->
+    <!--        <field name="name">Intervention</field>-->
+    <!--        <field name="res_model">project.task</field>-->
+    <!--        <field name="view_mode">map,kanban,gantt,calendar,tree,form,activity</field>-->
+    <!--        <field name="search_view_id" ref="industry_fsm.project_task_view_search_fsm"/>-->
+    <!--        <field name="domain">[('fsm_sale_id', '=', active_id)]</field>-->
+    <!--        <field name="context">{-->
+    <!--            'fsm_mode': True,-->
+    <!--            'show_address': True,-->
+    <!--                                'search_default_my_tasks': True,-->
+    <!--                                'search_default_planned_future': True,-->
+    <!--                                'search_default_planned_today': True,-->
+    <!--                                'fsm_task_kanban_whole_date': False,-->
+    <!--                                'default_is_fsm': True,-->
+    <!--                                'default_fsm_sale_id': self.id,-->
+    <!--                                'default_partner_id': self.partner_id.id,-->
+    <!--                                'default_partner_email': self.partner_id.email,-->
+    <!--                                'default_bailleur_id': self.bailleur_id and self.bailleur_id.id or False,-->
+    <!--        }</field>-->
+    <!--      -->
+    <!--    </record>-->
+
+
+    <record id="project_task_inherit23_view_search" model="ir.ui.view">
+        <field name="name">project.task.inherit23.view.search</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_search_fsm"/>
+        <field name="arch" type="xml">
+            <!-- position values: after|before|replace|attributes|inside -->
+            <xpath expr="//filter[@name='groupby_project']" position="attributes">
+                <attribute name="string">Code chantier</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_quotation_tree_inherited_fsm" model="ir.ui.view">
+        <field name="name">sale.order.tree.quotation.fsm</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="fsm_status_id"/>
+                <field name="technicien_id"/>
+            </field>
+            <field name="state" position="before">
+                <field name="factures_en_attente_validation"/>
+                <field name="factures_valides"/>
+            </field>
+            <field name="amount_total" position="attributes">
+                <attribute name="string">TTC</attribute>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="en_attente"/>
+            </field>
+            <field name="user_id" position="before">
+                <field name="client_order_ref"/>
+                <field name="fsm_invoiceable" optional="hide"/>
+                <field name="bilan_year"/>
+
+            </field>
+
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_sale_tree_inherited_fsm" model="ir.ui.view">
+        <field name="name">sale.order.tree.sale.fsm</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="amount_total" position="attributes">
+                <attribute name="string">TTC</attribute>
+            </field>
+            <field name="amount_total" position="after">
+                <field name="en_attente"/>
+            </field>
+            <field name="company_id" position="after">
+                <field name="technicien_id"/>
+            </field>
+
+            <field name="user_id" position="before">
+                <field name="client_order_ref"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_fsm" model="ir.ui.view">
+        <field name="name">sale.order.form.sale.fsm</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="technicien_id"/>
+            </field>
+
+            <field name="validity_date" position="before">
+                <!-- #-## -->
+                <field name="bilan_year"/>
+            </field>
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <field name="client_order_ref" position="after">
+                <field name="suivi_emetteur_bc"/>
+                <field name="emetteur_bc_id"/>
+                <field name="date_debut"/>
+                <field name="date_fin"/>
+                <field name="intervention_relle"/>
+                <field name="tech1_id" option="{'no_create':True, 'no_edit':True}"/>
+                <field name="tech2_id" option="{'no_create':True, 'no_edit':True}"/>
+                <field name="interim_ssl"/>
+
+            </field>
+            <xpath expr="//group[@name='sale_info']" position="attributes">
+                <attribute name="string"></attribute>
+            </xpath>
+            <!--            <field name="fiscal_position_id" position="attributes">-->
+            <!--                <attribute name="invisible">0</attribute>-->
+            <!--            </field>-->
+            <!--                        <xpath expr="//group[@name='sale_info']" position="inside">-->
+            <!--                           -->
+            <!--                        </xpath>-->
+
+            <field name="team_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="require_signature" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="require_payment" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
+            <!--            <field name="client_order_ref" position="attributes">-->
+            <!--                <attribute name="invisible">1</attribute>-->
+            <!--            </field>-->
+            <field name="tag_ids" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="partner_id" position="after">
+                <field name="n_siret"/>
+                <field name="commande" invisible="1"/>
+                <field name="depannage" invisible="1"/>
+                <field name="adress3"/>
+                <field name="bailleur_id"/>
+                <field name="en_attente"/>
+                <field name="fsm_invoiceable" invisible="1"/>
+                <field name="conducteur_travaux_id" domain="[('charge_affaire', '=', True)]"/>
+                <!--				<field name="conducteur_travaux_user_id" invisible="1"/>-->
+                <field name="temps_passe" attrs="{'invisible':[('depannage', '=', False)]}" widget="timesheet_uom"/>
+            </field>
+            <field name="payment_term_id" position="after">
+                <field name="fsm_status_id" attrs="{'readonly':[('depannage','=',True)]}"/>
+                <field name="modalite_paiement_id"/>
+            </field>
+            <xpath expr="//page[@name='other_information']//field[@name='client_order_ref']" position="attributes">
+                <attribute name="string">N° BC client</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//field[@name='user_id']" position="attributes">
+                <attribute name="domain">[('charge_affaire', '=', True)]</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('invoice_status', '!=', 'to invoice'),
+                    ('fsm_invoiceable', '=', False)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|','|',('invoice_status', '!=', 'no'),
+                    ('state', '!=', 'sale'),('fsm_invoiceable', '=', False)
+                    ]}
+                </attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <button name="payment_action_void" position="after">
+                <button name="validate_picking_create_invoice" type="object" string="Créer la facture"
+                        class="btn-primary"
+                        groups="sale_fsm_extend.group_invoice_create"
+                        attrs="{'invisible':['|',('state', 'not in', ('sale', 'done')), ('invoice_status', 'not in', ('to invoice', 'no'))]}"/>
+            </button>
+
+            <div name="button_box" position="inside">
+                <button name="fsm_task_action" type="object" class="oe_stat_button"
+                        attrs="{'invisible':['|',('depannage', '=', False), ('state', 'in', ('draft', 'sent'))]}"
+                        icon="fa-file">
+                    <field name="fsm_task_count" string="Interventions" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="domain">[('depannage', '=', False),('commande', '=', False)]</field>
+    </record>
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="domain">[('depannage', '=', False),('commande', '=', False),('state', 'not in', ('draft', 'sent',
+            'cancel'))]
+        </field>
+    </record>
+    <record id="sale_order_view_search_inherit_fsm" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.fsm</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <filter string="Dépannage facturable" name="fsm_invoiceable"
+                        domain="[('fsm_invoiceable','=',True), ('invoice_status','!=', 'invoiced')]"/>
+
+            </filter>
+
+        </field>
+    </record>
+
+    <record id="sale_order_search_view_extend" model="ir.ui.view">
+        <field name="name">sale.order.search.extend</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="name"/>
+                <field name="nom_client_final"/>
+                <field name="partner_address_1"/>
+                <field name="ville_client_final"/>
+                <field name="appart_client_final"/>
+                <field name="client_order_ref"/>
+                <field name="amount_total"/>
+            </field>
+        </field>
+
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_view_search_inherit_quotation_depannage">
+        <field name="name">sale.order.depannage.search.view</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="string">Dépannage</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_view_search_inherit_quotation_devis">
+        <field name="name">sale.order.devis.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="string">Devis</attribute>
+            </field>
+
+        </field>
+    </record>
+<record model="ir.ui.view" id="sale_order_view_search_inherit_quotation_commande">
+        <field name="name">sale.order.devis.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="string">Commande</attribute>
+            </field>
+
+        </field>
+    </record>
+
+    <!--    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">-->
+    <!--        <field name="search_view_id">sale_fsm_extend.sale_order_view_search_inherit_quotation_devis</field>-->
+    <!--    </record>-->
+
+<!--    <record id="action_quotations_devis" model="ir.actions.act_window">-->
+<!--        <field name="name">Devis</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">sale.order</field>-->
+<!--        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>-->
+<!--        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>-->
+<!--        <field name="search_view_id" ref="sale_fsm_extend.sale_order_view_search_inherit_quotation_devis"/>-->
+<!--        <field name="context">{'search_default_my_quotation': 1}</field>-->
+<!--    </record>-->
+
+    <record id="action_quotations_depannage" model="ir.actions.act_window">
+        <field name="name">Dépannage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale_fsm_extend.sale_order_view_search_inherit_quotation_depannage"/>
+        <field name="context">{'default_depannage': True}</field>
+        <field name="domain">[('depannage', '=', True)]</field>
+    </record>
+
+    <record id="action_quotations_commande" model="ir.actions.act_window">
+        <field name="name">Commande</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale_order_view_search_inherit_quotation_commande"/>
+        <field name="context">{'default_commande': True}</field>
+        <field name="domain">[('commande', '=', True)]</field>
+    </record>
+
+<!--    <record model="ir.ui.menu" id="sale.menu_sale_quotations">-->
+<!--        <field name="action" ref="sale_fsm_extend.action_quotations_devis"/>-->
+<!--    </record>-->
+
+    <menuitem id="menu_quotations_commande" name="Commande" sequence="3"
+              groups="sales_team.group_sale_salesman,sale_fsm_extend.group_fsm_intervenant"
+              action="action_quotations_commande"
+              web_icon="sale_fsm_extend,static/description/commande.png"/>
+
+
+    <!--    <menuitem id="menu_quotations_depannage" name="Dépannage" sequence="3"-->
+    <!--              groups="sales_team.group_sale_salesman,sale_fsm_extend.group_fsm_intervenant"-->
+    <!--              action="action_quotations_depannage" parent="sale.sale_order_menu"/>-->
+
+    <menuitem id="menu_quotations_depannage_2" name="Dépannage" sequence="3"
+              groups="sales_team.group_sale_salesman,sale_fsm_extend.group_fsm_intervenant"
+              action="action_quotations_depannage" web_icon="sale_fsm_extend,static/description/icon.png"
+    />
+
+</odoo>

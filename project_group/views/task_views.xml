@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View project task to Modify it -->
+        <record id="task_form_view_inherit" model="ir.ui.view">
+            <field name="name">task.form.view.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name="group_chantier_id"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record id="view_task232_inherit_tree" model="ir.ui.view">
+            <field name="name">view.task232.inherit.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
+            <field name="arch" type="xml">
+                <!-- position: after|before|replace|attributes|inside -->
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name="group_chantier_id" string="Groupe chantier"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="project_task_new_col_view_search" model="ir.ui.view">
+            <field name="name">project.task.new.col.search</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm.project_task_view_search_fsm"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                    <field name="appart_client_final" string="N° de LGT"/>
+                    <field name="nom_client_final" string="Locataire/propriétaire"/>
+                    <field name="partner_address_1" string="Adresse locataire"/>
+                    <field name="group_chantier_id" string="Groupe chantier"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

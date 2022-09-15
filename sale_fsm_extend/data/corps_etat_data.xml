@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- type de corps d'etat  -->
+        <record id="corps_etat_couverture" model="corps.etat">
+            <field name="name">COUVERTURE</field>
+        </record>
+        <record id="corps_etat_plomberie" model="corps.etat">
+            <field name="name">PLOMBERIE</field>
+        </record>
+        <record id="corps_etat_ventilation" model="corps.etat">
+            <field name="name">VENTILATION</field>
+        </record>
+        <record id="corps_etat_chauffage" model="corps.etat">
+            <field name="name">CHAUFFAGE</field>
+        </record>
+        <record id="corps_etat_carrelage" model="corps.etat">
+            <field name="name">CARRELAGE</field>
+        </record>
+        <record id="corps_etat_tce" model="corps.etat">
+            <field name="name">TCE(tout corps d’état)</field>
+        </record>
+    </data>
+</odoo>

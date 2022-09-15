@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="suivi_emetteur_form_view" model="ir.ui.view">
+            <field name="name">view.suivi.emetteur</field>
+            <field name="model">suivi.emetteur.bc</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="suivi_emetteur_bc_tree_view">
+            <field name="name">suivi.emetteur.bc.tree</field>
+            <field name="model">suivi.emetteur.bc</field>
+            <field name="arch" type="xml">
+                <tree string="Suivi émetteurs BC">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="menu_emetteur_suivi_bc_action" model="ir.actions.act_window">
+            <field name="name">Suivi émetteurs bc</field>
+            <field name="res_model">suivi.emetteur.bc</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Suivi émetteurs bon de commande
+                </p>
+                <p>
+                    Suivi émetteurs bon de commande
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_emetteur_suivi_bc"
+                  name="Suivi émetteur BC"
+                  parent="sale.menu_sale_config"
+                  sequence="1" action="menu_emetteur_suivi_bc_action"
+                  groups="base.group_user"
+
+        />
+    </data>
+</odoo>

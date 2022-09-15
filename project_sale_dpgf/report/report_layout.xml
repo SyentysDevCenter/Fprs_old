@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	    <template id="sale_dpgf_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+
+        <t t-if="not company">
+            <!-- Multicompany -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+
+        <div class="header">
+            <div>
+                <div class="row">
+                    <div class="col-9" style="margin-top: 10px;">
+                        <img t-if="company.entete" t-att-src="image_data_uri(company.entete)"
+                             style="height:160px; width: 1000px;"
+                             alt="Logo"/>
+                    </div>
+
+                </div>
+                <br/>
+                <div class="row">
+                    <div style="width: 100%; border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+
+<!--            <div class="row not-first-page" style="margin-top:-150px; margin-left: 1.5%;">-->
+<!--                <strong>GECOP - DEVIS N°</strong>-->
+<!--                <span t-field="doc.name"/>-->
+<!--                <strong>du-->
+<!--                    <span t-field="o.date_order"-->
+<!--                          t-options="{'widget': 'date', 'format':'dd/MM/yyyy'}"/>-->
+<!--                </strong>-->
+<!--            </div>-->
+<!--            <div class="not-first-page" style="border-bottom: 1px solid black;"/>-->
+
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!--            <t t-call="web.address_layout"/>-->
+            <t t-raw="0"/>
+        </div>
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+
+            <div t-if="report_type == 'pdf'" class="text-muted" style="margin-left: 90%">
+                Page:
+                <span class="page"/>
+                /
+                <span class="topage"/>
+            </div>
+            <div class="text-center" style="border-top: 1px solid black;">
+
+                <div name="financial_infos">
+                    <span t-field="company.report_footer" style="color: #3144ae; font-size: 13px;"/>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</odoo>

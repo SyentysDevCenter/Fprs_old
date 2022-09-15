@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2018 Tecnativa - Sergio Teruel
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="product.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='sales_purchases']//field[@name='property_product_pricelist']"
+                position="after"
+            >
+                <label for="sale_discount"  invisible="1"/>
+                <div>
+                    <field name="sale_discount" class="oe_inline" invisible="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

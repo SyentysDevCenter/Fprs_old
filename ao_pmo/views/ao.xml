@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- AO form view inherits-->
+        <record id="view_ao_form_ao_project" model="ir.ui.view">
+            <field name="name">view.ao.form.ao.project</field>
+            <field name="model">ao.ao</field>
+            <field name="inherit_id" ref="ao.ao_view_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="project_id" invisible="1"/>
+                </field>
+                <group position="before">
+                    <div class="oe_button_box" name="button_box">
+                            <button type="object" string="Projet"
+                                name="action_open_project" icon="fa-files-o" attrs="{'invisible': [('project_active', '=', False)]}">
+                            </button>
+                            <field name="project_active" invisible="1"/>
+                            <button type="object" string="BdP"
+                                name="action_open_project_wbs" icon="fa-dollar">
+                            </button>
+                            <!--<button type="object" string="Gantt"
+                                name="action_open_gantt" icon="fa-tasks">
+                            </button>-->
+                             <button class="oe_stat_button" type="object" name="get_budget_ao_view" icon="fa-usd">
+                                    <div class="o_form_field o_stat_info">
+                                        <span class="o_stat_value"><field name="budget"/></span>
+                                        <span class="o_stat_text">Forecast</span>
+                                    </div>
+                                </button>
+                        </div>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

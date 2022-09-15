@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="assets_backend" name="sale_fsm_extend Assets" inherit_id="web.assets_backend">
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/css" href="sale_fsm_extend/static/src/css/page.css"/>
+        </xpath>
+    </template>
+    <template id="assets_backend_primary" name="sale_fsm_extend Assetsprimary" inherit_id="web._assets_primary_variables">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/scss" href="sale_fsm_extend/static/src/scss/company.scss"/>
+        </xpath>
+    </template>
+
+</odoo>

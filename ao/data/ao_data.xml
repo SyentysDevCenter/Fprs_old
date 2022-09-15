@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <data noupdate="1">
+        <!-- type d'admission  -->
+        <record id="admission_general_1" model="ao.admission.type">
+        <field name="name">Général</field>
+         </record>
+        <record id="admission_technique_1" model="ao.admission.type">
+        <field name="name">Technique</field>
+         </record>
+
+    </data>
+</odoo>

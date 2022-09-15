@@ -1,0 +1,30 @@
+<odoo>
+	<data>
+		<record id="view_order_form_inherit_fsm" model="ir.ui.view">
+			<field name="name">sale.order.form.sale.fsm</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+
+				<xpath expr="//header//button[@name='action_cancel']" position="after">
+                    <button class="btn-primary" name="mettre_a_jour_prix" type="object" string="MAJ prix devis" states="draft,sent"/>
+                </xpath>
+
+				<field name="partner_id" position="after">
+					<field name="active_contract" readonly="1" invisible="1"/>
+					<field name="pricelist_product_ids" readonly="1" invisible="1"/>
+				</field>
+				<xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="after">
+					<field name="active_contract" invisible="1"/>
+					<field name="price_list_product_ids" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='order_line']//tree//field[@name='product_id']" position="attributes">
+<!--										<attribute name="domain">['|', ('contract_line_ids.contract_id','=', active_contract), ('generic', '=', True)]</attribute>-->
+
+					<attribute name="domain">['|', ('id', 'in', parent.pricelist_product_ids), ('generic', '=', True)]</attribute>
+				</xpath>
+
+			</field>
+		</record>
+	</data>
+</odoo>

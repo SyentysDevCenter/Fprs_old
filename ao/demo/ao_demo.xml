@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="ao_conc_1" model="ao.concurent">
+            <field name="name">Concurent1</field>
+        </record>
+        <record id="ao_conc_2" model="ao.concurent">
+            <field name="name">Concurent2</field>
+        </record>
+        <record id="ao_conc_3" model="ao.concurent">
+            <field name="name">Concurent3</field>
+        </record>
+
+
+    <!--
+    Prestations
+    -->
+        <record id="ao_prestation_1" model="ao.prestation">
+            <field name="name">Travaux de voirie, assainissement et aménagement extérieurs</field>
+        </record>
+        <record id="ao_prestation_2" model="ao.prestation">
+            <field name="name">ECLAIRAGE PUBLIC</field>
+        </record>
+        <record id="ao_prestation_3" model="ao.prestation">
+            <field name="name">Travaux de voirie et d'assainissement</field>
+        </record>
+        <record id="ao_prestation_4" model="ao.prestation">
+            <field name="name">Travaux de voirie et réseaux divers</field>
+        </record>
+        <record id="ao_prestation_5" model="ao.prestation">
+            <field name="name">Travaux d'assainissement</field>
+        </record>
+
+
+<!--
+        Organisme
+        -->
+<!--        <record id="organism_1" model="ao.organisme">-->
+<!--            <field name="name">LYDEC</field>-->
+<!--        </record>-->
+<!--        <record id="organism_2" model="ao.organisme">-->
+<!--            <field name="name">REDAL</field>-->
+<!--        </record>-->
+<!--        <record id="organism_3" model="ao.organisme">-->
+<!--            <field name="name">Société Rabat Région aménagement</field>-->
+<!--        </record>-->
+
+
+       <record id="ao_1" model="ao.ao">
+           <field name="name">24/2017 LOT2</field>
+           <field name="partner_id" ref="ao_customer_1"/>
+           <field name="date_creation" eval="(DateTime.today() - relativedelta(days=24)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_echeance" eval="(DateTime.today() + relativedelta(months=2)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="appellation">MIRA COSTA</field>
+           <field name="objet">Travaux de voirie et assainissement de projet de lotissement et construction d'un ensemble
+               immobilier en R+3  TFn°29 990/20 -sis à salé </field>
+           <field name="name_ao">MC1A116</field>
+           <field name="type">o</field>
+           <field name="type_prestation" ref="ao_prestation_5"></field>
+           <field name="architecte_id" ref="architect_1"></field>
+           <field name="delai_exec">12</field>
+           <field name="date_limite" eval="(DateTime.today() + relativedelta(days=15)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="lieu_remise">MIRA COSTA</field>
+           <field name="ville" ref="ao.ville_1"/>
+           <field name="bet" ref="ao_bet_1"/>
+           <field name="caution_prov">15000</field>
+           <field name="date_caution" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="banque" ref="base.bank_partner_demo"/>
+           <field name="date_retrait_caution" eval="(DateTime.today() + relativedelta(days=25)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="etat_caution">o</field>
+           <field name="state">depose</field>
+           <field name="montant_soumission">500000</field>
+           <field name="classement">2</field>
+           <field name="date_jugement" eval="(DateTime.today() + relativedelta(months=15)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_demarrage" eval="(DateTime.today() + relativedelta(months=2)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_depot_ao" eval="(DateTime.today() + relativedelta(days=45)).strftime('%Y-%m-%d %H:%M')"/>
+            <field name="attributaire_id" ref="ao_conc_1"/>
+           <field name="valide_technique">True</field>
+           <field name="valide_administratif">True</field>
+<!--           <field eval="[(6, 0, [ref('ao.organism_1'), ref('ao.organism_3')])]" name="organisme_ids"/>-->
+
+       </record>
+         <!--
+        Activite
+        -->
+        <record id="activite_1" model="ao.activite">
+            <field name="name">Assainissement</field>
+            <field name="ao_id" ref="ao_1"/>
+        </record>
+        <record id="activite_2" model="ao.activite">
+            <field name="name">Voirie</field>
+            <field name="ao_id" ref="ao_1"/>
+        </record>
+
+
+        <!--&lt;!&ndash;-->
+        <!--Classification-->
+        <!--&ndash;&gt;-->
+        <!--<record id="ao_classif_1" model="ao.classification">-->
+            <!--<field name="secteur_id" ref="ao_secteur_1"/>-->
+            <!--<field name="qualif" ref="ao_qualif_1"/>-->
+            <!--<field name="classe">5</field>-->
+            <!--<field name="ao_id" ref="ao_1"/>-->
+        <!--</record>-->
+        <!--<record id="ao_classif_2" model="ao.classification">-->
+            <!--<field name="secteur_id" ref="ao_secteur_1"/>-->
+            <!--<field name="qualif" ref="ao_qualif_4"/>-->
+            <!--<field name="classe">2</field>-->
+            <!--<field name="ao_id" ref="ao_1"/>-->
+
+        <!--</record>-->
+
+        <!--
+        Reglement
+        -->
+        <!--<record id="ao_reglement_1" model="ao.reglement">-->
+            <!--<field name="ao_id" ref="ao_1"></field>-->
+            <!--<field name="critere_id" ref="ao.critere_1"></field>-->
+            <!--<field name="name">15000</field>-->
+            <!--<field name="cible">caution</field>-->
+            <!--<field name="valide">1</field>-->
+        <!--</record>-->
+        <!--<record id="ao_reglement_2" model="ao.reglement">-->
+            <!--<field name="ao_id" ref="ao_1"></field>-->
+            <!--<field name="critere_id" ref="ao.critere_8"></field>-->
+            <!--<field name="name">- un cv avec au moins 5 ans d'experience-->
+                               <!-- - un cv avec au moins 10 ans d'experience-->
+            <!--</field>-->
+            <!--<field name="cible">offre_tech</field>-->
+        <!--</record>-->
+<!--
+        Livrable
+-->
+        <record id="livrable_1" model="ao.livrable.demande">
+            <field name="name">DOSSIER ADMINISTRATIF</field>
+           <field name="date_echeance" eval="(DateTime.today() + relativedelta(days=45)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_realisation" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+        <record id="livrable_2" model="ao.livrable.demande">
+            <field name="name">DOSSIER TECHNIQUE</field>
+           <field name="date_echeance" eval="(DateTime.today() + relativedelta(days=55)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_realisation" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+        <record id="livrable_3" model="ao.livrable.demande">
+            <field name="name">OFFRE FINANCIERE</field>
+           <field name="date_echeance" eval="(DateTime.today() + relativedelta(days=55)).strftime('%Y-%m-%d %H:%M')"/>
+           <field name="date_realisation" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+        </record>
+<!--
+    Visite des lieux
+    -->
+        <record id="visite_lieux.visite_lieu_2" model="visite.lieu">
+            <field name="ao_id" ref="ao_1"/>
+        </record>
+        <record id="ao_achat_1" model="ao.achat.line">
+            <field name="name">CPS ET PLANS</field>
+            <field name="montant">5000</field>
+            <field name="date_achat" eval="(DateTime.today() - relativedelta(days=15)).strftime('%Y-%m-%d %H:%M')"/>
+            <field name="ao_id" ref="ao_1"/>
+        </record>
+        <record id="ao_echantillon_1" model="ao.echantillon.line">
+            <field name="name">armoire d'éclairage public</field>
+            <field name="type">Armoire EP</field>
+            <field name="date_depot" eval="(DateTime.today() + relativedelta(days=15)).strftime('%Y-%m-%d %H:%M')"/>
+            <field name="ao_id" ref="ao_1"/>
+        </record>
+        <!--
+        classement
+        -->
+        <record id="jusgement_1" model="ao.jugement.line">
+            <field name="concurrent" ref="ao_conc_1"></field>
+            <field name="montant">250000</field>
+            <field name="ecart">-250000</field>
+            <field name="classement">1</field>
+            <field name="ao_id" ref="ao_1"/>
+            <field name="ecart_pourcent">-50</field>
+        </record>
+        <record id="jusgement_2" model="ao.jugement.line">
+            <field name="concurrent" ref="ao_conc_2"></field>
+            <field name="montant">666636</field>
+            <field name="ecart">166636</field>
+            <field name="classement">4</field>
+            <field name="ao_id" ref="ao_1"/>
+            <field name="ecart_pourcent">33.33</field>
+        </record>
+        <record id="jusgement_3" model="ao.jugement.line">
+            <field name="concurrent" ref="ao_conc_3"></field>
+            <field name="montant">654879</field>
+            <field name="ecart">154879</field>
+            <field name="classement">3</field>
+            <field name="ao_id" ref="ao_1"/>
+            <field name="ecart_pourcent">30.98</field>
+        </record>
+
+    </data>
+</odoo>

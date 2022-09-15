@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="report_partner_general_ledger_document">
+			<div class="row mt4">
+				<table class="table table-bordered table-condensed" style="table-layout: fixed;">
+					<thead style="font-size:10px;display: table-row-group !important;">
+						<tr style="page-break-inside: avoid !important;">
+						<th rowspan="2" class="text-center" style="width:3%;padding:0.2rem;">JNL</th>
+						<th rowspan="2" class="text-center" style="width:7%;padding:0.2rem;">Ref.</th>
+						<th rowspan="2" class="text-center" style="width:5%;padding:0.2rem;">Date</th>
+						<th rowspan="2" class="text-center" style="width:13%;padding:0.2rem;">Libellé écriture</th>
+						<th rowspan="2" class="text-center" style="width:5%;padding:0.2rem;">Compte</th>
+						<th rowspan="2" class="text-center" style="width:8%;padding:0.2rem;">Débit</th>
+						<th rowspan="2" class="text-center" style="width:8%;padding:0.2rem;" >Crédit</th>
+						<th colspan="6" class="text-center" style="width:48%;padding:0.2rem;">TVA</th>
+						<th rowspan="2" class="text-center" style="width:8%;padding:0.2rem;">Solde cumulé</th>
+						</tr>
+						<tr style="page-break-inside: avoid !important;">
+							<th class="text-center" style="padding:0.2rem;">10,00</th>
+							<th class="text-center" style="padding:0.2rem;">20,00</th>
+							<th class="text-center" style="padding:0.2rem;">5,5</th>
+							<th class="text-center" style="padding:0.2rem;">7,00</th>
+							<th class="text-center" style="padding:0.2rem;">19,6</th>
+							<th class="text-center" style="padding:0.2rem;">EXO</th>
+						</tr>
+					</thead>
+					<tbody style="font-size:8px;">
+													<t t-set="partner_cumul_global" t-value="0"/>
+
+						<t t-foreach="data['lines']" t-as="partner">
+							<t t-if="partner['partner_lines']">
+							<tr>
+								<td colspan="2" style="padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<span t-esc="partner['account']"/>
+								</td>
+								<td colspan="2" style="padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<span t-esc="partner['partner_name']"/>
+								</td>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+								<td/>
+
+							</tr>
+							<t t-set="partner_cumul" t-value="0"/>
+							<tr t-foreach="partner['partner_lines']" t-as="line" style="border-bottom:None; border-top:None;">
+
+								<td class="text-left"  style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['code']" /></td>
+								<td class="text-center"  style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['name']" /></td>
+								<td class="text-center"  style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['date']"  t-options="{'widget': 'date', 'format':'dd/MM/yyyy'}"/></td>
+								<td  class="text-left" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;font-size:6px;padding-bottom: 0.2rem;padding-top: 0.2rem;"><span t-esc="line['libelle'][:36]" /></td>
+								<td  class="text-left" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;font-size:6px;padding-bottom: 0.2rem;padding-top: 0.2rem;"><span t-esc="line['account_id']" /></td>
+								<td   class="text-right" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['debit']" /></td>
+								<td  class="text-right" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['credit']" /></td>
+								<td  class="text-center" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_10']" /></td>
+								<td  class="text-center" style="border-bottom:None; border-top:None;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_20']" /></td>
+								<td class="text-center" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_55']" /></td>
+								<td class="text-center" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_7']" /></td>
+								<td class="text-center" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_196']" /></td>
+								<td class="text-center" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="line['partner_total_0']" /></td>
+								<td  class="text-right" style="border-bottom:None; border-top:None;padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.2rem;padding-top: 0.2rem;font-size:6px;"><span t-esc="partner_cumul"  t-options='{"widget": "float", "precision": 2}'/></td>
+
+								<t t-set="partner_cumul" t-value="partner_cumul + line['amount_signed'] "/>
+								<t t-set="partner_cumul_global" t-value="partner_cumul_global + line['amount_signed'] "/>
+
+							</tr>
+							<tr>
+								<td colspan="5"  style="padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><span t-esc="partner['account']"/> -<span t-esc="partner['partner_name']"/> </td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_debit']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_credit']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_10']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_20']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_55']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_7']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_196']"  t-options='{"widget": "float", "precision": 2}'/></td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner['partner_total_EXO']" t-options='{"widget": "float", "precision": 2}' /></td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;"><t t-esc="partner_cumul" t-options='{"widget": "float", "precision": 2}'/></td>
+							</tr>
+								</t>
+						</t>
+						<tr>
+								<td colspan="5"  style="padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<strong>Cumul global</strong>
+								</td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_debit_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_credit_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_10_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_20_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_55_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_7_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_196_global']"  t-options='{"widget": "float", "precision": 2}'/>
+								</td>
+								<td class="text-center" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="data['partner_total_EXO_global']" t-options='{"widget": "float", "precision": 2}' />
+								</td>
+								<td class="text-right" style="padding-left:0.2rem;padding-right:0.2rem;padding-bottom: 0.4rem;padding-top: 0.4rem;font-size:8px;">
+									<t t-esc="partner_cumul_global" t-options='{"widget": "float", "precision": 2}'/></td>
+							</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+		</template>
+        <template id="report_partnerledger">
+	        <t t-call="web.html_container">
+            <t t-call="partner_general_ledger.layout">
+                <div class="page">
+	                <t t-call="partner_general_ledger.report_partner_general_ledger_document">
+
+                    </t>
+                </div>
+
+            </t>
+	        </t>
+        </template>
+    </data>
+</odoo>

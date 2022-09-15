@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+
+        <!-- WBS search view -->
+        <record id="view_project_wbs_filter" model="ir.ui.view">
+            <field name="name">view.project.wbs.filter</field>
+            <field name="model">project.wbs</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Projet WBS">
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <filter name="3days" string="Avant 3 jours"
+                            domain="[
+                                '&amp;',
+                                ('finish_date', '>=', (context_today()).strftime('%Y-%m-%d')),
+                                ('finish_date', '&lt;=', (context_today() + relativedelta(days=3)).strftime('%Y-%m-%d')),
+                            ]"/>
+                        <filter name="week" string="Avant 7 jours"
+                            domain="[
+                                '&amp;',
+                                ('finish_date', '>=', (context_today()).strftime('%Y-%m-%d')),
+                                ('finish_date', '&lt;=', (context_today() + relativedelta(days=7)).strftime('%Y-%m-%d')),
+                            ]"/>
+                        <filter name="15days" string="Avant 15 jours"
+                            domain="[
+                                '&amp;',
+                                ('finish_date', '>=', (context_today()).strftime('%Y-%m-%d')),
+                                ('finish_date', '&lt;=', (context_today() + relativedelta(days=15)).strftime('%Y-%m-%d')),
+                            ]"/>
+                        <filter name="30days" string="Avant 30 jours"
+                            domain="[
+                                '&amp;',
+                                ('finish_date', '>=', (context_today()).strftime('%Y-%m-%d')),
+                                ('finish_date', '&lt;=', (context_today() + relativedelta(days=30)).strftime('%Y-%m-%d')),
+                            ]"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="project_wbs_tree_view" model="ir.ui.view">
+            <field name="name">project.wbs.tree.view</field>
+            <field name="model">project.wbs</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="end_date_state == 'red'"
+                      decoration-warning="end_date_state == 'orange'"
+                      decoration-success="end_date_state == 'green'"
+                      decoration-bf="end_date_state in ('red','orange','green')"
+                      string="Projet WBS">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="project_id"/>
+                    <field name="is_milestone"/>
+                    <field name="weight"/>
+                    <field name="start_date"/>
+                    <field name="finish_date"/>
+                    <field name="duration"/>
+                    <field name="cost"/>
+                    <field name="budget"/>
+                    <field name="unit_price"/>
+                    <field name="qty" sum="total"/>
+                    <field name="total_price" sum="total"/>
+                    <field name="is_invoicable"/>
+                    <field name="completion_rate" widget="percentpie" nolabel="1"/>
+                    <field name="end_date_state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_wbs_form_view" model="ir.ui.view">
+            <field name="name">project.wbs.form.view</field>
+            <field name="model">project.wbs</field>
+            <field name="arch" type="xml">
+                <form string="WBS">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_open_budget" icon="fa-usd">
+                                    <div class="o_form_field o_stat_info">
+                                        <span class="o_stat_value"><field name="budget"/></span>
+                                        <span class="o_stat_text">Forecast</span>
+                                    </div>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_open_cost" icon="fa-usd">
+                                    <div class="o_form_field o_stat_info">
+                                        <span class="o_stat_value"><field name="cost"/></span>
+                                        <span class="o_stat_text">Actual</span>
+                                    </div>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="get_tasks" icon="fa-tasks"  attrs="{'invisible': [('is_milestone', '=', True)]}">
+                                <field string="Tâches" name="task_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group name="info" string="Informations génerales">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="code_client"/>
+                                <field name="project_id"/>
+                                <field name="parent_id" domain="[('project_id','=',project_id)]"/>
+                            </group>
+                            <!--<group name="invoicing" string="Facturation">-->
+                               <!---->
+                            <!--</group>-->
+                        </group>
+                        <group>
+                            <group name="dates" string="Délais">
+                                <field name="start_date"/>
+                                <field name="finish_date"/>
+                                <field name="duration"/>
+                                <field name="weight"/>
+                                <field name="completion_rate" widget="percentpie" attrs="{'invisible': [('is_milestone', '=', True)]}" nolabel="1"/>
+                            </group>
+                            <group name="pricing" string="Informations facturation">
+                                 <field name="is_milestone"/>
+                                <field name="is_milestone_complete" attrs="{'invisible': [('is_milestone', '=', False)]}"/>
+                                <field name="is_invoicable" force_save="1"/>
+                                <field name="high_plan_id" attrs="{'invisible': [('is_milestone', '=', False)]}"/>
+                                <field name="product_id"/>
+
+                                <field name="qty"/>
+                                <field name="unit_price"/>
+                                <field name="uom_id"/>
+                                <field name="total_price"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Predecessors" invisible="1">
+                                <field name="related_wbs_ids" nolabel="True">
+                                    <tree>
+                                        <field name="related_wbs_id" domain="[('project_id', '=', parent.project_id)]"/>
+                                        <field name="relation"/>
+                                        <field name="lag"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="related_wbs_id" domain="[('project_id', '=', parent.project_id)]" />
+                                            <field name="relation"/>
+                                            <field name="lag"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                     <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                            <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                        </div>
+                </form>
+            </field>
+        </record>
+
+         <record id="project_wbs_view_gantt" model="ir.ui.view">
+            <field name="name">project.wbs.gantt</field>
+            <field name="model">project.wbs</field>
+            <field name="arch" type="xml">
+              <gantt string="WBS" date_start="start_date" date_stop ="finish_date"
+                     default_group_by="parent_id"
+
+           >
+<!--                  <field name="name"/>-->
+<!--                    <template>-->
+<!--                        <div>-->
+<!--                            Name <t t-esc="record.name"/>-->
+<!--                        </div>-->
+<!--                    </template>-->
+              </gantt>
+            </field>
+          </record>
+
+
+
+        <record id="project_wbs_action" model="ir.actions.act_window">
+            <field name="name">WBS</field>
+            <field name="res_model">project.wbs</field>
+            <field name="view_mode">tree,form,gantt</field>
+        </record>
+
+    </data>
+</odoo>

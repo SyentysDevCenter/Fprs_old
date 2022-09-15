@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="wizard_partner_ledger_wizard_form" model="ir.ui.view">
+            <field name="name">partner.general.ledger.wizard.form</field>
+            <field name="model">partner.general.ledger.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group class="oe_title">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="all_partners" invisible="0"/>
+                        <field name="partner_ids" widget="many2many_tags" string="Client" attrs="{'invisible':[('all_partners', '=', True)]}"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Imprimer" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wizard_partner_general_ledger_wizard_action" model="ir.actions.act_window">
+            <field name="name">Grand livre</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">partner.general.ledger.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_partner_ledger_wizard_form"/>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="binding_view_types">form,list</field>
+
+
+            <field name="target">new</field>
+        </record>
+    <menuitem name="Grand livre client" sequence="1" id="wizard_partner_general_ledger_wizard_menu" parent="account_reports.account_reports_partners_reports_menu" action="wizard_partner_general_ledger_wizard_action"/>
+
+
+</odoo>
+
+

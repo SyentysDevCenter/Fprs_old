@@ -1,0 +1,180 @@
+<odoo>
+	<data>
+		 <record model="ir.ui.view" id="view_company_inter_change_inherit_form">
+            <field name="name">res.company.form.inherit</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+	            <notebook position="inside">
+		            <page string="Sous traitance">
+			            <group>
+			                <field name="subcontracting_marge"/>
+			                <field name="subcontract_product_id"/>
+			            </group>
+		            </page>
+	            </notebook>
+            </field>
+		 </record>
+		<record id="view_move_form_inherit_subcontracting" model="ir.ui.view">
+        <field name="name">account.move.form.inherit_subcontracting</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+			<field name="arch" type="xml">
+
+				<xpath expr="//span[hasclass('o_form_label')]//field[@name='move_type']" position="after">
+					<label for="move_type" string="Avoir de sous traitant"
+					       attrs="{'invisible': ['|', ('move_type', '!=', 'in_refund'),
+						('soustraitant','=',False)]}"></label>
+					<label for="move_type" string="Facture de sous traitant"
+					       attrs="{'invisible': ['|',('move_type', '!=', 'in_invoice'),
+						('soustraitant','=',False)]}"></label>
+
+				</xpath>
+				<xpath expr="//span[hasclass('o_form_label')]//field[@name='move_type']" position="attributes">
+					<attribute name="attrs">{'invisible': ['|',('move_type','=', 'entry'), ('move_type', 'in', ('in_invoice', 'in_refund')),
+						('soustraitant','=',True)]}</attribute>
+				</xpath>
+				<xpath expr="//label[@for='partner_id'][2]" position="attributes">
+					<attribute name="attrs">{'invisible': ['|',('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt')),
+					       ('soustraitant','=',True)]}</attribute>
+				</xpath>
+				<label for="partner_id" position="after">
+					<label for="partner_id" string="Sous-traitant" style="font-weight:bold;"
+					       attrs="{'invisible': ['|',('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt')),
+					       ('soustraitant','=',False)]}"/>
+				</label>
+				<field name="partner_id" position="after">
+					<field name="sous_traitant_id"
+					       attrs="{'invisible':['|',('move_type','not in', ('in_invoice', 'in_refund')), ('soustraitant', '=', True)]}"/>
+					<field name="subcontracting_refund" readonly="1" force_save="1" invisible="1"/>
+					<field name="soustraitant"  invisible="1"/>
+					<field name="sous_traitant" invisible="1"/>
+					<field name="subcontracting_refund_id" readonly="1" force_save="1"
+					 attrs="{'invisible':[('subcontracting_refund_id','=', False)]}"/>
+				</field>
+				<notebook position="inside">
+					<page string="Facture d'origine">
+						<field name="origin_invoice_ids" readonly="1" force_save="1" attrs="{'invisible':[('subcontracting_refund','=', False)]}"/>
+					</page>
+				</notebook>
+
+
+			</field>
+		</record>
+		<record id="view_in_invoice_tree_subcontracting" model="ir.ui.view">
+            <field name="name">account.in.invoice.tree</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+	            <tree string="Invoices" create="1"
+                      js_class="account_tree"
+                      sample="1">
+                    <header>
+                        <button name="generate_subcontracting_refund" type="object" string="Générer avoir de sous traitance"
+                            groups="account.group_account_user"
+                           />
+                    </header>
+                    <field name="name" decoration-bf="1"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="invoice_source_email" invisible="1"/>
+                    <field name="invoice_partner_display_name"
+                           invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')"
+                           groups="base.group_user" string="Fournisseur" />
+
+<!--		          <field name="invoice_partner_display_name"-->
+<!--                           invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')-->
+<!--                            or not context.get('default_soustraitant')"-->
+<!--                           groups="base.group_user" string="Sous-traitant" />-->
+                    <field name="invoice_partner_display_name"
+                           invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund','out_receipt')"
+                           groups="base.group_user" string="Client" />
+                    <field name="invoice_date" optional="show"
+                           invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" string="Date facturation"/>
+                    <field name="invoice_date" optional="show"
+                           invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund','out_receipt')" string="Date facturation"/>
+                    <field name="invoice_date_due" widget="remaining_days" optional="show"
+                           attrs="{'invisible': [['payment_state', 'in', ('paid', 'in_payment', 'reversed')]]}"/>
+                    <field name="sous_traitant_id"/>
+		            <field name="invoice_origin" optional="hide" string="Origine"/>
+                    <field name="payment_reference" optional="hide"
+                           invisible="context.get('default_move_type') in ('out_invoice', 'out_refund','out_receipt')"/>
+                    <field name="ref" optional="hide"/>
+                    <field name="invoice_user_id" optional="hide"
+                           invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund','out_receipt')"
+                           string="Vendeur" widget="many2one_avatar_user"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show"/>
+                    <field name="amount_untaxed_signed" string="HT" sum="Total" optional="show"/>
+                    <field name="amount_tax_signed" string="Taxes" sum="Total" optional="hide"/>
+                    <field name="amount_total_signed" string="Total" sum="Total" decoration-bf="1" optional="show"/>
+                    <field name="amount_residual_signed" string="Balance" sum="Amount Due" optional="hide"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="state" widget="badge" decoration-success="state == 'posted'"
+                           decoration-info="state == 'draft'" optional="show"/>
+                    <field name="payment_state" widget="badge"
+                           decoration-danger="payment_state == 'not_paid'"
+                           decoration-warning="payment_state in ('partial', 'in_payment')"
+                           decoration-success="payment_state in ('paid', 'reversed')"
+                           attrs="{'invisible': [('payment_state', 'in', ('invoicing_legacy'))]}"/>
+                    <field name="move_type" invisible="context.get('default_move_type', True)"/>
+                  </tree>
+
+            </field>
+		</record>
+		   <record id="view_account_invoice_filter_subcontracting" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="model">account.move</field>
+			   <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+	            <field name="journal_id" position="after">
+		            <field name="subcontracting_refund_id"/>
+	            </field>
+	            <filter name="myinvoices" position="after">
+
+	            <filter domain="[('subcontracting_refund_id', '=', False)]" name="not_subcontracting_refund"
+	                    string="Avoir sous traitance à créer" />
+		        <filter domain="[('subcontracting_refund', '=', True)]" name="refund_subcontracting"
+	                    string="Avoir sous traitance" />
+
+</filter>
+            </field>
+		   </record>
+		  <record id="action_move_in_invoice_type_subcontracting" model="ir.actions.act_window">
+            <field name="name">Facture de sous traitance</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_in_invoice_tree_subcontracting"/>
+            <field name="search_view_id" ref="subcontracting_invoice.view_account_invoice_filter_subcontracting"/>
+            <field name="domain">[('move_type', 'in', ('in_invoice', 'in_refund')), ('sous_traitant_id', '!=', False)]</field>
+            <field name="context">{'default_move_type': 'in_invoice','search_default_not_subcontracting_refund':1,
+	            }</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+Aucune facture de sous traitance à traiter              </p>
+            </field>
+        </record>
+		<record id="view_account_payment_search" model="ir.ui.view">
+            <field name="name">account.payment.search</field>
+            <field name="model">account.payment</field>
+			<field name="inherit_id" ref="account.view_account_payment_search"/>
+            <field name="arch" type="xml">
+	            <filter name="outbound_filter" position="attributes">
+		            <attribute name="domain">[('partner_type', '=', 'supplier'),
+                            ('is_internal_transfer', '=', False),
+                            ('sous_traitant','=', False)]</attribute>
+	            </filter>
+	            <filter name="outbound_filter" position="after">
+		            <filter string="Paiement sous-traitant"
+                            name="outbound_soustraitant_filter"
+                            domain="[('partner_type', '=', 'supplier'),
+                            ('is_internal_transfer', '=', False),
+                            ('sous_traitant','=', True)]"/>
+	            </filter>
+
+
+            </field>
+		</record>
+<!--		<menuitem id="subcontracting_invoices_menu" action="action_move_in_invoice_type_subcontracting"-->
+<!--		          parent="account.menu_finance_payables" groups="account.group_account_readonly"/>-->
+	</data>
+</odoo>

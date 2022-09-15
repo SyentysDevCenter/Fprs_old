@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record model="ir.ui.view" id="ao_refus_form_view">
+            <field name="name">Motif de refus</field>
+            <field name="model">ao.refus.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="motif" />
+                        <field name="date"/>
+
+                    </group>
+                    <footer>
+                        <button string="Valider" name="validate" type="object" default_focus="1" class="oe_highlight"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+
+                 </form>
+        </field>
+        </record>
+    <record id="act_wizard_ao_refus" model="ir.actions.act_window">
+            <field name="name">Refus</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ao.refus.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+</odoo>

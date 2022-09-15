@@ -1,0 +1,27 @@
+<odoo>
+	<template id="filter_info_template" inherit_id="account_reports.filter_info_template">
+		<xpath expr="//div[hasclass('col-4')][2]//div[hasclass('col-12')][5]" position="after">
+			<div class="col-12">
+                <t t-if="options.get('account_type') != None">
+                    Type de compte:
+                    <t t-set="account_type_value">Tout</t>
+                    <t t-foreach="options['account_type']" t-as="account_type">
+	                    <t t-if="account_type['selected']== True">
+		                    <t t-if="account_type['name'] == 'Recevable'">
+			                    <span>Clients</span>
+		                    </t>
+		                    <t t-if="account_type['name'] == 'Payable'">
+			                    <span>Fournisseurs</span>
+		                    </t>
+
+		                     <t t-set="account_type_value" t-value="''"/>
+	                    </t>
+
+
+                    </t>
+                </t>
+            </div>
+
+		</xpath>
+	</template>
+</odoo>

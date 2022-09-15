@@ -1,0 +1,38 @@
+<odoo>
+	<data>
+		 <record id="view_company_form_extend" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.extend</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Textes des devis">
+	                    <group >
+		                    <field name="devis_text_1"/>
+		                    <field name="devis_text_2"/>
+	                    </group>
+                    </page>
+	                <page string="Signature de la présidente" groups="sale_templates.group_company_signature">
+		                <field name="signature" widget="signature"/>
+
+	                </page>
+
+                </notebook>
+            </field>
+        </record>
+		  <record id="res_users_view_form" model="ir.ui.view">
+        <field name="name">res.users.view.form.inherit.signature</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+	        <notebook position="inside">
+		        <page string="Signature">
+			        <field name="signature" widget="signature"/>
+		        </page>
+	        </notebook>
+        </field>
+		  </record>
+
+
+	</data>
+</odoo>

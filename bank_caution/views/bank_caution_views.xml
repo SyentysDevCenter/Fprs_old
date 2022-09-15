@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="bank_caution_form_view">
+        <field name="name">bank.caution.form.view</field>
+        <field name="model">bank.caution</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="True"/>
+                            <field name="bank_id" option="{'no_create':True, 'no_edit':True}" required="True"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="residual"/>
+                            <field name="amount_unreserved"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Lignes de caution">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="number"/>
+                                    <field name="name"/>
+                                    <field name="organisme_id" widget="res_partner_many2one"
+                                           context="{'res_partner_search_mode': 'customer', 'show_vat': True}"/>
+                                    <field name="zone"/>
+                                    <field name="date"/>
+                                    <field name="nature"/>
+                                    <field name="type"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="note"/>
+                                    <field name="state_id" widget="selection"
+                                           required="True"/>
+<!--                                    <field name="state_id" domain="[('nature','=',nature)]" widget="selection"-->
+<!--                                           required="True"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="bank_caution_tree_view">
+        <field name="name">bank.caution.tree.view</field>
+        <field name="model">bank.caution</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="bank_id"/>
+                <field name="amount"/>
+                <field name="residual"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="bank_caution_line_tree_view">
+        <field name="name">bank.caution.line.tree.view</field>
+        <field name="model">bank.caution.line</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false">
+                <field name="number"/>
+                <field name="name"/>
+                <field name="organisme_id"/>
+                <field name="zone"/>
+                <field name="date"/>
+                <field name="nature"/>
+                <field name="type"/>
+                <field name="amount" sum="Total"/>
+                <field name="note"/>
+                <field name="state_id"/>
+
+                <!--                <field name="state_id" domain="[('nature','=',nature)]"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="bank_caution_line_form_view">
+        <field name="name">bank.caution.line.form.view</field>
+        <field name="model">bank.caution.line</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="nature"/>
+                        </group>
+                        <group>
+                            <field name="organisme_id"/>
+                            <field name="zone"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="state_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Observations">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="caution_action" model="ir.actions.act_window">
+        <field name="name">Gestion des cautions</field>
+        <field name="res_model">bank.caution</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="caution_action_line" model="ir.actions.act_window">
+        <field name="name">Analyse des lignes de caution</field>
+        <field name="res_model">bank.caution.line</field>
+        <field name="view_mode">pivot,graph,tree</field>
+    </record>
+
+    <menuitem id="caution_root_menu" parent="account.menu_finance" sequence="12" name="Gestion des cautions"></menuitem>
+    <menuitem id="caution_menu" action="caution_action" parent="caution_root_menu" name="Cautions"></menuitem>
+    <menuitem id="caution_line_menu" action="caution_action_line" parent="caution_root_menu"
+              name="Analyse des cautions"></menuitem>
+    \
+</odoo>

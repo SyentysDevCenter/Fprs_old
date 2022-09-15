@@ -1,0 +1,67 @@
+<odoo>
+	<data>
+		<record id="view_quotation_tree_inherited_fsm" model="ir.ui.view">
+		<field name="name">sale.order.tree.quotation.fsm</field>
+		<field name="model">sale.order</field>
+		<field name="inherit_id" ref="sale.view_quotation_tree"/>
+		<field name="arch" type="xml">
+
+			<field name="partner_id" position="after">
+				<field name="nom_client_final"/>
+				<field name="partner_address_1"/>
+				<field name="appart_client_final"/>
+			</field>
+		</field>
+	</record>
+
+		<record id="view_order_form_inherit_report" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.report</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+	            <field name="partner_id" position="after">
+		            <field name="attention_de"/>
+		            <field name="titre"/>
+		            <field name="formated_date" invisible="1"/>
+	            </field>
+	            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='name']" position="attributes">
+		            <attribute name="class">font-weight-bold</attribute>
+	            </xpath>
+
+	            <xpath expr="//notebook//page[@name='order_lines']" position="attributes">
+		            <attribute name="string">Commande </attribute>
+	            </xpath>
+	            <xpath expr="//notebook//page[@name='order_lines']" position="after">
+		             <page string="Locataire/particulier"  >
+		                <group>
+			                <field name="nom_client_final"/>
+			                <field name="civility" string="Civilité"/>
+			                <field name="partner_address_1" string="Adresse"/>
+			                <field name="ville_client_final"/>
+			                <field name="code_postal"/>
+				                <field name="appart_client_final"/>
+
+			                <field name="tel_client_final"/>
+
+
+		                </group>
+	                </page>
+	            </xpath>
+                <notebook position="inside">
+                    <page string="Textes des devis">
+
+	                    <group>
+		                    <field name="text_debut"/>
+		                    <field name="text_civility"/>
+		                    <field name="devis_text_1"/>
+		                    <field name="devis_text_2"/>
+		                    <field name="framed_text"/>
+	                    </group>
+                    </page>
+
+
+                </notebook>
+            </field>
+ </record>
+	</data>
+</odoo>

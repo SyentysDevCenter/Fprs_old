@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="ao_view_tree" model="ir.ui.view">
+        <field name="name">AO</field>
+        <field name="model">ao.ao</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="AO">
+                <field name="name"/>
+                <field name="appellation"/>
+                <field name="partner_id"/>
+                <field name="date_creation"/>
+                <field name="date_limite"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+        <record id="ao_view_form" model="ir.ui.view">
+        <field name="name">AO</field>
+        <field name="model">ao.ao</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="AO">
+                <header>
+
+                    <field name="state" widget="statusbar" statusbar_colors='{"perdu":"red","gagne":"green"}'
+                           statusbar_visible="new,valideDG,valideFinal,traitement,valideSoumis,depose,gagne,perdu"/>
+                    <button name="button_confirme" string="Soumettre" states='new' class="oe_highlight"
+                            type="object" groups="ao.group_soumettre_AO"/>
+                    <button name="button_valider" string="Valider" states="envoye" class="oe_highlight"
+                            type="object" groups="ao.group_valider_AO"/>
+
+                    <button name="button_valide_final" string="Validation finale" states="valideDG"
+                            class="oe_highlight" type="object" groups="ao.group_validation_finale"/>
+
+                    <button name="button_traitement" string="Traitement" states="valideFinal" class="oe_highlight"
+                            type="object" groups="ao.group_traitement_ao"/>
+                    <button name="button_valide_soumission" string="Validation soumission" states="traitement"
+                            class="oe_highlight" type="object" groups="ao.group_soumission_ao"/>
+
+                    <button name="button_annuler_soumission" string="Annuler la soumission"
+                            states="valideFinal,traitement" class="oe_highlight" type="object"
+                            groups="ao.group_soumission_ao"/>
+                    <button name="button_abandon_soumission" string="Abandonner" states="traitement"
+                            class="oe_highlight" type="object" groups="ao.group_abandon_ao_apres_traitement"/>
+                    <button name="button_deposer" string="Déposer" states="valideSoumis" class="oe_highlight"
+                            type="object" groups="ao.group_depos_ao"/>
+                    <button name="button_gagne" string="Gagné" states="depose" class="oe_highlight" type="object"
+                            color="green" groups="ao.group_resultat_financier_ao"/>
+                    <button name="button_perdu" string="Perdu" states="depose" class="oe_highlight" type="object"
+                            color="red" groups="ao.group_resultat_financier_ao"/>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id" widget="res_partner_many2one"
+                                   context="{'res_partner_search_mode': 'customer', 'show_vat': True}"
+                                   options="{'no_create': True}"/>
+                            <field name="date_creation"/>
+                        </group>
+                        <group>
+                            <field name="appellation"/>
+                            <field name="objet"/>
+                            <field name="motif_annulation_soumission"
+                                   attrs="{'invisible': [('state','!=','soumissionAnnule')],'required':[('state','=','soumissionAnnule')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Détail AO" name="detail">
+                            <group>
+                                <group string="Informations générales">
+                                    <field name="name_ao"/>
+                                    <field name="lot"/>
+
+                                    <field name="type"/>
+                                    <field name="type_prestation"/>
+
+                                </group>
+                                <group string="Dates">
+                                    <field name="date_depo_ao"/>
+                                    <field name="delai_exec"/>
+                                    <field name="date_limite"/>
+                                    <field name="date_demarrage"/>
+
+                                </group>
+                                <group string="Localisation">
+                                    <!--                                        <field name="type_ao"/>-->
+                                    <!--                                        <field name="preference_international"/>-->
+                                    <field name="country_id"/>
+                                    <field name="ville"/>
+                                    <field name="fiscal_position_id" options="{'no_create':1}"/>
+                                    <field name="lieu_remise"/>
+                                </group>
+                                <group string="Intervenants">
+                                    <field name="mo_id"/>
+                                    <field name="mo_delegue_id"/>
+                                    <field name="bailleur_id"/>
+                                    <!--                                        <field name="organisme_ids" widget="many2many_tags"/>-->
+                                    <field name="intervenant_partner_ids" widget="many2many_tags"/>
+                                </group>
+                                <group string="Financement">
+                                    <!--                                        <field name="currency_id" options="{'no_create':1, 'no_edit':1}"/>-->
+                                    <field name="estimation_mo"/>
+                                    <field name="taxes"/>
+                                    <field name="estimation_ttc"/>
+                                    <field name="condition_facturation"/>
+                                    <field name="payment_term"/>
+                                    <field name="financement"/>
+                                    <!--                                        <field name="source_financement"/>-->
+                                    <field name="agreement_ids" widget="many2many_tags"/>
+                                </group>
+                                <group string="Responsables">
+                                    <field name="resp_remise" options="{'no_create':1, 'no_edit':1}"/>
+                                    <field name="responsable" options="{'no_create':1, 'no_edit':1}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Visite des lieux">
+                            <field name="visite_ids"/>
+                        </page>
+                        <page string="Admissibilité">
+                            <group string="Critères d'admissibilité">
+                                <field name="admission_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="type" required="1"/>
+                                        <field name="element_id" required="1"
+                                               domain="[('type','=',type)]"
+                                               context="{'type':type, 'default_type':type}"/>
+                                        <field name="critere"/>
+                                        <field name="operateur"/>
+                                        <field name="reference"/>
+                                        <field name="unite"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <field name="admission_file" widget="pdf_viewer"/>
+                        </page>
+                        <page string="Elimination">
+                            <group>
+                                <field name="critere_elimination" required="True"/>
+                            </group>
+                            <field name="elimination_file" widget="pdf_viewer"/>
+                        </page>
+                        <page string="Evaluation">
+                            <group string="Critères d'évaluation">
+                                <field name="evaluation_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="element_id" required="1"/>
+                                        <field name="critere"/>
+                                        <field name="operateur"/>
+                                        <field name="reference"/>
+                                        <field name="unite"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <field name="evaluation_file" widget="pdf_viewer"/>
+                        </page>
+                        <page string="Risques">
+                            <field name="risk_ids">
+                                <tree editable="botton">
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="date"/>
+                                    <field name="user_id" options="{'no_create':1, 'no_edit':1}"/>
+                                    <field name="niveau"/>
+                                    <field name="control_measure"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                            <field name="risque_file" widget="pdf_viewer"/>
+                        </page>
+                        <page string="CPS">
+                            <group>
+                                <field name="date_recup_cps"/>
+                                <field name="date_retrait"/>
+                                <field name="mode_retrait"/>
+                                <field name="ref_paiement"/>
+                            </group>
+                            <sepataor string="Changement CPS"></sepataor>
+                            <field name="cps_change_ids">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="attachment_ids" widget="many2many_binary"
+                                           string="Joindre le fichier"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="attachment_ids" widget="many2many_binary"
+                                               string="Joindre le fichier"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <sepataor string="Fichier cps"></sepataor>
+                            <field name="cps_file" widget="pdf_viewer"/>
+                        </page>
+                        <page string="Livrables demandés">
+                            <field name="livrable_line">
+                                <tree string="Livrables">
+                                    <field name="name"/>
+                                    <field name="date_echeance"/>
+                                    <field name="date_realisation"/>
+                                    <field name="attachment_ids"/>
+                                </tree>
+                                <form string="Livrable">
+                                    <sheet>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="date_echeance"/>
+                                            <field name="date_realisation"/>
+                                            <field name="attachment_ids" widget="many2many_binary"
+                                                   string="Joindre le fichier"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Checklist">
+                            <button string="Validation global" name="confirm_all_checklist" type="object"
+                                    class="oe_highlight"/>
+                            <group string="Checklist">
+                                <field name="checklist_lines" nolabel="1">
+                                    <tree editable="bottom">
+                                        <!--<field name="numero"/>-->
+                                        <field name="sequence"/>
+                                        <field name="cible" required="1"/>
+                                        <field name="type_document_id" required="1"
+                                               domain="[('cible', '=', cible)]" context="{'default_cible':cible}"/>
+                                        <field name="desc"/>
+                                        <field name="enveloppe_id"/>
+                                        <field name="resp_id" options="{'no_create':1, 'no_edit':1}"/>
+                                        <field name="date_echeance"/>
+                                        <field name="date_realisation"/>
+                                        <field name="dossier_line" readonly="1"/>
+                                        <!--<field name="etat" invisible="1"/>-->
+                                        <button name="button_confirme" string="Valider" class="oe_highlight"
+                                                type="object"
+                                                confirm="Etes vous sur de vouloir valider?"
+                                                attrs="{'invisible': [('dossier_line','!=',False)]}"
+                                        />
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Copies">
+                                <field name="dossier_detail_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="dossier"/>
+                                        <field name="original"/>
+                                        <field name="copie"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="dossier"/>
+                                            <field name="copie"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Dossiers">
+                            <div class="oe_button_box" name="button_box">
+                                <button class="oe_stat_button" type="object" name="get_dossier_admin"
+                                        icon="fa-file-text-o" attrs="{'invisible':[('dossier_admin_count','=',0)]}">
+                                    <field name="dossier_admin_count" class="oe_inline"
+                                           string="Dossier administratif"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_dossier_technique"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('dossier_technique_count','=',0)]}">
+                                    <field string="Dossier technique" name="dossier_technique_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_dossier_additif"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('dossier_additif_count','=',0)]}">
+                                    <field string="Dossier additif" name="dossier_additif_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_cps_signe"
+                                        icon="fa-file-text-o" attrs="{'invisible':[('cps_signe_count','=',0)]}">
+                                    <field string="Cps signés" name="cps_signe_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_offre_technique"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('offre_technique_count','=',0)]}">
+                                    <field string="Offres technique" name="offre_technique_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_offre_financiere"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('offre_financiere_count','=',0)]}">
+                                    <field string="Offre financiere" name="offre_financiere_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_clause_particuliere"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('clause_particuliere_count','=',0)]}">
+                                    <field string="Clause particulière" name="clause_particuliere_count"
+                                           widget="statinfo"/>
+                                </button>
+                                <button class="oe_stat_button" type="object" name="get_autre_dossiers"
+                                        icon="fa-file-text-o"
+                                        attrs="{'invisible':[('autre_dossier_count','=',0)]}">
+                                    <field string="Autres" name="autre_dossier_count"
+                                           widget="statinfo"/>
+                                </button>
+                            </div>
+                            <separator string="Statistiques"/>
+                            <group string="Global" col="4">
+                                <field name="dossier_global" string="Total"/>
+                                <field name="global_cloture"/>
+                                <field name="global_realise"/>
+                                <field name="global_cloture_percent" widget="percentpie" string="Clôturé(%)"/>
+                                <field name="global_realise_percent" widget="percentpie" string="Réalisé(%)"/>
+                            </group>
+                            <group string="Détail" col="3">
+                                <group string="Dossier administratif">
+                                    <field name="dossier_admin_realise"/>
+                                    <field name="dossier_admin_cloture"/>
+                                    <field name="dossier_admin_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="dossier_admin_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Dossier technique">
+                                    <field name="dossier_techn_realise"/>
+                                    <field name="dossier_techn_cloture"/>
+                                    <field name="dossier_techn_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="dossier_techn_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Dossier additif">
+                                    <field name="dossier_add_realise"/>
+                                    <field name="dossier_add_cloture"/>
+                                    <field name="dossier_add_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="dossier_add_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="CPS signé">
+                                    <field name="cps_signe_realise"/>
+                                    <field name="cps_signe_cloture"/>
+                                    <field name="cps_signe_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="cps_signe_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Offre technique">
+                                    <field name="offre_techn_realise"/>
+                                    <field name="offre_techn_cloture"/>
+                                    <field name="offre_techn_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="offre_techn_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Offre financière">
+                                    <field name="offre_finance_realise"/>
+                                    <field name="offre_finance_cloture"/>
+                                    <field name="offre_finance_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="offre_finance_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Clause particulière">
+                                    <field name="clause_particuliere_realise"/>
+                                    <field name="clause_particuliere_cloture"/>
+                                    <field name="clause_particuliere_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="clause_particuliere_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                                <group string="Autres">
+                                    <field name="autre_dossier_realise"/>
+                                    <field name="autre_dossier_cloture"/>
+                                    <field name="autre_dossier_realise_percent" widget="percentpie"
+                                           string="Réalisé(%)"/>
+                                    <field name="autre_dossier_cloture_percent" widget="percentpie"
+                                           string="Clôturé(%)"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Contacts &amp; Addresses">
+                            <label for="contact_ids"/>
+                            <field name="contact_ids" mode="kanban">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="color"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="type"/>
+                                    <field name="email"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_company"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="state_id"/>
+                                    <field name="image_128"/>
+                                    <field name="lang"/>
+                                    <!-- fields in form x2many view to diminish requests -->
+                                    <field name="comment"/>
+                                    <field name="display_name"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                            <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                                                <div class="o_kanban_image">
+                                                    <img alt="Image" t-if="record.image_128.raw_value"
+                                                         t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"/>
+                                                    <t t-if="!record.image_128.raw_value">
+                                                        <img alt="Delivery"
+                                                             t-if="record.type.raw_value === 'delivery'"
+                                                             t-att-src='_s + "/base/static/img/truck.png"'/>
+                                                        <img alt="Invoice"
+                                                             t-if="record.type.raw_value === 'invoice'"
+                                                             t-att-src='_s + "/base/static/img/money.png"'/>
+                                                        <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                                                            <img alt="Logo"
+                                                                 t-if="record.is_company.raw_value === true"
+                                                                 t-att-src='_s + "/base/static/img/company_image.png"'/>
+                                                            <img alt="Avatar"
+                                                                 t-if="record.is_company.raw_value === false"
+                                                                 t-att-src='_s + "/base/static/img/avatar_grey.png"'/>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                    <div t-if="record.function.raw_value">
+                                                        <field name="function"/>
+                                                    </div>
+                                                    <div t-if="record.email.raw_value">
+                                                        <field name="email" widget="email"/>
+                                                    </div>
+                                                    <div t-if="record.type.raw_value != 'contact'">
+                                                        <div>
+                                                            <field name="zip"/>
+                                                            <field name="city"/>
+                                                        </div>
+                                                        <field t-if="record.state_id.raw_value" name="state_id"/>
+                                                        <field name="country_id"/>
+                                                    </div>
+                                                    <div t-if="record.phone.raw_value">Phone:
+                                                        <field name="phone" widget="phone"/>
+                                                    </div>
+                                                    <div t-if="record.mobile.raw_value">Mobile:
+                                                        <field name="mobile" widget="phone"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form string="Contact / Address">
+                                    <sheet>
+                                        <!-- parent_id and type fields needed in attrs in base_address_city module which overwrites
+                                        _fields_view_get() of partner. It would be better to put those fields there but the web client
+                                        dosen't support when a field is displayed several times in the same view.-->
+                                        <field name="type" required="1" widget="radio"
+                                               options="{'horizontal': true}"/>
+                                        <field name="parent_id" invisible="1"/>
+                                        <hr/>
+                                        <group col="12">
+                                            <group colspan="5">
+                                                <field name="name" string="Contact Name"
+                                                       attrs="{'required' : [('type', '=', 'contact')]}"/>
+                                                <field name="title" placeholder="e.g. Mr."
+                                                       attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                <field name="function" placeholder="e.g. Sales Director"
+                                                       attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                <label for="street" string="Address"
+                                                       attrs="{'invisible': [('type','=', 'contact')]}"/>
+                                                <div attrs="{'invisible': [('type','=', 'contact')]}">
+                                                    <div class="o_address_format" name="div_address">
+                                                        <field name="street" placeholder="Street..."
+                                                               class="o_address_street"/>
+                                                        <field name="street2" placeholder="Street 2..."
+                                                               class="o_address_street"/>
+                                                        <field name="city" placeholder="City"
+                                                               class="o_address_city"/>
+                                                        <field name="state_id" class="o_address_state"
+                                                               placeholder="State" options='{"no_open": True}'
+                                                               context="{'country_id': country_id, 'zip': zip}"/>
+                                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                        <field name="country_id" placeholder="Country"
+                                                               class="o_address_country"
+                                                               options='{"no_open": True, "no_create": True}'/>
+                                                    </div>
+                                                </div>
+                                                <field name="comment" placeholder="Internal notes..."/>
+                                            </group>
+                                            <group colspan="5">
+                                                <field name="email" widget="email"/>
+                                                <field name="phone" widget="phone"/>
+                                                <field name="mobile" widget="phone"/>
+                                                <field name="company_id" invisible="1"/>
+                                            </group>
+                                            <group colspan="1">
+                                                <field name="image_1920" widget="image" class="oe_avatar"
+                                                       nolabel="1" options="{'image_preview': 'image_128'}"/>
+                                            </group>
+                                        </group>
+                                        <field name="lang" invisible="True"/>
+                                        <field name="user_id" invisible="True"/>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Caution">
+                            <group string="Caution provisoire">
+                                <field name="caution_prov"/>
+                                <!--<field name="date_caution"/>-->
+                            </group>
+                            <separator string="Cautions"/>
+                            <field name="caution_ids">
+                                <tree editable="bottom">
+
+                                    <field name="ao_id" invisible="1"/>
+                                    <field name="caution_id" string="Ligne bancaire"/>
+                                    <field name="number"/>
+                                    <field name="name"/>
+                                    <field name="organisme_id"/>
+                                    <field name="zone"/>
+                                    <field name="date"/>
+                                    <field name="nature"/>
+                                    <field name="type"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="note"/>
+                                    <field name="state_id"/>
+                                </tree>
+                            </field>
+                            <!--<group string="Etat">-->
+                            <!--<field name="etat_caution"/>-->
+                            <!--<field name="date_relance"/>-->
+                            <!--<field name="motif_restitution_caution"/>-->
+                            <!--</group>-->
+                            <!--<group string="Retrait" colspan="2">-->
+                            <!--<field name="banque"/>-->
+                            <!--<field name="compte"/>-->
+                            <!--<field name="date_retrait_caution"/>-->
+                            <!--<field name="date_restitution"/>-->
+                            <!--</group>-->
+                        </page>
+                        <page string="Note" attrs="{'invisible': ['|',('state','=','envoye'),('state','=','new')]}">
+                            <field name="note"/>
+                        </page>
+                        <page string="Suivi AO" name="suivi">
+                            <group>
+                                <group string="Dates" name="date_suivi">
+                                    <field name="date_dg"/>
+                                </group>
+                                <group string="Refus" attrs="{'invisible':[('state', '!=', 'perdu')]}">
+                                    <field name="motif_refus"/>
+                                    <field name="date_refus"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Jugement administratif"
+                              attrs="{'invisible': [('state','not in',('depose','gagne','perdu'))]}"
+                              groups="ao.group_ao_resp">
+                            <button name="valider_administratif" string="Validation administrative"
+                                    class="oe_highlight"
+                                    type="object" groups="ao.group_validation_administratif_ao"/>
+                            <field name="valide_administratif" invisible="1"/>
+                            <field name="jugement_administratif_line" string="Jugement administratif">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date_notif"/>
+                                    <field name="date_limite"/>
+                                    <field name="date_depot"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Jugement technique"
+                              attrs="{'invisible': [('valide_administratif','=',False),('state','!=','perdu')]}"
+                              groups="ao.group_ao_resp">
+                            <button name="valider_technique" string="Validation technique" class="oe_highlight"
+                                    type="object" groups="ao.group_validation_technique_ao"/>
+                            <field name="valide_technique" invisible="1"/>
+                            <group>
+                                <field name="note_technique"/>
+                            </group>
+                            <field name="jugement_technique_line" string="Jugement technique">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date_notif"/>
+                                    <field name="date_limite"/>
+                                    <field name="date_depot"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Concurents" groups="ao.group_ao_resp"
+                              attrs="{'invisible': [('valide_administratif','=',False),('state','!=','perdu')]}">
+                            <field name="concurent_line">
+                                <tree editable="bottom">
+                                    <field name="concurrent"/>
+                                    <field name="montant"/>
+                                    <field name="ecarte"/>
+                                    <field name="classement"/>
+                                    <field name="ecart"/>
+                                    <field name="ecart_pourcent"/>
+                                    <field name="observation"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Jugement financier"
+                              attrs="{'invisible': [('valide_technique','=',False),('state','!=','perdu')]}"
+                              groups="ao.group_ao_resp">
+                            <group>
+                                <group>
+                                    <field name="montant_soumission"/>
+                                    <field name="classement"/>
+                                    <field name="date_jugement"/>
+                                </group>
+                                <group>
+                                    <field name="motif_rejet_id"
+                                           attrs="{'invisible': [('state','!=','perdu')], 'required':[('state','=','perdu')]}"/>
+                                    <field name="attributaire_id"/>
+
+
+                                    <field name="montant_attribution"
+                                           attrs="{'invisible':[('attributaire_id','=',False)]}"/>
+                                    <field name="note_fianciere"/>
+                                </group>
+                            </group>
+                            <field name="commentaires" placeholder="Commentaires..."/>
+                        </page>
+                        <page string="Jugement final"
+                              attrs="{'invisible': [('valide_technique','=',False),('state','not in',('perdu', 'gagne'))]}">
+                            <group>
+                                <field name="note_global"/>
+                                <field name="jugement_final"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                    <field name="activity_ids" widget="mail_activity"/>
+
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="ao_view_kanban" model="ir.ui.view">
+        <field name="name">ao.kanban</field>
+        <field name="model">ao.ao</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="partner_id" string="Client"/>
+                <field name="state" string="Etat"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="mb4">
+                                <strong>
+                                    <field name="name" string="Numéro"/>
+                                </strong>
+                                <ul>
+                                    <li>Client:
+                                        <field name="partner_id" string="Numéro"/>
+                                    </li>
+                                    <li>Opération:
+                                        <field name="objet" string="Opération"/>
+                                    </li>
+                                </ul>
+                                <span class="badge badge-pill float-right">
+                                    <field name="state" string="Etat"/>
+
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+        <record id="ao_concurrent_view_tree" model="ir.ui.view">
+        <field name="name">Concurrent Tree View</field>
+        <field name="model">ao.concurent</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Concurrent" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="ao_concurrent_view_form" model="ir.ui.view">
+        <field name="name">Concurrent Form View</field>
+        <field name="model">ao.concurent</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Concurrent">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="ao_risk_view_form" model="ir.ui.view">
+        <field name="name">Risque Form View</field>
+        <field name="model">ao.risk</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Risque">
+                <header>
+                    <field name="state"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+
+                        </group>
+                        <group>
+                            <field name="user_id" options="{'no_create':1, 'no_edit':1}"/>
+                            <field name="niveau"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page string="Mesure de contrôle">
+                            <field name="control_measure"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+   ville
+   -->
+    <record id="ao_ville_view_tree" model="ir.ui.view">
+        <field name="name">Ville Tree View</field>
+        <field name="model">ao.ville</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Ville" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <!-- element evaluation -->
+    <record id="ao_element_evaluation_view_form" model="ir.ui.view">
+        <field name="name">Element d'évaluation Tree View</field>
+        <field name="model">ao.admission.element</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--
+    Critère
+    -->
+    <record id="ao_checklist_view_form" model="ir.ui.view">
+        <field name="name">Checklist form View</field>
+        <field name="model">ao.checklist</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <!--<field name="numero"/>-->
+                            <field name="cible"/>
+                            <field name="type_document_id"/>
+                            <field name="desc"/>
+                        </group>
+                        <group>
+                            <field name="enveloppe_id"/>
+                            <field name="resp_id" options="{'no_create':1, 'no_edit':1}"/>
+                            <field name="date_echeance"/>
+                            <field name="date_realisation"/>
+                            <field name="dossier_line"/>
+                            <field name="ao_id"/>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+    <!--
+    motif de rejet
+    -->
+    <record id="ao_motif_rejet_tree_view" model="ir.ui.view">
+        <field name="name">Motif de rejet</field>
+        <field name="model">ao.motif.rejet</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ao_action" model="ir.actions.act_window">
+        <field name="name">AO</field>
+        <field name="res_model">ao.ao</field>
+        <!--            <field name="view_type">form</field>-->
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+
+    <record id="ao_concurent" model="ir.actions.act_window">
+        <field name="name">Concurrent</field>
+        <field name="res_model">ao.concurent</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="ao_ville" model="ir.actions.act_window">
+        <field name="name">Villes</field>
+        <field name="res_model">ao.ville</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="ao_visite" model="ir.actions.act_window">
+        <field name="name">Visite des lieux</field>
+        <field name="res_model">visite.lieu</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!--<record id="ao_critere" model="ir.actions.act_window">-->
+    <!--<field name="name">Critère de règlement</field>-->
+    <!--<field name="res_model">ao.reglement.critere</field>-->
+    <!--<field name="view_mode">tree,form</field>-->
+    <!--</record>-->
+
+    <record id="ao_motif_rejet" model="ir.actions.act_window">
+        <field name="name">Motif de rejet</field>
+        <field name="res_model">ao.motif.rejet</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="ao_prestation_action" model="ir.actions.act_window">
+        <field name="name">Prestations</field>
+        <field name="res_model">ao.prestation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="ao_agreement_action" model="ir.actions.act_window">
+        <field name="name">Agrément</field>
+        <field name="res_model">ao.agreement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="ao_element_evaluation_action" model="ir.actions.act_window">
+        <field name="name">Elément d'évaluation</field>
+        <field name="res_model">ao.admission.element</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        <menuitem id="ao_root" name="AO" web_icon="ao,static/description/icon.png" groups="ao.group_ao_admin"/>
+<!--            <menuitem id="ao_root" name="AO" web_icon="ao,static/description/icon.png" web_icon_hover="images/ao.png" groups="ao.group_ao_user"/>-->
+    <menuitem action="ao_action" id="ao_menu" name="Appels d'offre" parent="ao_root"/>
+    <menuitem id="ao_param_menu" name="Paramètres" sequence="30" parent="ao_root"/>
+    <menuitem action="ao_prestation_action" id="ao_prestation_menu" name="Prestation" parent="ao_param_menu"/>
+
+    <menuitem action="ao_concurent" id="ao_concurrent_menu" name="Concurrent" parent="ao_param_menu"/>
+    <menuitem action="ao_element_evaluation_action" id="ao_element_evaluation_menu" name="Elément d'évaluation"
+              parent="ao_param_menu"/>
+    <menuitem action="ao_ville" id="ao_ville_menu" name="Villes" parent="ao_param_menu"/>
+    <menuitem action="ao_visite" id="ao_visite_menu" name="Visite des lieux" parent="ao_param_menu"/>
+    <!--<menuitem action="ao_critere" id="ao_critere_menu" name="Critère de règlement" parent="ao_param_menu"/>-->
+    <menuitem action="ao_motif_rejet" id="ao_motif_menu" name="Motif de rejet" parent="ao_param_menu"/>
+    <menuitem action="ao_agreement_action" id="ao_agreement_menu" name="Agréments" parent="ao_param_menu"/>
+
+    <menuitem id="ao.article" name="Articles" parent="ao_param_menu" action="product.product_template_action"
+              sequence="30"/>
+    <menuitem action="uom.product_uom_form_action" id="menu_ao_uom_form_action" name="Unité de mesure"
+            parent="ao.ao_param_menu" sequence="5"/>
+    <menuitem action="base.action_partner_form" id="menu_ao_res_partner_action" name="Partenaires"
+            parent="ao.ao_param_menu" sequence="6"/>
+
+</odoo>

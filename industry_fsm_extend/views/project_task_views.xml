@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_sale_service_inherit_form2_extend" model="ir.ui.view">
+        <field name="name">view.form.fsm.inherit.quotation</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="sale_timesheet.view_sale_service_inherit_form2"/>
+        <field name="arch" type="xml">
+              <button name="action_make_billable" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+    <record id="project_task_view_form_fsm_quotation" model="ir.ui.view">
+        <field name="name">view.form.fsm.inherit.quotation</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="timesheet_grid.project_task_view_form"/>
+        <field name="arch" type="xml">
+            <field name="project_id" position="after">
+                <field name="project_user_id"/>
+            </field>
+            <field name="project_id" position="attributes">
+                <attribute name="domain">[]</attribute>
+            </field>
+            <xpath expr="//header//field[@name='stage_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <field name="fsm_state" widget="statusbar"/>
+                <button name="fsm_confirm_action" string="Valider" attrs="{'invisible':[('fsm_state', '!=', 'draft')]}" type="object"/>
+                <button name="fsm_confirm_action_done" string="Fait" attrs="{'invisible':[('fsm_state', '!=', 'confirm')]}" type="object"/>
+            </xpath>
+
+<!--            <button name="action_fsm_create_invoice" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible':[('fsm_state', '=', 'draft')]}</attribute>-->
+<!--            </button>-->
+<!--            <button name="action_create_invoice" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible':[('fsm_state', '=', 'draft')]}</attribute>-->
+<!--            </button>-->
+
+<!--            <button name="action_timer_start" position="attributes">-->
+<!--                <attribute name="attrs">-->
+<!--                    {'invisible': ['|', '|',  ('display_timer_start_secondary', '=', False), ('encode_uom_in_days', '=', True), ('fsm_state', 'in', ('draft', 'done')]}-->
+<!--                </attribute>-->
+<!--            </button>-->
+
+<!--            <button name="action_timer_stop" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </button>-->
+            <button name="action_timer_stop" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|',  ('display_timer_stop', '=', False), ('encode_uom_in_days', '=', True),
+                    ('fsm_state', 'in', ('draft', 'done'))]}</attribute>
+            </button>
+            <xpath expr="//button[@name='action_timer_start'][1]" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|',  ('display_timer_start_primary', '=', False), ('encode_uom_in_days', '=', True),
+                    ('fsm_state', 'in', ('draft', 'done'))]}</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_timer_start'][2]" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|',  ('display_timer_start_secondary', '=', False), ('encode_uom_in_days', '=', True),
+                    ('fsm_state', 'in', ('draft', 'done'))]}</attribute>
+            </xpath>
+             <xpath expr="//button[@name='action_fsm_validate'][2]" position="attributes">
+                 <attribute name="invisible">1</attribute>
+             </xpath> <xpath expr="//button[@name='action_fsm_validate'][1]" position="attributes">
+                 <attribute name="invisible">1</attribute>
+             </xpath>
+
+
+
+            <div name="button_box" position="inside">
+                <button name="fsm_sales_action" type="object"  class="oe_stat_button"
+                        icon="fa-file">
+                    <field name="fsm_sales_count" string="Devis/Commande"  widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+
+<!--    <record id="view_order_form_inherit_fsm" model="ir.ui.view">-->
+<!--            <field name="name">sale.order.form.sale.ao</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="partner_id" position="after">-->
+<!--                    <field name="fsm_task_id" readonly="1" force_save="1"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!-- </record>-->
+</odoo>

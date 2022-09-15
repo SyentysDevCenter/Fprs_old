@@ -1,0 +1,59 @@
+<odoo>
+    <data>
+        <record id="group_project_create_user" model="res.groups">
+            <field name="name">Création et suppression des projets</field>
+            <field name="implied_ids" eval="[(4, ref('project.group_project_user'))]"/>
+        </record>
+        <record id="group_project_edit_user" model="res.groups">
+            <field name="name">Modification des projets</field>
+            <field name="implied_ids" eval="[(4, ref('project.group_project_user'))]"/>
+        </record>
+        <record id="group_partner_create_user" model="res.groups">
+            <field name="name">Création et suppression des contacts</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_partner_manager'))]"/>
+        </record>
+
+        <record id="group_update_conducteur_travaux" model="res.groups">
+            <field name="name">Mise à jour des conducteurs de travaux pour les écritures analytiques</field>
+            <field name="category_id" ref="base.module_category_administration"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_partner_edit_user" model="res.groups">
+            <field name="name">Modification des contacts</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_partner_manager'))]"/>
+        </record>
+
+
+        <!-- add group read only (project)-->
+        <record id="group_read_only_project" model="res.groups">
+            <field name="name">Lecture Seule</field>
+            <field name="category_id" ref="base.module_category_services_project"/>
+        </record>
+
+        <record id="project.group_project_user" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('base.group_user')),
+                (4, ref('project_extend.group_read_only_project'))
+                ]"/>
+        </record>
+        <!--********************-->
+
+        <!-- add group read only (Service)-->
+        <record id="group_read_only_service" model="res.groups">
+            <field name="name">Lecture Seule</field>
+            <field name="category_id" ref="base.module_category_services_field_service"/>
+        </record>
+
+        <record id="industry_fsm.group_fsm_user" model="res.groups">
+            <field name="implied_ids" eval="[
+                (4, ref('hr_timesheet.group_hr_timesheet_user')),
+                (4, ref('project.group_project_user')),
+                (4, ref('project_extend.group_read_only_service'))
+                ]"/>
+        </record>
+        <!--********************-->
+
+
+    </data>
+</odoo>

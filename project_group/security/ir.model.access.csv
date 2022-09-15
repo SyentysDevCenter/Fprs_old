@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_group1,project_group_acccess,model_project_group,project.group_project_manager,1,0,0,0
+access_project_group2,project_group_acccess,model_project_group,sale_fsm_extend.group_fsm_intervenant,1,0,0,0
+access_project_group3,project_group_acccess,model_project_group,base.group_user,1,0,0,0
+access_project_group4,project_group_acccess,model_project_group,base.group_portal,1,0,0,0
+access_project_group5,project_group_acccess,model_project_group,hr_timesheet.group_hr_timesheet_user,1,0,0,0
+access_project_group6,project_group_acccess,model_project_group,project_extend.group_project_create_user,1,1,1,1
+access_project_group7,project_group_acccess,model_project_group,project_extend.group_project_edit_user,1,1,0,0
+
+
+

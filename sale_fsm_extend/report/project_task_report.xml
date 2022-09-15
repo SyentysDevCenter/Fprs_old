@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="project_task_template_document">
+        <t t-call="sale_fsm_extend.fsm_task_layout">
+            <div class="page">
+                <t t-esc="o.print_img_small_size()"/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row">
+                    <table>
+                        <tr style="border-bottom: 1px solid">
+                            <td style="width:120mm">
+                                Intervention
+                                <strong t-field="o.name"/>
+
+                            </td>
+                            <!--                            <td style="width:40mm">-->
+
+                            <!--                            </td>-->
+                            <td style="width:100mm">
+                                Intervention réalisée par:
+                                <strong t-field="o.user_id.name"/>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div class="row">
+                    <table>
+                        <tr>
+                            <td style="width:80mm">
+                                <strong>Intervention programmée</strong>
+                                <br/>
+                                <span t-field="o.planned_date_begin"/>
+                                <br/>
+                                <br/>
+                                <strong>Type d'intervention</strong>
+                                <br/>
+                                Intervention standard
+                            </td>
+                            <td style="width:80mm">
+                                <strong>Intervention réalisée</strong>
+                                <br/>
+                                <span t-field="o.user_id"/>
+                                <br/>
+                                <br/>
+                                <strong>Description</strong>
+                                <br/>
+                                <span t-field="o.user_id.partner_id.mobile"/>
+                            </td>
+                            <td style="width:80mm">
+                                <strong>N° BC client</strong>
+                                <br/>
+                                <span t-field="o.client_order_ref"/>
+                                <br/>
+                                <br/>
+                                <strong>Adresse Locataire</strong>
+                                <br/>
+                                <t t-if="o.partner_address_1">
+                                    <span t-field="o.partner_address_1"/>,
+                                </t>
+                                <t t-if="o.ville_client_final">
+                                    <span t-field="o.ville_client_final"/>,
+                                </t>
+                                <t t-if="o.code_postal_final">
+                                    <span t-field="o.code_postal_final"/>
+                                </t>
+                                <br/>
+                                <br/>
+                                <strong>N° Logement</strong>
+                                <br/>
+                                <span t-field="o.appart_client_final"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div class="row">
+                    <table>
+                        <tr style="border-bottom: 1px solid">
+                            <td style="width:222mm">
+                                <strong style="font-size:19px">Compte-rendu</strong>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <p>Rapport</p>
+                <div class="row">
+                    <table style="margin-left:10mm">
+                        <tr style="margin-left:20mm">
+                            <td style="width:60mm">
+                                <strong>Rapport</strong>
+                            </td>
+                            <td>
+                                <span t-field="o.description"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="60mm">
+                                <strong>Durée</strong>
+                                <br/>
+                                <strong>Fournitures</strong>
+                            </td>
+                            <td style="width:140mm">
+                                <span t-field="o.effective_hours"/>
+                                <br/>
+                                <span t-field="o.fournitures_info_divers"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <t t-if="o.user_id.signature">
+                <div class="row">
+                    <table style="page-break-inside: avoid;">
+                        <tr>
+                            <td style="width:130mm">
+                            </td>
+                            <td>
+                                <img
+                                        t-att-src="image_data_uri(o.user_id.signature)"
+                                        class="float-left" alt="Signature" width="330" height="150"/>
+                            <br/>
+                            (<span t-field="o.user_id"/>)
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </t>
+                <br/>
+                <div class="row">
+                    <table>
+                        <tr style="border-bottom: 1px solid">
+                            <td style="width:222mm">
+                                <strong style="font-size:19px">Informations Complémentaires</strong>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div class="row">
+                    <table>
+                        <tr>
+                            <td style="width:80mm">
+                                <strong>Date de commande</strong>
+                                <br/>
+                                <span t-field="o.fsm_sale_id.date_order"/>
+                                <br/>
+                                <strong>Email du responsable</strong>
+                                <br/>
+                                <span t-field="o.create_uid.sudo().partner_id.email"/>
+<!--                                <span t-field="o.user_id.partner_id.email"/>-->
+                            </td>
+                            <td style="width:70mm">
+                                <strong>Suivi par</strong>
+                                <br/>
+                                <span t-field="o.fsm_sale_id.emetteur_bc_id"/>
+                                <br/>
+                                <strong>Date debut</strong>
+                                <br/>
+                                <span t-field="o.fsm_sale_id.date_debut"/>
+                            </td>
+                            <td style="width:60mm">
+                                <strong>Groupe 2</strong>
+                                <br/>
+                                <span t-field="o.fsm_sale_id.chantier_id"/>
+                                <br/>
+                                <strong>Date de fin</strong>
+                                <br/>
+                                <span t-field="o.fsm_sale_id.date_fin"/><br/>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </t>
+    </template>
+    <template id="intervention_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sale_fsm_extend.project_task_template_document"/>
+            </t>
+        </t>
+    </template>
+</odoo>

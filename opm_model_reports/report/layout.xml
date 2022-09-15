@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="opm_sale_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <div class="header">
+                <t t-set="current_date"
+                   t-value="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                <div class="row mb1" style="margin-left:3%;">
+                    <table>
+                        <tr>
+                            <td style="width:20%; font-style: italic;">
+                                <strong>Réf. Devis :
+                                    <span t-field="o.name"/>
+                                </strong>
+                            </td>
+
+                            <td style="width:57%"></td>
+
+                            <td style="width:30%; font-style: italic;">
+                                <strong>Sucy-en-Brie, le
+                                    <span t-esc="current_date"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row col-12">
+                    <div class="col-3 mb4">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 150px;"
+                             alt="Logo"/>
+                    </div>
+                    <div style="padding-top: 2%; font-style: italic; width:500px;height:80px;border:1px solid #000; vertical-align:middle;justify-content:center; border-radius:7px; text-align:center; margin-top:2%;">
+                        <h3>Omnium de plomberie moderne</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <!--            <t t-call="web.address_layout"/>-->
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                <div class="text-center" style="border-top: 1px solid black;">
+
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page:
+                        <span class="page"/>
+                        /
+                        <span class="topage"/>
+                    </div>
+                    <div name="financial_infos">
+                        <span t-field="company.report_footer"/>
+                    </div>
+
+                </div>
+            </div>
+        </template>
+
+<!--      ###############################  ##########################################################################-->
+
+        <template id="opm_invoice_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+
+            <t t-if="not company">
+                <!-- Multicompany -->
+                <t t-if="company_id">
+                    <t t-set="company" t-value="company_id"/>
+                </t>
+                <t t-elif="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id.sudo()"/>
+                </t>
+                <t t-else="else">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+            </t>
+
+            <div class="header">
+                <t t-set="current_date"
+                   t-value="context_timestamp(datetime.datetime.now()).strftime('%m/%d/%Y')"/>
+                <div class="row mb1" style="margin-left:3%;">
+                    <table>
+                        <tr>
+                            <td style="width:30%; font-style: italic;">
+                                <strong>Réf. Facture :
+                                    <span t-field="o.name"/>
+                                </strong>
+                            </td>
+
+                            <td style="width:40%"></td>
+
+                            <td style="width:35%; font-style: italic;">
+                                <strong>Sucy-en-Brie, le
+                                    <span t-esc="current_date"/>
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row col-12">
+                    <div class="col-3 mb4">
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 150px;"
+                             alt="Logo"/>
+                    </div>
+                    <div style="padding-top: 1%; font-style: italic; width:500px;height:140px;border:1px solid #000;justify-content:center; border-radius:7px; text-align:center; margin-top:1%;">
+                        <h3>Omnium de plomberie moderne</h3>
+                        <div t-field="o.company_id.partner_id.street"/>
+                        <div t-field="o.company_id.partner_id.street2"/>
+                        <div class="row mb-10" style="margin-left:15%">
+                        <strong>Tél</strong>:<![CDATA[&nbsp;]]><div t-field="o.company_id.partner_id.phone"/><![CDATA[&nbsp;]]>-<![CDATA[&nbsp;]]>
+                        <strong>Email</strong>:<![CDATA[&nbsp;]]><div t-field="o.company_id.partner_id.email"/>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+                 t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+                 t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <!--            <t t-call="web.address_layout"/>-->
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                <div class="text-center" style="border-top: 1px solid black;">
+
+                    <div t-if="report_type == 'pdf'" class="text-muted">
+                        Page:
+                        <span class="page"/>
+                        /
+                        <span class="topage"/>
+                    </div>
+                    <div name="financial_infos">
+                        <span t-field="company.report_footer"/>
+                    </div>
+
+                </div>
+            </div>
+        </template>
+    </data>
+</odoo>

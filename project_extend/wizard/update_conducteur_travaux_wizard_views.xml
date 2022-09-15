@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <record id="act_wizard_update_conducteur_travaux" model="ir.actions.act_window">
+        <field name="name">Mise à jour des conducteurs de travaux pour les écritures analytiques</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">update.conducteur.travaux.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <record model="ir.ui.view" id="update_conducteur_travaux_wizard_form_view">
+        <field name="name">Mise à jour des conducteurs de travaux pour les écritures analytiques</field>
+        <field name="model">update.conducteur.travaux.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date"/>
+                    <field name="conducteur_travaux_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="METTRE À JOUR" name="update" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="FERMER" class="oe_link" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ao_gardien_user,ao.gardien.user,model_ao_gardien,ao.group_ao_user,1,0,0,0
+access_ao_gardien_resp,ao.gardien.resp.user,model_ao_gardien,ao.group_ao_resp,1,1,1,1
+access_ao_jugement_offre_user,ao.jugement_offre.user,model_ao_jugement_offre,ao.group_ao_user,1,0,0,0
+access_ao_jugement_offre_resp,ao.jugement_offre.resp.user,model_ao_jugement_offre,ao.group_ao_resp,1,1,1,1
+access_ao_negociation_user,ao.negociation.user,model_ao_negociation,ao.group_ao_user,1,0,0,0
+access_ao_negociation_resp,ao.negociation.resp.user,model_ao_negociation,ao.group_ao_resp,1,1,1,1

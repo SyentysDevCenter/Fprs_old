@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_account_list_inherit">
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="cree_fec" optional="show"/>
+
+            </field>
+        </field>
+    </record>
+</odoo>
+

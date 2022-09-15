@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_bank_caution_user,bank_caution_user,model_bank_caution,group_caution,1,1,1,1
+access_account_bank_caution_line_user,bank_caution_line_user,model_bank_caution_line,group_caution,1,1,1,1

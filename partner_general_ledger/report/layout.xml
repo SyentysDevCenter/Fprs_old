@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="layout">
+			<t t-if="not o" t-set="o" t-value="doc"/>
+
+			<t t-if="not company">
+				<!-- Multicompany -->
+				<t t-if="company_id">
+					<t t-set="company" t-value="company_id"/>
+				</t>
+				<t t-elif="o and 'company_id' in o">
+					<t t-set="company" t-value="o.company_id.sudo()"/>
+				</t>
+				<t t-else="else">
+					<t t-set="company" t-value="res_company"/>
+				</t>
+			</t>
+			<div class="header">
+<!--				<div class="row mb2">-->
+					<table class="table">
+						<tr style="border-bottom:1px solid black;border-top:None;">
+							<td class="text-right" style="padding:0.1rem; border-top:None;">
+								<h2>GRAND LIVRE CLIENT</h2>
+							</td>
+							<td class="text-right" style="padding:0.1rem; border-top:None;">
+								<t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+							</td>
+						</tr>
+					</table>
+<!--				</div>-->
+				<div class="row mt2">
+					<table class="table">
+						<tr style="border-top:None;border-bottom:None;">
+							<td colspan="2" class="text-left" style="padding:0.1rem;border-top:None;border-bottom:None;">EDITION PROVISOIRE</td>
+						</tr>
+						<tr style="border-top:None;border-bottom:None;">
+							<t t-if="data['company_id']">
+
+								<td class="text-left" style="padding:0.1rem;border-top:None;border-bottom:None;">
+									<span t-esc="data['company_id'].name"/>
+									-
+									<span t-esc="data['currency']"/>
+
+								</td>
+								<td class="text-right" style="padding:0.1rem;border-top:None;border-bottom:None;">
+									<ul class="list-inline">
+										<li class="list-inline-item">
+											Page <span class="page"/>
+										</li>
+										<li class="list-inline-item">/</li>
+										<li class="list-inline-item">
+											<span class="topage"/>
+										</li>
+									</ul>
+								</td>
+							</t>
+						</tr>
+                        <tr style="border-top:None;border-bottom:None;">
+                            <td style="border-top:None;border-bottom:None;padding:0.1rem;" class="text-left">Sélection compte: Tout</td>
+                            <td  style="border-top:None;border-bottom:None;padding:0.1rem;" class="text-right">Du <span t-esc="data['date_from']"/> A <span t-esc="data['date_to']"/></td>
+                        </tr>
+					</table>
+				</div>
+			</div>
+			<div class="article"
+			     t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+			     t-att-data-oe-lang="o and o.env.context.get('lang')">
+				<t t-raw="0"/>
+			</div>
+
+			<div class="footer">
+
+			</div>
+		</template>
+	</data>
+</odoo>

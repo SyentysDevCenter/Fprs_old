@@ -1,0 +1,96 @@
+<odoo>
+
+	<data>
+		<record id="mail_template_sale_validate" model="mail.template">
+        <field name="name">Devis validé</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">${object.company_id.name} : Commande - ${object.name}</field>
+        <field name="email_to" >${object.conducteur_travaux_id and object.conducteur_travaux_id.email_formatted | safe}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <h2>Devis validé!</h2>
+    Le devis ${object.name} est confirmé. Merci de faire le nécessaire.
+
+</div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+		<record id="sms_intervention_prevue" model="sms.template">
+			<field name="name">Sms intérvention prévue</field>
+			<field name="model_id" ref="project.model_project_task"/>
+			<field name="body">Bonjour
+			L'intervention ${object.name} est prévue pour ${object.planned_date_begin}
+				et sera assurée par ${object.user_id.display_name}
+			</field>
+		</record>
+		<record id="email_template_fsm_planned" model="mail.template">
+			<field name="name">Intervention prévue</field>
+			<field name="model_id" ref="project.model_project_task"/>
+			<field name="partner_to">${object.partner_id != False and object.partner_id.id}</field>
+			<field name="partner_to">${object.bailleur_id != False and object.bailleur_id.id},
+				${object.partner_id and object.partner_id.id},
+				${object.user_id and object.user_id.partner_id.id}
+			</field>
+			<field name="email_to">${(not object.partner_id and object.partner_email)|safe}</field>
+			<field name="subject">Intervention prévue ${object.name}</field>
+			<field name="lang">${object.partner_id.lang}</field>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+				<![CDATA[
+	            <header>Bonjour,</header><p><br/></p>
+	            <p>l'intervention ${object.name} est prévue pour ${object.planned_date_begin} et sera assurée par ${object.user_id.display_name}</p><p><br/></p>
+	            <p></p>
+				<a href="${object.access_url}" class="btn btn-fill-primary btn-lg" target="_blank">Intervention prévue</a>
+				<br/><p></p>
+			]]>
+			</field>
+
+
+		</record>
+		<record model="base.automation" id="project_fsm_cron">
+			<field name="name">Intervention prévue</field>
+			<field name="model_id" ref="project.model_project_task"/>
+			<field name="trigger">on_time</field>
+			<field name="filter_domain">[("is_fsm","=",True)]</field>
+			<field name="trg_date_id" ref="project_enterprise.field_project_task__planned_date_begin"></field>
+			<field name="trg_date_range">-1</field>
+			<field name="trg_date_range_type">day</field>
+			<field name="state">email</field>
+			<field name="sms_template_id" ref="sale_fsm_extend.sms_intervention_prevue"></field>
+		</record>
+		<record model="base.automation" id="project_fsm_cron_sms">
+			<field name="name">Intervention prévue sms</field>
+			<field name="model_id" ref="project.model_project_task"/>
+			<field name="trigger">on_time</field>
+			<field name="filter_domain">[("is_fsm","=",True)]</field>
+			<field name="trg_date_id" ref="project_enterprise.field_project_task__planned_date_begin"></field>
+			<field name="trg_date_range">-1</field>
+			<field name="trg_date_range_type">day</field>
+			<field name="state">sms</field>
+<!--			<field name="template_id" ref="sale_fsm_extend.email_template_fsm_planned"></field>-->
+		</record>
+		<record model="base.automation" id="project_sale_validation_activity">
+			<field name="name">Devis validé</field>
+			<field name="model_id" ref="sale.model_sale_order"/>
+			<field name="trigger">on_write</field>
+			<field name="filter_pre_domain">["|",("state","=","draft"),("state","=","sent")]</field>
+			<field name="filter_domain">["|",("state","=","sale"),("state","=","done")]</field>
+			<field name="activity_type_id" ref="mail.mail_activity_data_todo"></field>
+			<field name="activity_user_type">generic</field>
+			<field name="activity_user_field_name">conducteur_travaux_id</field>
+			<field name="state">next_activity</field>
+<!--			<field name="template_id" ref="sale_fsm_extend.email_template_fsm_planned"></field>-->
+		</record>
+		<record model="base.automation" id="project_sale_validation_mail">
+			<field name="name">Devis validé</field>
+			<field name="model_id" ref="sale.model_sale_order"/>
+			<field name="trigger">on_write</field>
+			<field name="filter_pre_domain">["|",("state","=","draft"),("state","=","sent")]</field>
+			<field name="filter_domain">["|",("state","=","sale"),("state","=","done")]</field>
+
+			<field name="state">email</field>
+			<field name="template_id" ref="sale_fsm_extend.mail_template_sale_validate"></field>
+		</record>
+
+	</data>
+</odoo>

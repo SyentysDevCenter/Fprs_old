@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="import_product_wizard_form" model="ir.ui.view">
+            <field name="name">import.product.wizard.form</field>
+            <field name="model">product.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                    <group>
+                        <field name="excel_file"/>
+                    </group>
+                    <footer>
+                        <button string="Import" name="import_data" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

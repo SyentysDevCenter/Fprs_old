@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="visite_lieu_created_mail_template" model="mail.template">
+            <field name="name">Visite de lieux créée</field>
+            <field name="model_id" ref="visite_lieux.model_visite_lieu"/>
+            <field name="partner_to">${object.user_id.id}</field>
+            <field name="subject">Visite de lieu assignée</field>
+            <field name="body_html" type="html">
+            <p>   Bonjour,</p>
+              <p>  Cette visite de lieu vous a été assignée ${object.display_name} de l'appel d'offre N° ${object.ao_id.display_name}.
+                </p>
+                <p>Merci de faire le nécessaire.</p>
+            </field>
+
+        </record>
+
+        <record model="base.automation" id="visite_created_cron">
+            <field name="name">Visite créée</field>
+            <field name="model_id" ref="visite_lieux.model_visite_lieu"/>
+            <field name="trigger">on_create</field>
+            <field name="state">email</field>
+            <field name="filter_domain">[["user_id","!=",False]]</field>
+            <field name="template_id" ref="visite_lieux.visite_lieu_created_mail_template"></field>
+        </record>
+        <record model="base.automation" id="visite_lieu_updated_cron">
+            <field name="name">Visite modifiée</field>
+            <field name="model_id" ref="visite_lieux.model_visite_lieu"/>
+            <field name="trigger">on_write</field>
+            <field name="state">email</field>
+            <field name="template_id" ref="visite_lieux.visite_lieu_created_mail_template"></field>
+        </record>
+
+
+    </data>
+</odoo>

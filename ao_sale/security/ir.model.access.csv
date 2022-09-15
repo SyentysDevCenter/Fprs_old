@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_user_ao_user,sales_users_ao,ao.model_ao_ao,sales_team.group_sale_salesman,1,0,0,0
+access_ao_user_ao_user,ao_users_sale acces,sale.model_sale_order,ao.group_ao_user,1,0,0,0

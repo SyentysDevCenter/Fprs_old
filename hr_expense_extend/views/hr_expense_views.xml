@@ -1,0 +1,16 @@
+<odoo>
+	 <record id="hr_expense_sheet_view_form_inherit_extend" model="ir.ui.view">
+        <field name="name">hr.expense.sheet.view.form.extend</field>
+        <field name="model">hr.expense.sheet</field>
+        <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+        <field name="arch" type="xml">
+	        <group name="employee_details" position="after">
+		        <group>
+			        <field name="remboursement_espece"/>
+			        <field name="remboursement_virement"/>
+
+		        </group>
+	        </group>
+        </field>
+	 </record>
+</odoo>

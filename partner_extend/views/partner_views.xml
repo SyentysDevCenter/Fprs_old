@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="res_partner_view_form_rg" model="ir.ui.view">
+            <field name="name">res.partner.form.rg</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='accounting_entries']" position="after">
+                    <group string="Retenue de garantie" groups="account.group_account_user">
+                        <field name="property_account_rg_id" required="0"/>
+                        <field name="property_account_fin_rg_id" required="0"/>
+                        <field name="old_account" invisible="1"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='bank_ids']//tree//field[@name='acc_number']" position="after">
+                    <field name="iban"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_form_inherit_extend" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.extend</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button name="partner_projects_action" type="object" class="oe_stat_button"
+                            icon="fa-files-o">
+                        <field name="partner_projects_count" string="Chantiers" widget="statinfo"/>
+                    </button>
+                </div>
+
+                <field name="vat" position="after">
+                    <field name="sous_traitant"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="res_partner_action_sous_traitant" model="ir.actions.act_window">
+            <field name="name">Sous traitants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('sous_traitant', '=', True)]</field>
+            <field name="context">{'search_default_sous_traitant': 1,'res_partner_search_mode': 'supplier',
+                'default_supplier_rank': 1,'default_sous_traitant': 1, }
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer un nouveau sous traitant
+                </p>
+            </field>
+        </record>
+        <menuitem id="menu_procurement_management_sous_traitant" name="Sous traitants"
+                  parent="purchase.menu_procurement_management"
+                  action="res_partner_action_sous_traitant" sequence="15"/>
+
+        <record id="view_payment_term_form" model="ir.ui.view">
+            <field name="name">account.payment.term.form</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_payment_term_tree" model="ir.ui.view">
+            <field name="name">account.payment.term.tree</field>
+            <field name="model">account.payment.term</field>
+            <field name="inherit_id" ref="account.view_payment_term_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

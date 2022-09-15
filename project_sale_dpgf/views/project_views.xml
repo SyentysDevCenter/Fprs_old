@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="edit_project_inherited_sale" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.sale</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+	            <header position="inside">
+		            <button name="project_create_sale" string="Créer le devis de réabilitation"
+		                    attrs="{'invisible':[('has_dpgf_principal', '=', True)]}"
+		                    groups="project_sale_dpgf.group_sale_dpgf" type="object"/>
+	            </header>
+	            <field name="partner_id" position="after">
+		            <field name="has_dpgf_principal" invisible="1"/>
+	            </field>
+            </field>
+	</record>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ao_view_form_inherit_extend" model="ir.ui.view">
+            <field name="name">AO form extend</field>
+            <field name="model">ao.ao</field>
+            <field name="inherit_id" ref="ao.ao_view_form"></field>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook//page[@name='suivi']//field[@name='date_refus']" position="replace">
+                </xpath>
+                <xpath expr="//notebook//page[@name='suivi']//group[@name='date_suivi']" position="replace">
+                </xpath>
+                <xpath expr="//notebook//field[@name='date_depo_ao']" position="after">
+                    <field name="date_remise_ca"/>
+                    <field name="date_dg"/>
+                    <field name="date_refus"/>
+                </xpath>
+                <field name="objet" position="after">
+                    <field name="adresse_operation"/>
+                </field>
+                <field name="financement" position="replace"></field>
+                <field name="estimation_mo" position="before">
+                     <field name="financement"/>
+                     <field name="validity"/>
+                </field>
+                <field name="type_prestation" position="after">
+                    <field name="copropriete"/>
+                </field>
+                 <button name="button_perdu" position="after">
+                      <button name="button_non_repondu" string="Non répondu" states="depose" class="oe_highlight" type="object"
+                                color="red" groups="ao.group_resultat_financier_ao"/>
+                 </button>
+                <field name="state" position="replace">
+                    <field name="state" widget="statusbar" statusbar_colors='{"perdu":"red","gagne":"green"}'
+                               statusbar_visible="new,valideDG,valideFinal,traitement,valideSoumis,depose,gagne,perdu,non_repondu"/>
+                </field>
+                <field name="lieu_remise" position="after">
+                    <field name="remise_plis"/>
+                </field>
+                <field name="contact_ids" position="attributes">
+                    <attribute name="domain">[('parent_id', '=', partner_id)]</attribute>
+                    <attribute name="context">{'default_parent_id': partner_id}</attribute>
+                </field>
+                <page name="detail" position="inside">
+                    <group name="jugement_offre">
+                        <field name="jugement_offre_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="note"/>
+                                <field name="commentaire"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+
+                <field name="contact_ids" position="after">
+                    <label for="ao_gardien_ids"/>
+                    <field name="ao_gardien_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="note"/>
+                        </tree>
+                    </field>
+                </field>
+                <field name="bailleur_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="motif_rejet_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <attribute name="required">0</attribute>
+                    <attribute name="attrs">{}</attribute>
+                </field>
+                <xpath expr="//notebook/page[@name='suivi']" position="after">
+                    <page string="Négociation">
+                        <field name="negociation_ids">
+                            <tree editable="bottom">
+                                <field name="contact_id"/>
+                                <field name="date_contact"/>
+                                <field name="date_reponse"/>
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+
+     </record>
+</odoo>

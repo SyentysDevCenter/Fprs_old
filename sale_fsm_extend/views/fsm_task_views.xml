@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_task_view_gantt_extend" model="ir.ui.view">
+        <field name="name">project.task.view.gantt.fsm.extend</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_enterprise.project_task_view_gantt"/>
+        <field name="arch" type="xml">
+            <xpath expr="//gantt" position="replace">
+                <gantt date_start="planned_date_begin"
+                       date_stop="planned_date_end"
+                       default_scale="week"
+                       scales="day,week,month,year"
+                       color="project_color"
+                       string="Planning"
+                       thumbnails="{'user_id': 'image_128'}"
+                       js_class="task_gantt"
+                       display_unavailability="1"
+                       sample="1"
+                       precision="{'day': 'hour:quarter', 'week': 'day:half', 'month': 'day:full'}">
+                    <templates>
+                        <div t-name="gantt-popover" class="container-fluid">
+                            <div class="row no-gutters">
+                                <div class="col">
+                                    <ul class="pl-1 mb-0">
+                                        <li t-if="partner_id">
+                                            <strong>Client:</strong>
+                                            <t t-esc="partner_id[1]"/>
+                                        </li>
+
+                                        <li t-if="project_id">
+                                            <strong>Chantier:</strong>
+                                            <t t-esc="project_id[1]"/>
+                                        </li>
+
+                                        <li t-if="user_id">
+                                            <strong>Technicien:</strong>
+                                            <t t-esc="user_id[1]"/>
+                                        </li>
+
+                                        <li t-if="partner_address_1">
+                                            <strong>Adresse:</strong>
+                                            <t t-esc="partner_address_1"/>
+                                        </li>
+
+                                        <li t-if="fsm_sale_id">
+                                            <strong>Numéro de BC:</strong>
+                                            <t t-esc="fsm_sale_id[1]"/>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </templates>
+                    <field name="partner_id"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <field name="partner_address_1"/>
+                    <field name="fsm_sale_id"/>
+                    <field name="project_color"/>
+                </gantt>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_view_form_fsm_quotation" model="ir.ui.view">
+        <field name="name">view.form.fsm.inherit.quotation</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="timesheet_grid.project_task_view_form"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="after">
+                <field name="date_realisation"/>
+            </field>
+            <xpath expr="//header" position="inside">
+                <button name="action_intervention_send" string="Envoyer par email" type="object" class="btn-primary"/>
+
+                <button style="font-weight: bold; color: black" type="object" name="fsm_special_validate"
+                        string="VALIDATION DIRECTE" class="oe_highlight"
+                        groups="sale_fsm_extend.group_special_fsm_validate"
+                        attrs="{'invisible': [('fsm_state', '=', 'confirm')]}"/>
+            </xpath>
+            <field name="user_id" position="after">
+                <field name="intervenant_ids" domain="[('plombier', '=', True)]" widget="many2many_tags"
+                       options="{'no_create':1,'no_edit':1}"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+                <page string="Fournitures/Info divers">
+
+                    <field name="fournitures_info_divers"/>
+                </page>
+            </xpath>
+
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">
+                    {'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}
+                </attribute>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="attrs">
+                    {'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}
+                </attribute>
+            </field>
+
+            <field name="partner_phone" position="attributes">
+                <attribute name="attrs">
+                    {'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}
+                </attribute>
+            </field>
+
+            <field name="partner_id" position="after">
+                <field name="bailleur_id"
+                       attrs="{'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}"/>
+                <field name="conducteur_travaux_id"/>
+
+            </field>
+            <field name="project_id" position="after">
+                <field name="fsm_sale_id" domain="[('depannage', '=', True)]" context="{'default_depannage':True,
+                'default_partner_id': partner_id, 'default_chantier_id': project_id}"
+                       attrs="{'readonly':['|',('fsm_state', '!=', 'draft'), ('has_edit_acces','=', False)]}"
+                       force_save="1"/>
+                <field name="fsm_status_id"
+                       attrs="{'readonly':[('has_edit_acces','=', False)]}"
+                />
+                <field name="client_order_ref"/>
+                <field name="en_attente"/>
+                <field name="has_edit_acces" invisible="1"/>
+                <field name="fsm_id" readonly="1" force_save="1"/>
+                <field name="fsm_sav" invisible="1"/>
+            </field>
+            <xpath expr="//header//field[@name='stage_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <field name="name" position="attributes">
+                <attribute name="attrs">
+                    {'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}
+                </attribute>
+            </field>
+            <xpath expr="//header" position="inside">
+                <button name="fsm_report" string="REPORTER"
+                        groups="sale_fsm_extend.group_fsm_validate" class="oe_highlight"
+                        attrs="{'invisible':['|',('fsm_state','!=', 'draft'),('planned_date_begin', '=', False),
+                        ('planned_date_end', '=', False)]}"
+                        type="object"/>
+                <button name="fsm_mettre_a_nouveau_action" string="REMETTRE A NOUVEAU"
+                        groups="sale_fsm_extend.group_fsm_validate" class="oe_highlight"
+                        attrs="{'invisible':[('fsm_state', 'in', ('draft', 'confirm'))]}"
+                        type="object"/>
+                <field name="fsm_state" widget="statusbar"/>
+                <button name="fsm_confirm_action" string="Valider" groups="sale_fsm_extend.group_fsm_validate"
+                        attrs="{'invisible':[('fsm_state', '!=', 'done')]}" type="object" class="oe_highlight"/>
+                <button name="fsm_confirm_action_done" string="Fait"
+                        attrs="{'invisible':[('fsm_state', '!=', 'attente')]}" type="object" class="oe_highlight"/>
+                <button name="fsm_mettre_en_attente" string="Soumettre pour validation"
+                        attrs="{'invisible':[('fsm_state', '!=', 'draft')]}" type="object" class="oe_highlight"/>
+            </xpath>
+            <button name="action_timer_stop" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|', ('display_timer_stop', '=', False),
+                    ('encode_uom_in_days', '=', True),
+                    ('fsm_state', '!=', 'draft')]}
+                </attribute>
+            </button>
+            <xpath expr="//button[@name='action_timer_start'][1]" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|', ('display_timer_start_primary', '=', False),
+                    ('encode_uom_in_days', '=', True),
+                    ('fsm_state', '!=', 'draft')]}
+                </attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_timer_start'][2]" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|', ('display_timer_start_secondary', '=', False),
+                    ('encode_uom_in_days', '=', True),
+                    ('fsm_state', '!=', 'draft')]}
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_fsm_validate'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_fsm_validate'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <div name="button_box" position="inside">
+                <button name="fsm_sav_action" type="object" class="oe_stat_button"
+                        attrs="{'invisible':[('fsm_sav', '=', True)]}"
+                        icon="fa-file">
+                    <field name="fsm_sav_count" string="SAV" widget="statinfo"/>
+                </button>
+            </div>
+
+            <field name="planned_date_begin" position="replace">
+                <field name="planned_date_begin"
+                       attrs="{'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}"
+                />
+            </field>
+            <field name="planned_date_end" position="replace">
+                <field name="planned_date_end"
+                       attrs="{'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}"
+                />
+            </field>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Locataire/Particulier">
+                    <group>
+
+
+                        <field name="nom_client_final"/>
+                        <field name="partner_address_1" string="Adresse"/>
+                        <field name="ville_client_final"/>
+                        <field name="code_postal_final"/>
+                        <field name="appart_client_final"/>
+
+                        <field name="tel_client_final"/>
+
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="fsm_view_task_tree2_extend" model="ir.ui.view">
+        <field name="name">view.task.tree2.fsm</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="before">
+                <field name="en_attente"/>
+                <field name="fsm_state"/>
+            </field>
+            <field name="project_id" position="before">
+                <field name="interim_ssl"/>
+            </field>
+            <field name="project_id" position="after">
+                <field name="client_order_ref"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="view_sale_service_inherit_form2_extend" model="ir.ui.view">
+        <field name="name">view.form.fsm.inherit.quotation</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="sale_timesheet.view_sale_service_inherit_form2"/>
+        <field name="arch" type="xml">
+            <button name="action_make_billable" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+    <record id="project_task_status_tree" model="ir.ui.view">
+        <field name="name">project.task.status.form</field>
+        <field name="model">project.task.status</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="last_state" groups="industry_fsm.group_fsm_manager"/>
+                <field name="is_inter_4"/>
+                <field name="is_inter_8"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="project_task_status_action" model="ir.actions.act_window">
+        <field name="name">Etat des interventions</field>
+        <field name="res_model">project.task.status</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="project_task_status_menu" name="Etat des interventions"
+              action="project_task_status_action" parent="industry_fsm.fsm_tasks_menu"/>
+
+
+    <record id="industry_fsm.project_task_action_fsm" model="ir.actions.act_window">
+        <field name="view_mode">tree,map,kanban,gantt,calendar,form,activity</field>
+        <field name="domain">[('is_fsm', '=', True),('fsm_sav', '=', False)]</field>
+        <field name="context">{'default_is_fsm': True,
+            'fsm_mode': True,
+            'show_address': True,
+            'search_default_planned_future': True,
+            'search_default_planned_today': True,
+            'fsm_task_kanban_whole_date': False,
+            }
+        </field>
+    </record>
+    <record id="industry_fsm.project_task_action_fsm_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+
+    </record>
+    <record id="project_task_action_fsm_sav" model="ir.actions.act_window">
+        <field name="name">SAV</field>
+        <field name="res_model">project.task</field>
+        <field name="view_mode">tree,kanban,gantt,calendar,form,activity,map</field>
+        <field name="search_view_id" ref="industry_fsm.project_task_view_search_fsm"/>
+        <field name="domain">[('fsm_sav', '=', True)]</field>
+        <field name="context">{
+            'fsm_mode': True,
+            'fsm_sav': True,
+            'show_address': True,
+            'fsm_task_kanban_whole_date': False,
+            'default_fsm_sav':True,
+            }
+        </field>
+
+    </record>
+
+    <record id="project_task_view_list_fsm" model="ir.ui.view">
+        <field name="name">project.task.tree.fsm</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_list_fsm"/>
+        <field name="arch" type="xml">
+            <tree position="replace">
+                <tree string="Tasks" >
+                    <field name="planned_date_begin"/>
+                    <field name="planned_date_end" invisible="1"/>
+                    <field name="ville_client_final"/>
+                    <field name="user_id" invisible="context.get('user_invisible', False)"/>
+                    <field name="client_order_ref"/>
+                    <field name="name"/>
+                    <field name="fsm_status_id"/>
+                    <field name="fsm_status_is_inter_4" invisible="1"/>
+                    <field name="fsm_status_is_inter_8" invisible="1"/>
+                    <field name="fsm_sale_id"/>
+                    <field name="fsm_state"/>
+                    <field name="interim_ssl"/>
+                    <field name="effective_hours" optional="hide"/>
+                    <field name="date_deadline" optional="hide"/>
+                    <field name="date_realisation"/>
+                    <field name="project_id" invisible="context.get('user_invisible', False)" string="Chantier"/>
+                    <field name="company_id" groups="base.group_multi_company" invisible="1"/>
+                    <field name="stage_id" invisible="1"/>
+                    <field name="nom_client_final" string="Locataire/Propriétaire"/>
+                    <field name="partner_address_1" string="Adresse locataire"/>
+
+                    <field name="appart_client_final" string="N° LGT"/>
+                    <!---->
+                    <field name="activity_ids" widget="list_activity" optional="show" readonly="1" invisible="1"/>
+
+                    <field name="tag_ids" optional="hide" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="activity_exception_decoration" widget="activity_exception"/>
+                    <field name="is_invoiced" invisible="1"/>
+
+                </tree>
+            </tree>
+            <!--            <field name="stage_id" position="after">-->
+
+            <!--                <field name="fsm_sale_id"/>-->
+            <!--                <field name="client_order_ref"/>-->
+            <!--                <field name="fsm_state"/>-->
+            <!--            </field>-->
+
+            <!--            <field name="fsm_sale_id" position="before">-->
+            <!--                <field name="fsm_status_id"/>-->
+            <!--                <field name="last_state" invisible="1"/>-->
+            <!--            </field>-->
+
+            <tree position="attributes">
+                <attribute name="decoration-warning">fsm_state == 'attente'</attribute>
+                <attribute name="decoration-success">fsm_state in ('done', 'confirm')</attribute>
+                <attribute name="decoration-bf">fsm_state in ('attente','done', 'confirm')</attribute>
+                <!--                <attribute name="decoration-info">fsm_state == 'confirm'</attribute>-->
+                <attribute name="decoration-danger">is_invoiced == True</attribute>
+                <attribute name="decoration-info">fsm_status_is_inter_4 == True</attribute>
+                <attribute name="decoration-it">fsm_status_is_inter_8 == True</attribute>
+
+
+            </tree>
+
+        </field>
+    </record>
+    <menuitem id="project_task_action_fsm_sav_menu" name="SAV"
+              groups="industry_fsm.group_fsm_user,project_extend.group_read_only_service"
+              action="project_task_action_fsm_sav" parent="industry_fsm.fsm_tasks_menu"/>
+
+
+    <record id="view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">view.task.form2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="sale_project.view_sale_project_inherit_form"/>
+        <field name="arch" type="xml">
+            <field name="sale_line_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <!--            <field name="user_id" position="attributes">-->
+            <!--                <attribute name="domain">[('plombier', '=', True)]</attribute>-->
+            <!--            </field>-->
+        </field>
+    </record>
+
+    <record id="view_task_form2_inherited" model="ir.ui.view">
+        <field name="name">view.task.form2.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.view_task_form2_inherit"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="attributes">
+                <attribute name="domain">[('plombier', '=', True)]</attribute>
+            </field>
+            <field name="project_id" position="attributes">
+                <attribute name="domain">[
+                    ('active', '=', True),
+                    ('company_id', '=', company_id),
+
+                    ]
+                </attribute>
+                <attribute name="attrs">
+                    {'readonly':['|', ('fsm_state', '=', 'confirm'), ('has_edit_acces','=', False)]}
+                </attribute>
+
+            </field>
+        </field>
+    </record>
+
+    <record id="project_task_search_view_extend" model="ir.ui.view">
+        <field name="name">project.task.search.extend</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="industry_fsm.project_task_view_search_fsm"/>
+        <field name="arch" type="xml">
+            <filter name="groupby_user" position="attributes">
+                <attribute name="string">Technicien</attribute>
+            </filter>
+            <field name="name" position="after">
+                <field name="fsm_sale_id"/>
+                <field name="client_order_ref"/>
+            </field>
+
+        </field>
+
+    </record>
+    <record id="project_task_form_views_extend" model="ir.ui.view">
+        <field name="name">project.task.form.extend</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+
+            <button name="action_timer_start" position="attributes">
+                <attribute name="groups">sale_fsm_extend.group_launch_project_task
+                </attribute>
+            </button>
+            <button name="fsm_report" position="attributes">
+                <attribute name="groups">sale_fsm_extend.group_report_project_task
+                </attribute>
+            </button>
+            <button name="fsm_confirm_action_done" position="attributes">
+                <attribute name="groups">sale_fsm_extend.group_do_project_task
+                </attribute>
+            </button>
+
+            <xpath expr="//button[@name='fsm_report']" position="after">
+                <button name="change_status" class="oe_highlight" type="object" string="Remettre à nouveau"
+                        groups="sale_fsm_extend.group_remettre_intervention_a_nv"/>
+                <field name="is_invoiced" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='intervenant_ids']" position="after">
+                <field name="interim_ssl"/>
+            </xpath>
+
+            <!-- page emails -->
+            <xpath expr="//page[@name='extra_info']" position="after">
+                <page string="Emails" name="emails_destination">
+                    <field name="email_destination_ids" widget="many2many_tags" context="{'default_email_name':True}"/>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+    <!--    <record id="intervention_sav_action" model="ir.actions.act_window">-->
+    <!--        <field name="name">Interventions SAV</field>-->
+    <!--        <field name="res_model">project.task</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
+    <!--        <field name="domain">['|', ('is_fsm', '=', True),('fsm_sav', '=', True)]</field>-->
+    <!--    </record>-->
+    <menuitem id="intervention_sav_menu" name="SAV"
+              action="project_task_action_fsm_sav" web_icon="sale_fsm_extend,static/description/sav.png"/>
+
+
+</odoo>

@@ -1,0 +1,403 @@
+<odoo>
+    <data>
+
+
+        <template id="sale_order_report_1">
+            <t t-call="gecop_model_reports.sale_layout_3">
+                <t t-set="o" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <!--                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>-->
+                <t t-set="current_date"
+                   t-value="context_timestamp(datetime.datetime.now()).strftime('%d %B %Y')"/>
+                <div class="page" style="page-break-after:always;">
+                    <br/>
+                    <div class="row mb32 col-5 offset-6" style="font-size: 17px;">
+
+                        <strong>Sucy-en-Brie, le
+                            <span t-esc="current_date"/>
+                        </strong>
+                        <br/>
+                    </div>
+                    <br/>
+                    <div class="row mb32 col-6 offset-6">
+                        <div t-field="o.partner_id" style="font-size: 23px; font-weight: bold;"
+                             t-options='{"widget": "contact", "fields": ["name"], "no_marker": True}'/>
+                    </div>
+                    <div class="row mb32 col-6 offset-6">
+                        <div t-field="o.partner_id" style="font-size: 20px;"
+                             t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                    </div>
+                    <div class="row mb32 col-5 offset-6" style="font-size: 17px;">
+                        <t t-if="o.n_siret  and (o.commande or o.dpgf_sale or o.depannage)">
+                            <strong>Siret:
+                                <span t-field="o.n_siret"/>
+                            </strong>
+                            <br/>
+                        </t>
+                        <t t-if="o.modalite_paiement_id">
+                            <strong>Modalités de paiement:
+                                <span t-field="o.modalite_paiement_id"/>
+                            </strong>
+                        </t>
+                    </div>
+                    <div class="row mt32  col-11 offset-1" style="font-size: 22px;">
+                        <p>
+                            <u>Réf:</u>
+                        </p>
+                        <![CDATA[&nbsp;]]>
+                        <![CDATA[&nbsp;]]>
+                        <strong>
+                            <span t-field="o.name"/>
+                        </strong>
+                    </div>
+                    <div class="row mt32 col-12 offset-1" style="font-size: 20px;">
+                        <p>
+                            <u>Affaire suivi par:</u>
+                        </p>
+                        <![CDATA[&nbsp;]]>
+                        <strong>
+                            <span t-field="o.user_id.name"/>
+                        </strong>
+                    </div>
+                    <div class="row">
+                        <t t-if="o.nom_client_final or o.appart_client_final or o.ville_client_final or
+							 o.tel_client_final or o.partner_address_1">
+
+                            <div class="col-9 offset-1">
+                                <!--							<p>-->
+                                <!--								<u>Client final:</u>-->
+                                <!--							</p>-->
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+
+                                <strong>
+                                    <t t-if="o.civility">
+                                        <span t-field="o.civility"/>
+                                    </t>
+                                    <span t-field="o.nom_client_final"/>
+                                </strong>
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+                                <strong>
+                                    Adresse:
+                                    <![CDATA[&nbsp;]]>
+
+                                    <span t-field="o.partner_address_1"/>
+
+                                </strong>
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+                                <strong>
+                                    Ville:
+                                    <span t-field="o.ville_client_final"/>
+                                </strong>
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+                                <t t-if="o.code_postal">
+                                    <strong>
+                                        Code postal:
+                                        <span t-field="o.code_postal"/>
+                                    </strong>
+                                    <br/>
+                                    <![CDATA[&nbsp;]]>
+                                </t>
+
+                                <strong>
+                                    Appartement N°:
+                                    <span t-field="o.appart_client_final"/>
+                                </strong>
+
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+                                <strong>
+                                    Tél:
+                                    <span t-field="o.tel_client_final"/>
+                                </strong>
+                                <br/>
+                                <![CDATA[&nbsp;]]>
+
+                            </div>
+                        </t>
+                    </div>
+
+
+                    <div class="row mt8 col-11 offset-1">
+                        <span t-field="o.text_debut"/>
+                        <span t-field="o.text_civility"/>,
+                        <!--                        <br/>-->
+                        <!--                        <span t-field="o.devis_text_2"/>-->
+                        <div style="width:830px;">
+                            <span t-raw="o.devis_text_2"/>
+                        </div>
+
+                        <br/>
+                        <br/>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="row mt32 mb8 col-11 offset-1">
+                        <br/>
+                        <table class="table table-bordered">
+                            <thead>
+                                <th class="text-center" style="width:50%;">
+
+                                    <strong>La Présidente<br/>C.FERNANDES
+                                    </strong>
+                                </th>
+                                <th class="text-center" style="width:50%;">
+                                    <strong>
+                                        <span t-field="o.user_id"/>
+                                    </strong>
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t t-if="o.company_id.signature">
+                                            <img
+                                                    t-att-src="image_data_uri(o.company_id.signature)"
+                                                    class="float-left" alt="Signature présidente" width="380"
+                                                    height="180"/>
+                                        </t>
+                                        <t t-else="">
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="o.user_id.signature">
+                                            <img t-att-src="image_data_uri(o.user_id.signature)"
+                                                 class="float-left" alt="Signature" width="380" height="180"/>
+                                        </t>
+                                        <t t-else="">
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <div class="page">
+                    <div class="row mb1">
+                        <div class="col-3">
+                            DEVIS N°:
+                            <span t-field="o.name"/>
+                        </div>
+                        <div class="col-3 offset-1">
+                            DATE:
+                            <span t-field="o.date_order" t-options="{'widget':'date'}"/>
+                        </div>
+
+                        <div class="float-right col-5">
+                            AFFAIRE:
+                            <span t-field="o.chantier_id.name"/>
+                        </div>
+
+                    </div>
+
+                    <div class="oe_structure"/>
+
+
+                    <!-- Is there a discount on at least one line? -->
+                    <t t-set="display_discount" t-value="any([l.discount for l in o.order_line])"/>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th name="th_sequence" class="text-left">N°</th>
+                                <th name="th_ref" class="text-left">Référence</th>
+                                <th name="th_description" class="text-left">Désignation</th>
+                                <th name="th_uom" class="text-right">Un</th>
+                                <th name="th_quantity" class="text-right">Quantité</th>
+                                <th name="th_priceunit" class="text-right">Prix unit.</th>
+                                <th name="th_discount" t-if="display_discount" class="text-right"
+                                    groups="product.group_discount_per_so_line">
+                                    <span>Disc.%</span>
+                                </th>
+                                <!--                                    <th name="th_taxes" class="text-right">Taxes</th>-->
+                                <th name="th_subtotal" class="text-right">
+                                    <t groups="account.group_show_line_subtotals_tax_excluded">Montant HT</t>
+                                    <t groups="account.group_show_line_subtotals_tax_included">Total TTC</t>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+
+                            <t t-set="current_subtotal" t-value="0"/>
+
+                            <t t-foreach="o.order_line" t-as="line">
+
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"
+                                   groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total"
+                                   groups="account.group_show_line_subtotals_tax_included"/>
+
+                                <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                    <t t-if="not line.display_type">
+                                        <td name="td_seq">
+                                            <span t-field="line.sequence"/>
+                                        </td>
+                                        <td name="td_ref">
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+
+                                        <td name="td_name">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                        </td>
+                                        <td name="td_quantity" class="text-right">
+                                            <span t-field="line.product_uom_qty"/>
+
+                                        </td>
+                                        <td name="td_priceunit" class="text-right">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <td t-if="display_discount" class="text-right"
+                                            groups="product.group_discount_per_so_line">
+                                            <span t-field="line.discount"/>
+                                        </td>
+                                        <!--                                            <td name="td_taxes" class="text-right">-->
+                                        <!--                                                <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>-->
+                                        <!--                                            </td>-->
+                                        <td name="td_subtotal" class="text-right o_price_total">
+                                            <span t-field="line.price_subtotal"
+                                                  groups="account.group_show_line_subtotals_tax_excluded"/>
+                                            <span t-field="line.price_total"
+                                                  groups="account.group_show_line_subtotals_tax_included"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_section'">
+                                        <td name="td_section_line" colspan="99">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <t t-set="current_section" t-value="line"/>
+                                        <t t-set="current_subtotal" t-value="0"/>
+                                    </t>
+                                    <t t-if="line.display_type == 'line_note'">
+                                        <td name="td_note_line" colspan="99">
+                                            <strong style="color:#0167af; text-decoration:underline;">
+                                                <span t-field="line.name"/>
+                                            </strong>
+                                        </td>
+                                    </t>
+                                </tr>
+
+                                <t t-if="current_section and (line_last or o.order_line[line_index+1].display_type == 'line_section')">
+                                    <tr class="is-subtotal text-right">
+                                        <td name="td_section_subtotal" colspan="99">
+                                            <strong class="mr16">Montant HT</strong>
+                                            <span
+                                                    t-esc="current_subtotal"
+                                                    t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'
+                                            />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <strong style="color:#0167af; text-decoration:underline;">Devis à titre indicatif
+                                        susceptible
+                                        d'être modifié selon travaux réalisés.
+                                    </strong>
+                                </td>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="clearfix" name="so_total_summary">
+                        <div id="total" class="row" name="total">
+                            <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="border-black o_subtotal" style="">
+                                        <td name="td_amount_untaxed_label">
+                                            <strong>Montant HT</strong>
+                                        </td>
+                                        <td name="td_amount_untaxed" class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr style="">
+                                            <t t-if="amount_by_group[5] == 1 and o.amount_untaxed == amount_by_group[2]">
+                                                <td name="td_amount_by_group_label_3">
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                    <span>&amp;nbsp;<span>sur</span>&amp;nbsp;
+                                                        <t t-esc="amount_by_group[2]"
+                                                           t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'/>
+                                                    </span>
+                                                </td>
+                                                <td name="td_amount_by_group_3" class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[1]"
+                                                          t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td name="td_amount_by_group_label">
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                </td>
+                                                <td name="td_amount_by_group" class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[1]"
+                                                          t-options='{"widget": "monetary", "display_currency": o.pricelist_id.currency_id}'/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black o_total">
+                                        <td name="td_amount_total_label">
+                                            <strong>Total TTC</strong>
+                                        </td>
+                                        <td name="td_amount_total" class="text-right">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="oe_structure"/>
+
+                    <p t-field="o.note"/>
+
+                    <br/>
+                    <div class="row mt32" style="padding-left:30px">
+                        <p>
+                            <strong>Nos prix sont établis sur la base des taux de TVA en vigueur à la date
+                                d'établissement du devis.
+                                Toute variation ultérieure de ces taux, imposé par la loi, sera répercutée au client
+                                sur les prix de règlement.
+                            </strong>
+                        </p>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="report_saleorder_first">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="gecop_model_reports.sale_order_report_1" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

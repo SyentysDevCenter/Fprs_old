@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="edit_project_inherited_report" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.report</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+               <notebook position="inside">
+                   <page name="finance" string="Résumé financier">
+                       <group>
+                           <field name="marge_souhaite"/>
+                           <field name="montant_marche_actualise"/>
+                           <field name="revenu_prevu_amount"/>
+                           <field name="initial_cost"/>
+                           <field name="initial_income"/>
+                       </group>
+<!--                       <group invisible="1">-->
+<!--                           <group>-->
+<!--                               <field name="cost_amount"/>-->
+<!--                               <field name="revenu_amount"/>-->
+
+<!--                               <field name="prix_revient_marge"/>-->
+<!--                               <field name="marge"/>-->
+<!--                               <field name="marge_reelle"/>-->
+<!--                               <field name="coef_vente"/>-->
+<!--                           </group>-->
+<!--                           <group >-->
+<!--                               <field name="revenu_prevu_amount"/>-->
+<!--                               <field name="cost_prevu_amount" invisible="1"/>-->
+<!--                               <field name="montant_marche_actualise"  width="290" />-->
+<!--                               <field name="percent_invoice" />-->
+<!--                               <field name="to_invoice_amount" />-->
+
+<!--                           </group>-->
+
+<!--                       </group>-->
+
+
+                   </page>
+               </notebook>
+
+            </field>
+        </record>
+<record id="account_analytic_line_journal_form_view" model="ir.ui.view">
+            <field name="name">account.analytic.line.journal.view.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form" />
+            <field name="arch" type="xml">
+                <field name="general_account_id" position="before">
+                    <field name="account_journal_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

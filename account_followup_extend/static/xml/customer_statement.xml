@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <template xml:space="preserve">
+     <t t-extend="CustomerStatements.buttons">
+        <t t-jquery=".o_account_followup_manual_action_button" t-operation="after">
+            <button id="oe_consult_partner_account_move_line" type="button" class="btn btn-primary oe_consult_partner_account_move_line">
+                    CONSULTER LES ÉCRITURES COMPTABLES
+            </button>
+        </t>
+    </t>
+  </template>

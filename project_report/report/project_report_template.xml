@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="financier_report_document">
+            <div class="page">
+                <h4 style="text-align:center;">Analyse financière</h4>
+                <h4 style="text-align:center;">
+                    <span t-field="doc.name"/>
+                    -[<span t-field="doc.partner_id.name"/>]
+                </h4>
+                <h4>Analyse détaillée</h4>
+                <table class="table table-bordered" style="table-layout: fixed">
+                    <!--		                <thead>-->
+                    <!--			                <tr>-->
+                    <!--				                <th  class="text-center" style="width=50%;">Coûts</th>-->
+                    <!--				                <th  class="text-center"  style="width=50%;">Ventes</th>-->
+                    <!--			                </tr>-->
+                    <!--		                </thead>-->
+                    <tbody>
+                        <tr>
+                            <th class="text-center" style="width=50%;">Coûts</th>
+                            <th class="text-center" style="width=50%;">Ventes</th>
+                        </tr>
+                        <!-- Rubrique montant initial-->
+                        <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Coût Initial
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="initial_amounts.get('initial_cost')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td>
+                            <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                           Revenue Initial
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="initial_amounts.get('initial_income')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique facture client/fournisseur-->
+                        <tr>
+                            <td>Factures Fournisseurs</td>
+                            <td>Factures Client</td>
+                        </tr>
+                        <tr>
+                            <!--<t t-set="vendor_invoice" t-value="facture_fournisseur.get(doc.id).get('detail')"/>-->
+                            <t t-set="vendor_invoice" t-value="facture_fournisseur.get(doc.id).get('detail')"/>
+                            <!--<t t-set="customer_invoice" t-value="facture_client.get(doc.id).get('detail')"/>-->
+                            <t t-set="customer_invoice" t-value="facture_client.get(doc.id).get('detail')"/>
+                            <t t-set="expences" t-value="expense_dict.get(doc.id).get('detail')"/>
+                            <t t-set="divers" t-value="divers_dict.get(doc.id).get('detail')"/>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr t-foreach="vendor_invoice" t-as="inv">
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            <t t-esc="inv.get('text')"/>
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="inv.get('amount')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr t-foreach="customer_invoice" t-as="inv">
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            <t t-esc="inv.get('text')"/>
+                                        </td>
+                                        <td style="border: none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="inv.get('amount')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <t t-set="soustraitant_invoice"
+                                   t-value="facture_soustraitant.get(doc.id).get('detail')"/>
+
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Factures fournisseur
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="facture_fournisseur.get(doc.id).get('total_ht')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Factures client
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="facture_client.get(doc.id).get('total_ht')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+
+
+                        </tr>
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique avoir client / fournisseur-->
+                        <tr>
+                                <td>Avoir Fournisseurs</td>
+                                <td>Avoir Client</td>
+                        </tr>
+                        <tr>
+                            <t t-set="customer_invoice_refund" t-value="avoir_client.get(doc.id).get('detail')"/>
+                            <t t-set="vendor_invoice_refund" t-value="avoir_fournisseur.get(doc.id).get('detail')"/>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr t-foreach="vendor_invoice_refund" t-as="inv">
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            <t t-esc="inv.get('text')"/>
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="inv.get('amount')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr t-foreach="customer_invoice_refund" t-as="inv">
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            <t t-esc="inv.get('text')"/>
+                                        </td>
+                                        <td style="border: none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="inv.get('amount')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <t t-set="soustraitant_invoice"
+                                   t-value="facture_soustraitant.get(doc.id).get('detail')"/>
+
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Avoirs fournisseur
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="avoir_fournisseur.get(doc.id).get('total_ht')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Avoirs client
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="avoir_client.get(doc.id).get('total_ht')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique Factures Sous-traitant-->
+                        <tr>
+                            <td>Factures Sous-traitant</td>
+                            <td></td>
+                        </tr>
+                        <t t-if="soustraitant_invoice">
+                            <tr>
+                                <td>
+                                    <table class="table" style="border:none !important;font-size:0.8rem;">
+                                        <tr t-foreach="soustraitant_invoice" t-as="inv">
+                                            <td style="border:  none !important;padding:0; margin:0;">
+                                                <t t-esc="inv.get('text')"/>
+                                            </td>
+                                            <td style="border:  none !important;padding:0; margin:0;"
+                                                class="text-right">
+                                                <t t-esc="inv.get('amount')"
+                                                   t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Factures Sous-traitant
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="facture_soustraitant.get(doc.id).get('total_ht')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique Total main d'oeuvre-->
+                        <tr>
+                                <td>
+                                    <table class="table" style="border:none !important;font-size:0.8rem;">
+                                        <tr>
+                                            <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                                Total main d'oeuvre -
+                                                <t t-esc="timesheet_dict.get(doc.id).get('total_h',0)"
+                                                   t-options='{"widget": "float", "precision": 2}'/>heures
+                                            </td>
+                                            <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                                <t t-esc="timesheet_dict.get(doc.id).get('total_amount', 0)"
+                                                   t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                                <td></td>
+                            </tr>
+                        <t t-if="expences">
+                            <tr>
+                                <td>
+                                    <table class="table" style="border:none !important;font-size:0.8rem;">
+                                        <tr t-foreach="expences" t-as="exp">
+                                            <td style="border:  none !important;padding:0; margin:0;">
+                                                <t t-esc="exp"/>
+                                            </td>
+                                            <td style="border:  none !important;padding:0; margin:0;"
+                                                class="text-right">
+                                                <t t-esc="expences.get(exp)"
+                                                   t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                                <td></td>
+                            </tr>
+                        </t>
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique Frais chantier-->
+                        <!--
+                        <tr>
+                                <td>
+                                    <table class="table" style="border:none !important;font-size:0.8rem;">
+                                        <tr>
+                                            <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                                Frais chantier
+                                            </td>
+                                            <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                                <t t-esc="expense_dict.get(doc.id).get('total')"
+                                                   t-options='{"widget": "float", "precision": 2}'/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                                <td></td>
+                            </tr> -->
+                         <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            Frais chantier
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr t-foreach="divers" t-as="exp">
+                                        <td style="border:  none !important;padding:0; margin:0;">
+                                            <t t-esc="exp"/>
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="divers.get(exp)" t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </td>
+                            <td></td>
+                        </tr>
+
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique Frais divers-->
+                        <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Frais chantier
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="divers_dict.get(doc.id).get('total')"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <!-- Fin rubrique -->
+
+                        <!-- Rubrique Total des dépenses-->
+                        <tr>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Total des dépenses:
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="total_cost_ht.get(doc.id)"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                            <td>
+                                <table class="table" style="border:none !important;font-size:0.8rem;">
+                                    <tr>
+                                        <td style="border:  none !important;padding:0; margin:0;text-decoration:underline;">
+                                            Total revenu:
+                                        </td>
+                                        <td style="border:  none !important;padding:0; margin:0;" class="text-right">
+                                            <t t-esc="total_sale_ht.get(doc.id)"
+                                               t-options='{"widget": "float", "precision": 2}'/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Fin rubrique -->
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <tr>
+                        <!--			                <td><strong>Prix de revient margé</strong></td>-->
+                        <!--			                <td class="text-right"><t t-esc="prix_revient_marge.get(doc.id)"-->
+                        <!--			                       t-options='{"widget": "float", "precision": 2}'/></td>-->
+                        <td>
+                            <strong>Montant du marché de base</strong>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="doc.budget_ht"/>
+                            <!--				                <t t-esc="revenu_prevu_amount.get(doc.id)"-->
+                            <!--			                       t-options='{"widget": "float", "precision": 2}'/>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--			                <td>-->
+                        <!--				                <strong>Marge (Vente - prix de revient)</strong></td>-->
+                        <!--			                <td class="text-right"><t t-esc="total_sale.get(doc.id) - prix_revient_marge.get(doc.id)"-->
+                        <!--			                       t-options='{"widget": "float", "precision": 2}'/></td>-->
+                        <td>
+                            <strong>Montant du marché actualisé</strong>
+                        </td>
+                        <td class="text-right">
+                            <t t-esc="doc.montant_marche_actualise" t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--			                <td><strong>Marge réelle (Ventes - coûts)</strong></td>-->
+                        <!--			                <td class="text-right"><t t-esc="total_sale.get(doc.id) - total_cost.get(doc.id)"-->
+                        <!--			                       t-options='{"widget": "float", "precision": 2}'/></td>-->
+                        <td>
+                            <strong>% de facturation</strong>
+                        </td>
+                        <td class="text-right">
+                            <t t-esc="percent_invoice.get(doc.id)"
+                               t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Coefficient de vente</strong>
+                        </td>
+                        <td class="text-right">
+                            <t t-esc="coef_vente.get(doc.id)"
+                               t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Reste à facturer</strong>
+                        </td>
+                        <td class="text-right">
+                            <t t-esc="doc.budget_ht -total_sale_ht.get(doc.id)"
+                               t-options='{"widget": "float", "precision": 2}'/>
+                        </td>
+                        <!--				                <t t-esc="revenu_prevu_amount.get(doc.id) - total_sale.get(doc.id)"-->
+                        <!--			                       t-options='{"widget": "float", "precision": 2}'/></td>-->
+                    </tr>
+
+                </table>
+
+            </div>
+        </template>
+        <template id="financier_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.internal_layout">
+                        <t t-call="project_report.financier_report_document" t-lang="doc.partner_id.lang"/>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="gecop_report_internal" inherit_id="web.internal_layout">
+            <xpath expr="//div[hasclass('row')]//div[hasclass('col-3')]//span" position="replace">
+                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

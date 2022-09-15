@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="edit_project_inherited_wbs" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.wbs</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+               <button name="attachment_tree_view" position="before">
+                   <button class="oe_stat_button" type="object" name="get_wbs_tree_view" icon="fa-folder">
+                                    <field string="WBS" name="wbs_count" widget="statinfo"/>
+                                </button>
+
+                    <button type="object" string="Gantt"
+                                name="action_open_gantt" icon="fa-tasks">
+                            </button>
+               </button>
+
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

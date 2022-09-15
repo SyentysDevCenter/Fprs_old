@@ -1,0 +1,14 @@
+<odoo>
+    <record id="report_ts" model="ir.actions.report">
+        <field name="name">Rapport TS</field>
+        <field name="model">ts.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rapport_ts._report_ts</field>
+        <field name="report_file">rapport_ts._report_ts</field>
+        <field name="paperformat_id" ref="rapport_ts.report_ts_format"/>
+        <field name="print_report_name">'Rapport TS</field>
+        <field name="binding_model_id"
+               ref="rapport_ts.model_ts_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

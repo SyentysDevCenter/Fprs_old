@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+        <record id="sale.menu_sale_invoicing" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>
+        </record>
+<!--        <record id="sale.sale_order_menu" model="ir.ui.menu">-->
+<!--            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>-->
+<!--        </record>-->
+<!--    <record id="sale.menu_sale_order" model="ir.ui.menu">-->
+<!--            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>-->
+<!--        </record>-->
+    <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>
+        </record>
+    <record id="sale.res_partner_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>
+        </record>
+
+    <record id="sale_fsm_extend.menu_quotations_depannage_2" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account_extend.group_acces_factures_client'))]"/>
+        </record>
+
+
+
+
+
+
+</odoo>

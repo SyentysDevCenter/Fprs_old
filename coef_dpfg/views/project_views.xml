@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit project project form -->
+        <record id="edit_project_inherited_coef" model="ir.ui.view">
+            <field name="name">project.project.form.coef</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="analytic_account_id" position="before">
+                    <field name="coef"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Inherit project wbs form -->
+        <record id="project_wbs_form_view_inherited_coef" model="ir.ui.view">
+            <field name="name">project.wbs.form.coef</field>
+            <field name="model">project.wbs</field>
+            <field name="inherit_id" ref="project_wbs.project_wbs_form_view"/>
+            <field name="arch" type="xml">
+                <field name="total_price" position="before">
+                    <field name="coef"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

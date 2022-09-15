@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="modalite_paiments_action" model="ir.actions.act_window">
+        <field name="name">Modalités de paiement</field>
+        <field name="res_model">modalite.paiement</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <menuitem id="modalite_paiements_menu"
+              action="modalite_paiments_action"
+              sequence="5"
+              parent="account.menu_finance_receivables"
+              name="Modalités de paiement"/>
+
+
+    <record model="ir.ui.view" id="modalite_payment_form_view">
+        <field name="name">modalite.payment.form</field>
+        <field name="model">modalite.paiement</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                <group>
+                    <field name="name"/>
+                </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="modalite_payment_tree_view">
+        <field name="name">modalite.payment.tree</field>
+        <field name="model">modalite.paiement</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+
+        </field>
+    </record>
+
+</odoo>

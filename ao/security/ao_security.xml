@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+
+        <record model="ir.module.category" id="module_category_ao">
+                <field name="name">Appel d'offre</field>
+                <field name="description">AO</field>
+                <field name="sequence">8</field>
+        </record>
+        <record model="ir.module.category" id="module_category_ao_workflow">
+                <field name="name">Workflow des appels d'offre</field>
+                <field name="description">Workflow des appels d'offre</field>
+                <field name="sequence">8</field>
+        </record>
+
+        <record id="group_ao_user" model="res.groups">
+            <field name="name">Utilisateur AO</field>
+            <field name="category_id" ref="module_category_ao"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+        <record id="group_ao_resp" model="res.groups">
+            <field name="name">Responsable AO</field>
+            <field name="category_id" ref="module_category_ao"/>
+            <field name="implied_ids" eval="[(4, ref('group_ao_user'))]"/>
+        </record>
+
+        <record id="group_ao_admin" model="res.groups">
+            <field name="name">Administrateur AO</field>
+            <field name="category_id" ref="module_category_ao"/>
+            <field name="implied_ids" eval="[(4, ref('group_ao_resp'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_soumettre_AO" model="res.groups">
+            <field name="name">Soumettre les appels d'offres</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+
+        </record>
+         <record id="group_valider_AO" model="res.groups">
+            <field name="name">Valider les appels d'offres</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+
+        </record>
+        <record id="group_refuser_AO" model="res.groups">
+            <field name="name">Refuser les appels d'offres</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_recuperer_cps" model="res.groups">
+            <field name="name">Recupérer les CPS</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+         <record id="group_validation_finale" model="res.groups">
+            <field name="name">Validation finale des appels d'offre</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_abandonner_ao" model="res.groups">
+            <field name="name">Abandonner les appels d'offre</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_traitement_ao" model="res.groups">
+            <field name="name">Traiter les appels d'offre</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_soumission_ao" model="res.groups">
+            <field name="name">Valider la soumission des appels d'offre</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_abandon_ao_apres_traitement" model="res.groups">
+            <field name="name">Abandonner les appels d'offre apres traitement</field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_depos_ao" model="res.groups">
+            <field name="name">déposer les appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_resultat_financier_ao" model="res.groups">
+            <field name="name">Spécifier le resultat final des appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+         <record id="group_validation_regelement_ao" model="res.groups">
+            <field name="name">Valider les règlement des appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+        <record id="group_validation_checklist_ao" model="res.groups">
+            <field name="name">Valider les checklists des appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <record id="group_validation_administratif_ao" model="res.groups">
+            <field name="name">Validation administrative des appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+         <record id="group_validation_technique_ao" model="res.groups">
+            <field name="name">Validation technique des appels d'offre </field>
+            <field name="category_id" ref="module_category_ao_workflow"/>
+             <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+    </data>
+
+</odoo>

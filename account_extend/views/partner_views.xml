@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Facturation">
+                        <sheet>
+                            <group>
+                                    <group>
+                                        <field name="display_parent_on_invoice" invisible="1"/>
+                                                  <field name="use_partner_shipping_id"/>
+                                    </group>
+
+                            </group>
+                            <group>
+                                <field name="type_facturation"/>
+                                <field name="texte_facturation"/>
+                            </group>
+                        </sheet>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_category_form" model="ir.ui.view">
+            <field name="name">Contact Tags</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_form"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="analytic_tag_id"/>
+                    <field name="irremovable" invisible="1"/>
+                </field>
+            </field>
+        </record>
+        <record id="account_analytic_tag_form_view" model="ir.ui.view">
+            <field name="name">account.analytic.tag.form</field>
+            <field name="model">account.analytic.tag</field>
+            <field name="inherit_id" ref="analytic.account_analytic_tag_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="irremovable" invisible="1"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

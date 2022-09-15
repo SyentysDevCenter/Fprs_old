@@ -1,0 +1,9 @@
+
+.nav-link{
+    background-color:#4fc3a3 !important;
+    color: #0c0b0b !important;
+     font-weight: bold;
+}
+.nav-link.active {
+    color:white !important;
+}

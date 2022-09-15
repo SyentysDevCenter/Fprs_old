@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_inherit_account_move_project_form" model="ir.ui.view">
+            <field name="name">view.inherit.account.move.project.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <field name="amount_untaxed" position="before">
+                    <field name="all_total_ht"/>
+                    <field name="total_gr"/>
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

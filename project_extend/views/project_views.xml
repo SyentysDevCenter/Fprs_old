@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit kanban View to Modify it -->
+        <record id="view_inherit_gecop_form" model="ir.ui.view">
+            <field name="name">view.inherit.gecop.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[hasclass('o_project_kanban_boxes')]//a[hasclass('o_project_kanban_box')]"
+                       position="before">
+
+                    <a class="o_project_kanban_box" name="open_current_project" type="object"></a>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="project_invoice_form_inherited_extend" model="ir.ui.view">
+            <field name="name">project.project.form.hr_timesheet.inherited.extend</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="hr_timesheet.project_invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="allow_timesheets" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="allow_timesheets" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+
+            </field>
+        </record>
+
+        <record id="edit_project_inherited_pmo_extend" model="ir.ui.view">
+            <field name="name">project.project.form.inherited.extend</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <button name="attachment_tree_view" position="before">
+                    <button class="oe_stat_button" type="object" name="get_budget_project_view" icon="fa-usd">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="analytic_budget_count"/>
+                            </span>
+                            <span class="o_stat_text">Prévu</span>
+                        </div>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="get_cost_project_view" icon="fa-usd">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="analytic_cost_count"/>
+                            </span>
+                            <span class="o_stat_text">Réel</span>
+                        </div>
+                    </button>
+                </button>
+                <xpath expr="//div[hasclass('oe_chatter')]//field[@name='message_follower_ids']" position="after">
+                    <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </xpath>
+
+                <field name="user_id" position="after">
+                    <field name="numero_marche"/>
+                </field>
+                <field name="partner_id" position="after">
+                    <field name="budget_ht"/>
+                    <field name="budget_ttc"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="conducteur_travaux_id"/>
+                    <button name="action_open_maj_conducteur_wizard" type="object"
+                            groups="project_extend.group_update_conducteur_travaux"
+                            string="METTRE À JOUR LES ÉCRITURES ANALYTIQUES"
+                            icon="fa-pencil"/>
+                    <field name="bailleur_id"/>
+                </field>
+                <field name="label_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <label for="label_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+            </field>
+        </record>
+
+
+        <record id="project_project_view_tree" model="ir.ui.view">
+            <field name="name">project.project.tree.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">create_date desc</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="create_date"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="project_project_view_inherit_project_filter" model="ir.ui.view">
+            <field name="name">project.project.select.inherit.project</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="description"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

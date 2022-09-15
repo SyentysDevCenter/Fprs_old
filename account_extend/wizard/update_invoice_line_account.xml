@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="update_invoice_line_account_wizard_view">
+            <field name="name">update.invoice.line.account.wizard.view</field>
+            <field name="model">update.invoice.line.account</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+	                    <group>
+		                    <field name="invoice_line_id" readonly="1" force_save="1"/>
+		                    <field name="old_account_id"/>
+		                    <field name="new_account_id" required="True"/>
+	                    </group>
+                    </sheet>
+	                <footer>
+                        <button name="update_account" string="Corriger le compte" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        <button string="FERMER" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+	     <record id="update_invoice_line_account_wizard_action" model="ir.actions.act_window">
+        <field name="name">Corriger le compte</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">update.invoice.line.account</field>
+        <field name="binding_model_id" ref="account.model_account_move_line"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    </data>
+</odoo>

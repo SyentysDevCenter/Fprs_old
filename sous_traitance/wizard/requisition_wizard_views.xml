@@ -1,0 +1,46 @@
+<odoo>
+
+
+    <record id="purchase_requisition_wizard" model="ir.ui.view">
+        <field name="name">purchase.requisition.wizard</field>
+        <field name="model">purchase.requisition.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="supplier_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button name="create_purchase_requisition" string="Créer" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+
+    </record>
+
+
+      <record id="purchase_requisition_create_action" model="ir.actions.act_window">
+            <field name="name">Commande de sous traitance</field>
+            <field name="res_model">purchase.requisition.wizard</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">new</field>
+        </record>
+     <record id="so_purchase_requisition_create_action" model="ir.actions.act_window">
+            <field name="name">Commande de sous traitance</field>
+            <field name="res_model">purchase.requisition.wizard</field>
+            <field name="view_mode">form,tree</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+        </record>
+
+        <act_window id="so_purchase_requisition_create_action"
+                    name="Commande de sous traitance"
+                    res_model="purchase.requisition.wizard"
+                    binding_model="sale.order"
+                    binding_views="list"
+                    view_mode="form,tree"
+                    target="new"/>
+
+
+
+</odoo>

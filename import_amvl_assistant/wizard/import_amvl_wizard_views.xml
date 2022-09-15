@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="import_amvl_assistant_action" model="ir.actions.act_window">
+            <field name="name">Importer les écritures comptables</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move.line.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="account_move_line_import_wizard_form" model="ir.ui.view">
+            <field name="name">account.move.line.import.wizard.form</field>
+            <field name="model">account.move.line.import.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="file"/>
+                            <field name="executed" invisible="1"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Log" attrs="{'invisible':[('file','=', False)]}">
+                            <field name="erreur_ids" readonly="1">
+                                <tree readonly="1">
+                                    <field name="ligne"/>
+                                    <field name="erreur"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+
+                    <footer>
+                        <button string="TESTER L'IMPORT" name="test" type="object"
+                                class="oe_link"/>
+                        <button string="SUPPRIMER LOG" name="del_log" type="object"
+                                class="oe_link"/>
+                        <button string="IMPORTER" attrs="{'invisible':[('executed','=', True)]}" name="import_account_move_line" type="object" class="oe_highlight"/>
+                        <button string="lettrer" attrs="{'invisible':[('executed','=', True)]}" name="reconcile_imported_move_lines" type="object" class="oe_highlight"/>
+                        <button string="Valider" attrs="{'invisible':[('executed','=', True)]}" name="post_moves" type="object" class="oe_highlight"/>
+                        <button string="ANNULER" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <menuitem id="amvl_import_menu" name="Importer des écritures comptables" sequence="1"
+                  parent="account.menu_finance_configuration"
+                  groups="import_amvl_assistant.access_import_amvl_assistant" action="import_amvl_assistant_action"/>
+
+
+    </data>
+</odoo>

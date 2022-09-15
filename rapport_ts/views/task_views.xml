@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ <record id="task_view_pmo" model="ir.ui.view">
+            <field name="name">task.view.pmo</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="absence"/>
+                    <field name="intemperie"/>
+                </field>
+            </field>
+        </record>
+</odoo>

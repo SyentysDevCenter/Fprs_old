@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payroll_wizard,access.payroll.wizard,payroll_assistant.model_payroll_wizard,base.group_user,1,1,1,1
+access_payroll_wizard_error,access.payroll.wizard.error,payroll_assistant.model_payroll_wizard_error,base.group_user,1,1,1,1

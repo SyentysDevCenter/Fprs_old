@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_credit_bail" model="ir.cron">
+            <field name="name">Credit bail</field>
+            <field name="model_id" ref="credit_bail.model_account_credit_bail"/>
+            <field name="state">code</field>
+            <field name="code">model.create_account_move()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="nextcall"  eval="(DateTime.now()).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+    </data>
+</odoo>

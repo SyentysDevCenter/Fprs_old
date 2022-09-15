@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_wbs_sale_user,project_wbs_relation_sale,project_wbs.model_project_wbs,sales_team.group_sale_salesman,1,0,0,0

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Cost type tree view -->
+
+        <record id="wbs_cost_type_view_tree" model="ir.ui.view">
+            <field name="name">Types de dépense</field>
+            <field name="model">wbs.cost.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Types" editable="bottom">
+                    <field name="name"/>
+                    <field name="model_id"/>
+                    <field name="field_id" domain="[('model_id', '=', model_id),('ttype', 'in', ('float', 'integer', 'monetary'))]"/>
+                    <field name="account_field_id" domain="[('model_id', '=', model_id)]" />
+                    <field name="product_field_id" domain="[('model_id', '=', model_id)]" />
+                    <field name="account_id" attrs="{'readonly': [('account_field_id', '=', True)]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Cost type form view -->
+
+        <record id="wbs_cost_type_view_form" model="ir.ui.view">
+            <field name="name">Types de dépense</field>
+            <field name="model">wbs.cost.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Types">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="field_id" domain="[('model_id', '=', model_id), ('ttype', 'in', ('float', 'integer'))]"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WBS SDP tree view -->
+
+        <record id="wbs_cost_line_view_tree" model="ir.ui.view">
+            <field name="name">SDP</field>
+            <field name="model">wbs.cost.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="SD" editable="bottom">
+                    <!--<field name="wbs_id"/>-->
+                    <field name="reference"/>
+                    <field name="qty" sum="total"/>
+                    <field name="unit_cost"/>
+                    <field name="cost" sum="total"/>
+                    <field name="type_id"/>
+                    <field name="account_id"/>
+                    <field name="product_id"/>
+                    <field name="date"/>
+                    <field name="analytic_line_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- WBS SDP form view -->
+        <record id="wbs_cost_line_view_form" model="ir.ui.view">
+            <field name="name">SDP</field>
+            <field name="model">wbs.cost.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="SD" editable="bottom">
+                    <sheet>
+                        <group>
+                            <field name="wbs_id"/>
+                            <field name="reference"/>
+                            <field name="qty"/>
+                            <field name="unit_cost"/>
+                            <field name="cost"/>
+                            <field name="type_id"/>
+                            <field name="account_id"/>
+                            <field name="product_id"/>
+                            <field name="date"/>
+                            <field name="analytic_line_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- WBS SDP smart button -->
+
+        <record id="view_wbs_form_sdp" model="ir.ui.view">
+            <field name="name">view.wbs.form.sdp</field>
+            <field name="model">project.wbs</field>
+            <field name="inherit_id" ref="project_wbs.project_wbs_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button string="Valider SDP" type="object" name="validate_sdp" class="btn-primary" attrs="{'invisible': ['|',('spd_validated', '=', True),('has_childs', '=', True)]}"/>
+                        <button string="Editer SDP" type="object" name="edit_sdp" class="btn-primary" attrs="{'invisible': ['|',('spd_validated', '=', False),('has_childs', '=', True)]}"/>
+                        <field name="has_childs" invisible="1"/>
+                    </header>
+                </xpath>
+                <button name="get_tasks" position="after">
+                            <button type="object" string="SDP"
+                                name="action_open_sdp" icon="fa-sitemap" attrs="{'invisible': [('has_childs', '=', True)]}">
+                            </button>
+                            <field name="has_childs" invisible="1"/>
+                </button>
+                <xpath expr="//group/field[@name='total_price']" position="after">
+                    <field name="spd_validated"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

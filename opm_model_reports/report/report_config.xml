@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="opm_invoice_med_report" model="ir.actions.report">
+            <field name="name">Factures MEUDON</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">opm_model_reports.report_opm_invoice_meudon</field>
+            <field name="report_file">opm_model_reports.report_opm_invoice_meudon</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'Facture MEUDON - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+</odoo>

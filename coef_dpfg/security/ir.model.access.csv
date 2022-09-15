@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_project,coef_dpfg.project_project,model_project_project,base.group_user,1,1,1,1
+access_project_wbs,coef_dpfg.project_wbs,model_project_wbs,base.group_user,1,1,1,1
+access_wbs_cost_line,coef_dpfg.wbs_cost_line,model_wbs_cost_line,base.group_user,1,1,1,1

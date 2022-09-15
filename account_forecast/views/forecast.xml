@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.actions.act_window" id="analytic.account_analytic_line_action_entries">
+            <field name="context">{'type': 'a','default_type': 'a'}</field>
+            <field name="domain">['|', ('type','=','a'), ('type','=',False)]</field>
+            <field name="view_mode">tree,kanban,form,graph,pivot</field>
+        </record>
+
+
+        <record id="action_forecast_account_analytic_journal_open_form" model="ir.actions.act_window">
+            <field name="name">Prévu</field>
+            <field name="res_model">account.analytic.line</field>
+
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'type': 'f','default_type': 'f'}</field>
+            <field name="domain">['|', ('type','=','f'), ('type','=',False)]</field>
+        </record>
+        <menuitem
+            action="action_forecast_account_analytic_journal_open_form"
+            id="account_forecast_analytic_journal_entries"
+            parent="account.menu_finance_entries"/>
+
+
+        <record id="action_analyse_account_analytic_journal_open_form" model="ir.actions.act_window">
+            <field name="name">Analyse analytique</field>
+            <field name="res_model">account.analytic.line</field>
+            <field name="view_mode">graph,tree</field>
+        </record>
+
+        <menuitem
+            action="action_analyse_account_analytic_journal_open_form"
+            id="account_analyse_analytic_journal_entries"
+            parent="account.menu_finance_entries"/>
+
+
+        <record id="view_forecast_account_analytic_graph" model="ir.ui.view">
+             <field name="name">Analytical BI</field>
+             <field name="model">account.analytic.line</field>
+             <field name="arch" type="xml">
+                 <pivot string="Analyse des entrees analytiques" display_quantity="true">
+                     <field name="type" type="row"/>
+                     <field name="date" interval="month" type="col"/>
+                     <field name="amount" type="measure"/>
+                 </pivot>
+             </field>
+        </record>
+
+
+
+        <record id="account_analytic_line_gen_acc_form_view" model="ir.ui.view">
+            <field name="name">account.analytic.line.gen.acc.view.form</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form" />
+            <field name="arch" type="xml">
+                <field name="general_account_id" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </field>
+<!--                <field name="date" position="after">-->
+<!--                    <field name="gen_account_id"/>-->
+<!--                </field>-->
+            </field>
+        </record>
+
+        <record id="account_analytic_line_gen_acc_tree_view" model="ir.ui.view">
+            <field name="name">account.analytic.line.gen.acc.view.tree</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_tree" />
+            <field name="arch" type="xml">
+                <field name="account_id" position="after">
+                    <field name="general_account_id" />
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

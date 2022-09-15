@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_visite_lieux_user,visite.user,model_visite_lieu,group_visite_lieux_user,1,0,0,0
+access_visite_lieux_resp,visite.resp,model_visite_lieu,group_visite_lieux_resp,1,1,1,1
+access_visite_terrain_user,visite.terrain.user,model_visite_terrain,group_visite_lieux_user,1,0,0,0
+access_visite_terrain_resp,visite.terrain.resp,model_visite_terrain,group_visite_lieux_resp,1,1,1,1

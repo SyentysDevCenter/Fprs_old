@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        
+        <!-- Inherit Form View to Modify it -->
+<!--        <record id="view_inherit_product_gecop_form" model="ir.ui.view">-->
+<!--            <field name="name">view.inherit.product.gecop.form</field>-->
+<!--            <field name="model">product.template</field>-->
+<!--            <field name="inherit_id" ref="product.product_template_only_form_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                -->
+<!--                &lt;!&ndash; position: after|before|replace|attributes|inside &ndash;&gt;-->
+<!--                <field name="generic" position="after">-->
+<!--                    <field name="is_garantie_retenue"/>-->
+<!--                </field>-->
+<!--                -->
+<!--            </field>-->
+<!--        </record>-->
+
+
+        <record id="product_template_form_view_inherit_generic" model="ir.ui.view">
+        <field name="name">product.template.product.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="generic" position="after">
+                <field name="is_garantie_retenue"/>
+            </field>
+        </field>
+      </record>
+    
+    </data>
+</odoo>

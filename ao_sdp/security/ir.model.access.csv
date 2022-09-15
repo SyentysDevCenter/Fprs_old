@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wbs_cost_line_user,wbs_cost_line_user,model_wbs_cost_line,group_manage_sdp,1,1,1,1
+access_wbs_cost_type_user,wbs_cost_type_user,model_wbs_cost_type,group_manage_sdp,1,1,1,1
+acces_project_wbs_wbs_group,project_wbs_wbs_acces,project.model_project_project,project_wbs.group_project_wbs,1,1,1,1

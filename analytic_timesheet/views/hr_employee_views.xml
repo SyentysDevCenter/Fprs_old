@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_employee_form_inherit_analytic" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherited.analytic</field>
+            <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="cost_timesheet"/>
+                </field>
+            </field>
+        </record>
+        <record id="hr_timesheet_line_tree_inherit_analytic" model="ir.ui.view">
+            <field name="name">account.analytic.line.tree.hr_timesheet.inherit.analytic</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="create">false</attribute>
+                </tree>
+            </field>
+        </record>
+        <record id="view_hr_job_form_inherit_cost" model="ir.ui.view">
+            <field name="name">hr.job.form.inherit.cost</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <field name="department_id" position="after">
+                    <field name="cost"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

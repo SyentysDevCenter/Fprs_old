@@ -1,0 +1,124 @@
+<odoo>
+    <template id="page_number">
+        <div class="footer" style="padding-left: 38%; position: relative; background-color: transparent;">
+            <div t-if="report_type == 'pdf'">
+                Par nombre (globale)- Page:
+                <span class="page"/>
+                /
+                <span class="topage"/>
+            </div>
+        </div>
+    </template>
+    <template id="_report_ts">
+        <t t-call="web.basic_layout">
+            <t t-call="rapport_ts.page_number"/>
+
+            <div class="page">
+                <div class="col-12 text-center">
+                    <p style="font-size: 35px;">Analyse de la main-d'oeuvre</p>
+                </div>
+                <div class="col-12 text-center" style="display: inline-block">
+                    <p style="font-size: 35px;">Chantier<![CDATA[&nbsp;]]>
+                        <span t-esc="chantier_name" style="font-size: 38px;"/>
+                    </p>
+                </div>
+                <div class="row" style="font-family:Trebuchet MS">
+                    <div class="row col-12">
+                        <div class="col-9" style="font-size: 20px; font-weight: bold;">
+                            <span t-esc="company" style="font-size: 20px;"/>
+                        </div>
+                        <div style="width: 10%"/>
+                        <div class="row col-3 text-right">
+                            <span style="font-size:14pt;">Le
+                                <span t-esc="today"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="font-family:Trebuchet MS;margin-left:2mm">
+                    <table>
+                        <tr>
+                            <td class="text-left" style="width: 125mm; display: inline-block">
+                                <p><strong>Du</strong><![CDATA[&nbsp;]]>
+                                    <span t-esc="date_start"/><![CDATA[&nbsp;]]>
+                                    <strong>Au</strong><![CDATA[&nbsp;]]>
+                                    <span t-esc="date_end"/>
+                                </p>
+                            </td>
+                            <td class="text-right" style="width: 100mm;">
+                                <!--                                <t t-call="rapport_ts.page_number"/>-->
+
+                            </td>
+
+                        </tr>
+                    </table>
+
+                </div>
+                <table class="table table-sm o_main_table table-bordered">
+                    <thead style="display: table-row-group">
+                        <tr>
+                            <th colspan="2" name="th_salarie" style="border: 2px solid #210600; width: 60mm;"
+                                class="text-left">
+                                Salarié
+                            </th>
+                            <th name="th_h_travaille" class="text-center" style="border: 2px solid #210600;">
+                                H.Travaillées
+                            </th>
+                            <th name="th_h_absence" class="text-center" style="border: 2px solid #210600;">H.Absence
+                            </th>
+                            <th name="th_total_intemperie" class="text-center" style="border: 2px solid #210600;">
+                                H.Intempérie
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="doc">
+                            <tr t-att-class="'font-weight-bold'">
+                                <td class="text-left"
+                                    style="border-left: 2px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['matricule']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-right: 2px solid black; border-top: 1px solid black;">
+                                    <span t-esc="doc['employee_name']"/>
+                                </td>
+                                <td class="text-center"
+                                    style="border-right: 2px solid black; border-top: 1px solid black;">
+                                    <span t-esc="round(doc['heures_travailles'], 2)"/>
+
+                                </td>
+                                <td class="text-center"
+                                    style="border-right: 2px solid black; border-top: 1px solid black;">
+                                    <span t-esc="round(doc['heures_absence'], 2)"/>
+
+                                </td>
+                                <td class="text-center"
+                                    style="border-right: 2px solid black; border-top: 1px solid black;">
+                                    <span t-esc="round(doc['heures_intemperie'], 2)"/>
+                                </td>
+                            </tr>
+
+                        </t>
+
+                        <tr t-att-class="'font-weight-bold'">
+                            <td class="text-right" colspan="2" style="border: 2px solid black; font-size: 25px;">Total
+                            </td>
+                            <td class="text-center" style="border: 2px solid black;">
+                                <span t-esc="round(total_heures_travailles, 2)"/>
+                            </td>
+                            <td class="text-center" style="border: 2px solid black;">
+                                <span t-esc="round(total_heures_absence, 2)"/>
+                            </td>
+                            <td class="text-center" style="border: 2px solid black;">
+                                <span t-esc="round(total_heures_intemperie, 2)"/>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

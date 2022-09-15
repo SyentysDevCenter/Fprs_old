@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_credit_bail_form" model="ir.ui.view">
+            <field name="name">view.credit.bail.form</field>
+            <field name="model">account.credit.bail</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="validate" class="oe_highlight" type="object" string="Validé"  attrs="{'invisible': [('state','in',['validate', 'done', 'cancel'])]}"/>
+                        <button name="action_cancel" class="oe_highlight" type="object" string="Annuler"  attrs="{'invisible': [('state','in',['validate',  'draft '])]}"/>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                    </header>
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button name="get_account_move" type="object"
+                                    class="oe_stat_button" icon="fa-list">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Pièces comptables</span>
+                                </div>
+                            </button>
+                        </div>
+
+
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="nombre_de_mois"/>
+                                <field name="montant"/>
+                                <field name="date_premiere_operation"/>
+                                <field name="date_limite"/>
+                                <field name="date_prochaine_operation" invisible="0" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="journal_id"/>
+                                <field name="account_income_id"/>
+                                <field name="account_bank_id"/>
+                                <field name="project_id"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                     <field name="message_follower_ids"/>
+                     <field name="activity_ids"/>
+                     <field name="message_ids"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_credit_bail_tree" model="ir.ui.view">
+            <field name="name">view.credit.bail.tree</field>
+            <field name="model">account.credit.bail</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="nombre_de_mois"/>
+                    <field name="date_premiere_operation"/>
+                    <field name="date_limite"/>
+                    <field name="montant"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_credit_bail_view" model="ir.actions.act_window">
+            <field name="name">Modèle crédit-bail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.credit.bail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_action_credit_bail"
+                  name="Modèle crédit-bail"
+                  parent="account.menu_finance_entries_management"
+                  action="action_credit_bail_view" groups="credit_bail.group_credit_bail"
+                  sequence="11"/>
+
+
+    </data>
+</odoo>

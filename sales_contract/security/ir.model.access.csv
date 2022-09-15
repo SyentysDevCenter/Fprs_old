@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_sale_contract_user","sale.contract user","model_sale_contract","sales_contract.sale_contract_user",1,0,0,0
+"access_sale_contract_manager","sale.contract manager","model_sale_contract","sales_contract.sale_contract_manager",1,1,1,1
+"access_sale_contract_line_user","sale.contract.line user","model_sale_contract_line","sales_contract.sale_contract_user",1,0,0,0
+"access_sale_contract_line_manager","sale.contract.line manager","model_sale_contract_line","sales_contract.sale_contract_manager",1,1,1,1
+"access_actualisation_prix_contrat","actualisation.prix.contrat","model_actualisation_prix_contrat","sales_contract.group_actualise_contrat",1,1,1,1

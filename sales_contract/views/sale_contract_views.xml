@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+     <record id="sale_contract_form_view" model="ir.ui.view">
+        <field name="name">sale.contract.form</field>
+        <field name="model">sale.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="Validate_contract" type="object" string="Valider le contrat"
+                           states="draft"
+                            groups="sales_contract.sale_contract_manager"
+                    />
+                    <button name="set_contract_to_draft" type="object" string="Remettre en brouillon"
+                           states="confirm"
+                            groups="sales_contract.sale_contract_manager"
+                    />
+
+                    <button name="actualisation" type="object" string="Actualisation"
+                            groups="sales_contract.group_actualise_contrat"
+                    />
+
+                </header>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="customer_id"  attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="pricelist_id"  readonly="1" force_save="1"/>
+                            <field name="contract_actif"/>
+                            <field name="chantier_id" options="{'no_create':1,'no_edit':1}"
+                                   attrs="{'readonly':[('state', '!=', 'draft')]}" domain="[('partner_id', '=',customer_id)]"/>
+
+                        </group>
+                        <group>
+                            <field name="date_start"  attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="date_end"  attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="company_id"  attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            <field name="customer_ids"  widget="many2many_tags" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+
+                        </group>
+
+
+                    </group>
+                    <group>
+                        <field name="commentaire"/>
+                    </group>
+                    <notebook>
+                        <page string="Détail" >
+                            <field name="line_ids" attrs="{'readonly':[('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="type"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="price" attrs="{'invisible':[('type', '=', 'discount')]}"/>
+                                    <field name="discount"  attrs="{'invisible':[('type', '=', 'price')]}" > %%</field>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                </div>
+            </form>
+        </field>
+     </record>
+    <record id="sale_contract_tree_view" model="ir.ui.view">
+        <field name="name">sale.contract.tree</field>
+        <field name="model">sale.contract</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="customer_id"/>
+                <field name="chantier_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+            </tree>
+        </field>
+     </record>
+     <record id="action_sale_contract" model="ir.actions.act_window">
+        <field name="name">Contrat client</field>
+        <field name="res_model">sale.contract</field>
+        <field name="view_mode">tree,form</field>
+         <field name="context">{'search_default_group_customer_id': 1}</field>
+    </record>
+
+
+    <record id="sale_contract_search_view" model="ir.ui.view">
+            <field name="name">contract.search</field>
+            <field name="model">sale.contract</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" />
+                    <field name="customer_id" />
+                    <separator/>
+                     <filter name="group_customer_id" string="Client"
+                            context="{'group_by': 'customer_id'}"/>
+                    <field name="line_ids" string="Article" filter_domain="[('line_ids.product_id', 'ilike', self)]"/>
+
+
+
+
+                </search>
+            </field>
+        </record>
+
+
+    <menuitem id="menu_sale_contract_root" sequence="5" name='Contrats' parent="sale.sale_menu_root" groups="sales_contract.sale_contract_manager"/>
+    <menuitem id="menu_sale_contract" parent="menu_sale_contract_root" action="action_sale_contract"/>
+
+
+
+</odoo>

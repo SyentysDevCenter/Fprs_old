@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_department_form" model="ir.ui.view">
+		<field name="name">hr.department.form</field>
+		<field name="model">hr.department</field>
+		<field name="inherit_id" ref="hr.view_department_form"/>
+		<field name="arch" type="xml">
+			<field name="company_id" position="after">
+				<field name="plombier"/>
+				<field name="charge_affaire"/>
+			</field>
+		</field>
+	</record>
+	<record id="hr_employee_view_form_plombier" model="ir.ui.view">
+		<field name="name">hr.employee.view.form.inherit.plombier</field>
+		<field name="model">hr.employee</field>
+		<field name="inherit_id" ref="hr.view_employee_form"/>
+		<field name="arch" type="xml">
+			<field name="department_id" position="after">
+				<field name="plombier" invisible="1"/>
+				<field name="charge_affaire" invisible="1"/>
+			</field>
+		</field>
+	</record>
+	 <record id="res_users_form_view" model="ir.ui.view">
+            <field name="name">res.users.form.plombier</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//group[@name='messaging']" position="after">
+                        <group name="RH">
+                            <field name="plombier" invisible="1"/>
+                            <field name="charge_affaire" invisible="1"/>
+                        </group>
+                    </xpath>
+            </field>
+        </record>
+</odoo>

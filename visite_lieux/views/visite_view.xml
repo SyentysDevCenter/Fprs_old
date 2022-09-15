@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="visite_form_view" model="ir.ui.view">
+            <field name="name">Visite des lieux</field>
+            <field name="model">visite.lieu</field>
+            <field name="arch" type="xml">
+                <form string="Visite">
+                    <header>
+                        <button name="to_effectue" string="Effectuer" states="nouveau" type="object"
+                                class="oe_highlight"/>
+                        <button name="to_annule" string="Annuler" states="nouveau" type="object"
+                                class="oe_highlight"/>
+                        <field name="state" widget="statusbar" clickable="True"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="objet_visite"/>
+                            <field name="lieu_visite"/>
+                            <field name="type"/>
+                            <field name="date_visite"/>
+                            <field name="user_id" />
+                        </group>
+                        <notebook>
+
+                            <page string="Compte rendu">
+                                <field name="compte_rendu" widget="pdf_viewer"/>
+                            </page>
+                            <page string="Détail">
+
+                                    <field name="observations"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="visite_tree_view" model="ir.ui.view">
+
+            <field name="name">Visite des lieux</field>
+            <field name="model">visite.lieu</field>
+            <field name="arch" type="xml">
+                <tree string="Visites">
+                    <field name="objet_visite"/>
+                    <field name="date_visite"/>
+                    <field name="user_id"/>
+                    <field name="lieu_visite"/>
+                    <field name="type"/>
+                    <field name="observations"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="visite_lieu_action" model="ir.actions.act_window">
+            <field name="name">Visites des lieux</field>
+            <field name="res_model">visite.lieu</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

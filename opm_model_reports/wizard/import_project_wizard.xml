@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="import_project_wizard_action" model="ir.actions.act_window">
+            <field name="name">Assistant d'import projets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">import.project.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Importer les projets" action="import_project_wizard_action"
+                  id="menu_action_import_projects" parent="project.menu_project_config"/>
+
+        <record id="import_project_wizard_form_view" model="ir.ui.view">
+            <field name="name">import.project.wizard.form</field>
+            <field name="model">import.project.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="excel_file"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Erreurs" attrs="{'invisible':[('excel_file','=', False)]}">
+                                <field name="erreur_ids">
+                                    <tree>
+                                        <field name="ligne"/>
+                                        <field name="erreur"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <footer>
+
+                        <button string="IMPORTER" name="import_data" type="object" class="oe_highlight"/>
+                        <button string="TEST" name="test_data" type="object" class="oe_highlight"/>
+                        <button string="CLEAR" name="clear_data" type="object" class="oe_highlight" icon="fa-trash-o"/>
+
+                        <button string="ANNULER" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

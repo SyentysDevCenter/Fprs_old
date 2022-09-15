@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_line_tree_extend" model="ir.ui.view">
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="update_account_lunch_wizard" groups="update_account_account_assistant.access_update_account_assistant" class="oe_highlight" string="MODIFIER LE COMPTE" type="object"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

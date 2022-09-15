@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard of import dpgf -->
+        <record id="import_dpgf_form" model="ir.ui.view">
+            <field name="name">import.dpgf.form</field>
+            <field name="model">import.dpgf</field>
+            <field name="arch" type="xml">
+                <form string="Import">
+                    <group>
+                        <field name="excel_file"/>
+                    </group>
+                    <footer>
+                        <button string="Importer" name="import_data" type="object" class="oe_highlight"/>
+                        <button string="Annuler" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

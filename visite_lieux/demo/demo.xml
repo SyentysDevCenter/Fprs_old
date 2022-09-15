@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="nature_terrain_1" model="visite.terrain">
+            <field name="name">Rocheux</field>
+        </record>
+        <record id="nature_terrain_2" model="visite.terrain">
+            <field name="name">Schisteux</field>
+        </record>
+
+        <record id="visite_lieu_1" model="visite.lieu">
+            <field name="objet_visite">Investigation des lieux</field>
+            <field name="lieu_visite">Chantier</field>
+            <field name="type">collective</field>
+            <field name="date_visite"  eval="(DateTime.today() - relativedelta(days=12)).strftime('%Y-%m-%d %H:%M')"/>
+            <field name="nature_terrain"  ref="nature_terrain_1"/>
+        </record>
+        <record id="visite_lieu_2" model="visite.lieu">
+            <field name="objet_visite">Travaux d’achèvement de la voirie, réseaux divers</field>
+            <field name="lieu_visite">Chantier</field>
+            <field name="type">collective</field>
+            <field name="date_visite"  eval="(DateTime.today() + relativedelta(days=12)).strftime('%Y-%m-%d %H:%M')"/>
+            <field name="nature_terrain"  ref="nature_terrain_2"/>
+        </record>
+
+    </data>
+</odoo>

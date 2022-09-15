@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="product_import_action_import_data" model="ir.actions.act_window">
+            <field name="name">Importer les données</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Import" action="product_import_action_import_data" id="menu_action_import_product_data" parent="sale.product_menu_catalog"/>
+<!--        <menuitem name="Import" action="product_import_action_import_data" id="menu_action_import_product_data" parent="stock.menu_stock_inventory_control" sequence="5"/>-->
+
+</odoo>

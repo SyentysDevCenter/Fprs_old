@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_inherited" inherit_id="account.report_invoice_document">
+        <xpath expr="//address" position="replace">
+            <!--
+            <t t-if="o.partner_id.display_parent_on_invoice">
+                <address t-field="o.partner_id.parent_id"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+            </t>
+            <t t-else="">
+                <address t-field="o.partner_id"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+            </t>
+            -->
+
+
+            <t t-if="o.partner_id.use_partner_shipping_id">
+                <address t-field="o.partner_shipping_id"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+            </t>
+            <t t-else="">
+                <address t-field="o.partner_shipping_id"
+                     t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}'/>
+            </t>
+
+
+        </xpath>
+
+        <xpath expr="//div[@id='qrcode']" position="before">
+            <p t-if="o.partner_text_facturation" name="partner_text_facturation">
+                <span t-field="o.partner_text_facturation"/>
+            </p>
+        </xpath>
+        <xpath expr="//div[@t-if='o.partner_id.vat']" position="after">
+            <div class="row" style="position:relative;">
+                <br/>
+                <t t-if="o.modalite_paiement_id">
+                    <strong>Modalité de paiement :</strong>
+                    <span t-field="o.modalite_paiement_id"></span>
+                </t>
+                <br/>
+                <t t-if="o.n_siret">
+                    <strong>N° de SIRET :</strong>
+                    <span t-field="o.n_siret"/>
+                    <br/>
+                </t>
+                <br/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

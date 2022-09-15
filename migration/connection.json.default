@@ -1,0 +1,23 @@
+{
+    "server": {
+        "host": "localhost",
+        "port": 8069,
+        "protocol": "jsonrpc"
+    },
+    "database": {
+        "db": "gecop",
+        "login": "admin",
+        "password": "a"
+    },
+    "postgres": {
+        "user": "odoo14",
+        "password": "odoo",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "database": "gecop"
+    },
+
+    "path": "C:\\Users\\Lenovo\\Desktop"
+
+
+}

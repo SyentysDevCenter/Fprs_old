@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="project_etat_form_view">
+            <field name="name">project.etat.form</field>
+            <field name="model">project.etat</field>
+            <field name="arch" type="xml">
+                <form string="États de projet">
+                    <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="État..."/>
+                            </h1>
+                        </div>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_etat_tree_view">
+            <field name="name">project.etat.tree</field>
+            <field name="model">project.etat</field>
+            <field name="arch" type="xml">
+                <tree string="États de projet">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="menu_project_etat_action" model="ir.actions.act_window">
+            <field name="name">États de projet</field>
+            <field name="res_model">project.etat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    États de projet
+                </p>
+                <p>
+                    États de projet
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_project_etats"
+                  name="États de projet"
+                  parent="project.menu_project_config"
+                  sequence="1" action="menu_project_etat_action"
+        />
+    </data>
+</odoo>

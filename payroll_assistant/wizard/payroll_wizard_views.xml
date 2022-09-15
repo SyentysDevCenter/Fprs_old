@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="import_payroll_wizard_action" model="ir.actions.act_window">
+            <field name="name">Assistant création pièce comptable paie</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payroll.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="payroll_wizard_form" model="ir.ui.view">
+            <field name="name">payroll.wizard.form</field>
+            <field name="model">payroll.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="file" filename="filename"/>
+                            <field name="filename" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="journal_id" string="Journal" domain="[('type', '=', 'general')]"/>
+                            <field name="date"/>
+                            <field name="no_error" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Log" attrs="{'invisible':[('file','=', False)]}">
+                            <field name="erreur_ids" readonly="1">
+                                <tree readonly="1">
+                                    <field name="ligne"/>
+                                    <field name="erreur"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+
+                    <footer>
+                        <button string="TESTER L'IMPORT" name="test_import" type="object"
+                                class="oe_link"/>
+                        <button string="SUPPRIMER LOG" name="del_log" type="object"
+                                class="oe_link"/>
+                        <button string="IMPORTER" name="import_payroll"
+                                type="object" class="oe_highlight" attrs="{'invisible': [('no_error', '=', False)]}"/>
+                        <button string="ANNULER" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <menuitem id="payroll_assistant_menu_root" name="Paie" sequence="1"
+                  parent="account.menu_finance_configuration"
+                  groups="payroll_assistant.payroll_wizard_access"/>
+        <menuitem id="payroll_assistant_menu" name="Assistant création pièce comptable paie" sequence="1"
+                  parent="payroll_assistant.payroll_assistant_menu_root"
+                  groups="payroll_assistant.payroll_wizard_access" action="import_payroll_wizard_action"/>
+
+
+    </data>
+</odoo>

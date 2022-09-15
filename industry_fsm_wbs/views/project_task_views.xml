@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_task_view_form_fsm_quotation_wbs" model="ir.ui.view">
+        <field name="name">view.form.fsm.inherit.quotation.wbs</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="timesheet_grid.project_task_view_form"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="after">
+                <field name="wbs_fsm_id"/>
+                <field name="lot_id"/>
+            </field>
+
+
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_fsm_wbs" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.wbs</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="wbs_fsm_id" readonly="1" force_save="1" attrs="{'invisible':[('wbs_fsm_id','=', False)]}"/>
+                    <field name="lot_id" readonly="1" force_save="1" attrs="{'invisible':[('lot_id','=', False)]}"/>
+                </field>
+            </field>
+ </record>
+</odoo>

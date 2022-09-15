@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+        <record id="group_company_signature" model="res.groups">
+            <field name="name">Signature de la présidente</field>
+
+        </record>
+
+
+
+
+
+    </data>
+</odoo>

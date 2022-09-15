@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+             <record id="project_task_report_id" model="ir.actions.report">
+            <field name="name">Intervention</field>
+            <field name="model">project.task</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_fsm_extend.intervention_template</field>
+            <field name="report_file">sale_fsm_extend.intervention_template</field>
+            <field name="binding_model_id" ref="model_project_task"/>
+             <field name="print_report_name">'Intervention - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+
+   </data>
+</odoo>

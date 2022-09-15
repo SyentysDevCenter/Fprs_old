@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_credit_bail_credit_bail_resp,credit_bail.credit_bail.resp,model_account_credit_bail,credit_bail.group_credit_bail,1,1,1,1
+access_credit_bail_credit_bail_user,credit_bail.credit_bail.user,model_account_credit_bail,base.group_user,1,0,0,0

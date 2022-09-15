@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_opm_model_reports_opm_model_reports,opm_model_reports.opm_model_reports,model_opm_model_reports_opm_model_reports,base.group_user,1,1,1,1
+access_project_etat,access.project.etat,model_project_etat,base.group_user,1,1,1,1

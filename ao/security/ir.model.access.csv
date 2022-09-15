@@ -1,0 +1,71 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ao_ao_user,ao.user,model_ao_ao,group_ao_user,1,0,0,0
+access_ao_ao_resp,ao.resp.user,model_ao_ao,group_ao_resp,1,1,1,1
+access_ao_checklist_user,"ao.checklist.line user_ao",model_ao_checklist,group_ao_user,1,0,0,0
+access_ao_checklist_resp,"ao.checklist.line resp_ao",model_ao_checklist,group_ao_resp,1,1,1,1
+access_ao_ville_user_ao,ao.ville user_ao,model_ao_ville,group_ao_user,1,0,0,0
+access_ao_ville_admin_ao,ao.ville admin_ao,model_ao_ville,group_ao_admin,1,1,1,1
+access_ao_intervenant_user_ao,ao.intervenant user_ao,model_ao_intervenant,group_ao_user,1,0,0,0
+access_ao_intervenant_resp_ao,ao.intervenant resp_ao,model_ao_intervenant,group_ao_resp,1,1,1,1
+access_account_payment_term_user_ao,account.payment.term user_ao,account.model_account_payment_term,group_ao_user,1,0,0,0
+access_account_payment_term_admin_ao,account.payment.term admin_ao,account.model_account_payment_term,group_ao_admin,1,1,1,1
+access_ao_livrable_demande_user_ao,ao.livrable.demande user_ao,model_ao_livrable_demande,group_ao_user,1,0,0,0
+access_ao_livrable_demande_resp_ao,ao.livrable.demande resp_ao,model_ao_livrable_demande,group_ao_resp,1,1,1,1
+access_ir_attachment_user_ao,ir.attachment user_ao,base.model_ir_attachment,group_ao_user,1,0,0,0
+access_ir_attachment_resp_ao,ir.attachment resp_ao,base.model_ir_attachment,group_ao_resp,1,1,1,1
+access_visite_lieu_user_ao,visite.lieu user_ao,visite_lieux.model_visite_lieu,group_ao_user,1,0,0,0
+access_visite_lieu_resp_ao,visite.lieu resp_ao,visite_lieux.model_visite_lieu,group_ao_resp,1,1,1,1
+access_visite_terrain_user_ao,visite.terrain user_ao,visite_lieux.model_visite_terrain,group_ao_user,1,0,0,0
+access_visite_terrain_resp_ao,visite.terrain resp_ao,visite_lieux.model_visite_terrain,group_ao_resp,1,1,1,1
+access_ao_dossier_user_ao,ao.dossier user_ao,model_ao_dossier,group_ao_user,1,0,0,0
+access_ao_dossier_resp_ao,ao.dossier resp_ao,model_ao_dossier,group_ao_resp,1,1,1,1
+access_ao_dossier_traitement_user_ao,ao.dossier.traitement user_ao,model_dossier_traitement,group_ao_user,1,0,0,0
+access_ao_dossier_traitement_resp_ao,ao.dossier.traitement resp_ao,model_dossier_traitement,group_ao_resp,1,1,1,0
+access_ao_dossier_traitement_admin_ao,ao.dossier.traitement resp_ao,model_dossier_traitement,group_ao_admin,1,1,1,1
+access_res_partner_bank_admin_ao,res_partner_bank admin_ao,base.model_res_partner_bank,group_ao_admin,1,1,1,1
+access_ao_jugement_administratif_user_ao,ao.jugement.administratif user_ao,model_ao_jugement_administratif,group_ao_user,1,0,0,0
+access_ao_jugement_administratif_resp_ao,ao.jugement.administratif resp_ao,model_ao_jugement_administratif,group_ao_resp,1,1,1,1
+access_ao_jugement_technique_user_ao,ao.jugement.technique user_ao,model_ao_jugement_technique,group_ao_user,1,0,0,0
+access_ao_jugement_technique_resp_ao,ao.jugement.technique resp_ao,model_ao_jugement_technique,group_ao_resp,1,1,1,1
+access_ao_motif_rejet_user_ao,ao.motif.rejet user_ao,model_ao_motif_rejet,group_ao_user,1,0,0,0
+access_ao_motif_rejet_admin_ao,ao.motif.rejet admin_ao,model_ao_motif_rejet,group_ao_admin,1,1,1,1
+access_ao_jugement_line_user_ao,"ao.jugement.line user_ao",model_ao_jugement_line,group_ao_user,1,1,0,0
+access_ao_jugement_line_resp_ao,ao.jugement.line resp_ao,model_ao_jugement_line,group_ao_resp,1,1,1,1
+access_ao_concurent_user_ao,ao.concurent user_ao,model_ao_concurent,group_ao_user,1,0,0,0
+access_ao_concurent_admin_ao,ao.concurent admin_ao,model_ao_concurent,group_ao_admin,1,1,1,1
+access_ao_prestation_user_ao,ao.prestation user_ao,model_ao_prestation,group_ao_user,1,1,1,1
+access_dossier_type_document_user_ao,dossier.type.document user_ao,model_dossier_type_document,group_ao_user,1,1,1,1
+access_ao_enveloppe_user_ao,ao.enveloppe user_ao,model_ao_enveloppe,group_ao_user,1,1,1,1
+access_ao_agreement_user_ao,ao.agreement user_ao,model_ao_agreement,group_ao_user,1,1,1,1
+access_ao_cps_change_user_ao,ao.cps.change user_ao,model_ao_cps_change,group_ao_user,1,1,1,0
+access_ao_cps_change_admin_ao,ao.cps.change admin_ao,model_ao_cps_change,group_ao_admin,1,1,1,1
+access_ao_risk_admin_ao,ao.risk admin_ao,model_ao_risk,group_ao_user,1,1,1,1
+access_hr_employee_ao,hr_employee user_ao,hr.model_hr_employee,group_ao_user,1,0,0,0
+access_caution_caution_user,caution_caution user_ao,bank_caution.model_bank_caution_line,group_ao_user,1,0,0,0
+access_caution_caution_resp,caution_caution resp_ao,bank_caution.model_bank_caution_line,group_ao_resp,1,1,1,1
+access_ao_dossier_detail_ao,ao.dossier.detail user_ao,model_ao_dossier_detail,group_ao_user,1,1,1,1
+access_ao_admission_element_ao_user,ao.admission.element user_ao,model_ao_admission_element,group_ao_user,1,0,0,0
+access_ao_admission_ao_user,ao.admission user_ao,model_ao_admission,group_ao_user,1,0,0,0
+access_ao_admission_type_ao_user,ao.admission.type user_ao,model_ao_admission_type,group_ao_user,1,0,0,0
+access_ao_evaluation_ao_user,ao.evalution user_ao,model_ao_evaluation,group_ao_user,1,0,0,0
+access_ao_evaluation_element_ao_user,ao.evaluation.element user_ao,model_ao_evaluation_element,group_ao_user,1,0,0,0
+access_ao_admission_element_ao_resp,ao.admission.element resp_ao,model_ao_admission_element,group_ao_resp,1,1,1,1
+access_ao_evaluation_element_ao_resp,ao.evaluation.element resp_ao,model_ao_evaluation_element,group_ao_resp,1,1,1,1
+access_ao_admission_ao_resp,ao.admission resp_ao,model_ao_admission,group_ao_resp,1,1,1,1
+access_ao_admission_type_ao_resp,ao.admission.type resp_ao,model_ao_admission_type,group_ao_resp,1,1,1,1
+access_ao_evaluation_ao_resp,ao.evalution resp_ao,model_ao_evaluation,group_ao_resp,1,1,1,1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

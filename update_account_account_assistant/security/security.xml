@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="access_update_account_assistant" model="res.groups">
+        <field name="name">Modifier le compte des opérations diverses comptabilisées</field>
+        <field name="category_id" ref="base.module_category_administration"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

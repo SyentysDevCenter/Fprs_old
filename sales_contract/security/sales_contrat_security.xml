@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record model="ir.module.category" id="sales_contract.module_sale_contract">
+            <field name="name">Contrat de vente</field>
+            <field name="sequence">8</field>
+        </record>
+        <record id="sale_contract_user" model="res.groups">
+            <field name="name">Utilisateur</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="sales_contract.module_sale_contract"/>
+        </record>
+        <record id="sale_contract_manager" model="res.groups">
+            <field name="name">Responsable</field>
+            <field name="implied_ids" eval="[(4, ref('sales_contract.sale_contract_user'))]"/>
+            <field name="category_id" ref="sales_contract.module_sale_contract"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+
+        </record>
+
+        <record id="group_actualise_contrat" model="res.groups">
+            <field name="name">Actualiser contrat client</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+
+        </record>
+
+    </data>
+</odoo>

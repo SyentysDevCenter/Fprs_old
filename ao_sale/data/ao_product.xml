@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+    <record id="ao_invoicable_product" model="product.template">
+        <field name="name">Prestation</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product.product_category_all"></field>
+    </record>
+    </data>
+</odoo>

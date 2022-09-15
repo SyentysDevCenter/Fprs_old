@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_project_dpgf" model="ir.ui.view">
+        <field name="name">sale.order.form.sale.dpgf</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_information']//group[2]" position="after">
+                <group string="Affaire" attrs="{'invisible': [('dpgf_sale','=', False)]}">
+                                            <field name="affaire"/>
+
+
+                </group>
+            </xpath>
+            <field name="text_debut" position="attributes">
+                <attribute name="attrs">{'invisible': [('dpgf_sale','=', True)]}</attribute>
+            </field>
+            <field name="text_civility" position="attributes">
+                <attribute name="attrs">{'invisible': [('dpgf_sale','=', True)]}</attribute>
+            </field>
+            <field name="devis_text_1" position="attributes">
+                <attribute name="attrs">{'invisible': [('dpgf_sale','=', True)]}</attribute>
+            </field>
+            <field name="devis_text_2" position="attributes">
+                <attribute name="attrs">{'invisible': [('dpgf_sale','=', True)]}</attribute>
+            </field>
+            <field name="creteil_text" position="attributes">
+                <attribute name="attrs">{'invisible': [('dpgf_sale','=', True)]}</attribute>
+            </field>
+
+            <field name="partner_id" position="after">
+                <field name="dpgf_sale" invisible="1" readonly="1" force_save="1"/>
+                <field name="is_dpgf_principal" readonly="1" force_save="1"
+                       attrs="{'invisible':[('dpgf_sale','=', False)]}"/>
+                <field name="dpgf_state" attrs="{'invisible':[('dpgf_sale','=', False)]}"/>
+                <field name="corps_etat_id" attrs="{'invisible':[('dpgf_sale','=', False)]}"
+                       options="{'no_create':1, 'no_open':1}"/>
+
+            </field>
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_project" model="ir.ui.view">
+        <field name="name">sale.order.form.sale.project</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="project_sale.view_order_form_inherit_project"/>
+        <field name="arch" type="xml">
+            <field name="chantier_id" position="attributes">
+                <attribute name="attrs">{'required':[('dpgf_sale','=',True)]}</attribute>
+            </field>
+
+        </field>
+    </record>
+    <record id="view_order_tree_quoatation_inherit_project" model="ir.ui.view">
+        <field name="name">view.quotation.tree.project</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="dpgf_sale" invisible="1"/>
+                <field name="is_dpgf_principal" readonly="1" force_save="1"/>
+            </field>
+        </field>
+    </record>
+    <record id="action_quotations_dpgf_sale" model="ir.actions.act_window">
+        <field name="name">Devis réabilitation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'default_dpgf_sale': True}</field>
+        <field name="domain">[('dpgf_sale', '=', True)]</field>
+    </record>
+    <menuitem id="menu_quotations_dpgf_sale" name="Devis réabilitation" sequence="3"
+              groups="project_sale_dpgf.group_sale_dpgf"
+              action="action_quotations_dpgf_sale" web_icon="project_sale_dpgf,static/description/dpgf.jpg"
+    />
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="domain">[('depannage', '=', False),('commande', '=', False), ('dpgf_sale', '=', False)]</field>
+    </record>
+    <menuitem id="menu_quotations_dpgf_config" name="Configuration"
+              parent="project_sale_dpgf.menu_quotations_dpgf_sale"/>
+
+    <menuitem action="sale_fsm_extend.corps_etat_action" id="corps_etat_menu" name="Corps d'état"
+              parent="menu_quotations_dpgf_config"/>
+</odoo>

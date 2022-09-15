@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="email_template_ao_change" model="mail.template">
+            <field name="name">Changement dans l'appel d'offre</field>
+            <field name="email_from"></field>
+            <field name="subject">Changement dans l'appel d'offre</field>
+            <field name="partner_to">${object.responsable.id}</field>
+            <field name="model_id" ref="ao.model_ao_ao"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<p>L'appel d'offre N° ${object.display_name} vient d'être modifié. Vous pouvez verifié les changement effectués en dessous de la vue formulaire de celui-ci.
+
+]]></field>
+        </record>
+        <record id="email_template_checklist_resp" model="mail.template">
+            <field name="name">Responsable affecter à la checklist</field>
+            <field name="email_from"></field>
+            <field name="subject">Affectation à un élément de checklist</field>
+            <field name="partner_to">${object.resp_id.id}</field>
+            <field name="model_id" ref="ao.model_ao_checklist"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+            <p>Bonjour</p>
+<p> Vous êtes affecté comme responsable de l'élément: " ${object.desc} " de la checklist de l'appel d'offre: ${object.ao_id.display_name}.
+
+]]></field>
+        </record>
+        <record id="email_template_dossier_done" model="mail.template">
+            <field name="name">Dossier terminé</field>
+            <field name="email_from"></field>
+            <field name="subject">Travail effectué</field>
+            <field name="partner_to">${object.resp.id}</field>
+            <field name="model_id" ref="ao.model_ao_dossier"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+            <p>Bonjour</p>
+<p> L'élément: " ${object.complete_name} " de l'appel d'offre: ${object.ao_tech.display_name or object.dossier_tech.display_name or object.ao_dossier_admin.display_name or object.ao_financier.display_name or object.ao_clause_particuliere.display_name or object.dossier_add_id.display_name or object.ao_cps_signe.display_name or object.ao_autre_dossier.display_name} a été effectué.
+
+]]></field>
+        </record>
+
+
+
+    </data>
+</odoo>

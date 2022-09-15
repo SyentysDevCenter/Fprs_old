@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_sales_order_inherit_soustraitance" model="ir.ui.view">
+            <field name="name">sale.order.form.sous_traitance</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <group name="sale_shipping" position="inside">
+                    <field name="requisition_id" groups="purchase.group_purchase_user"/>
+                </group>
+                <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='name']" position="after">
+                    <field name="soustraitance"/>
+                </xpath>
+            </field>
+     </record>
+
+
+
+     <record id="view_purchase_requisition_form_inherit_sous_traitance" model="ir.ui.view">
+            <field name="name">purchase.requisition.form.inherit.sous_traitance</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='price_unit']" position="before">
+                    <field name="sale_price"/>
+                </xpath>
+
+            </field>
+        </record>
+</odoo>

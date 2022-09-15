@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="company_form_view_extend">
+        <field name="name">res.company.form.extend</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Paramétrage des notifications factures">
+                    <div class="oe_highlight">
+                        <group>
+                            <group string="Factures en attente">
+                                <field name="personnes_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Factures validées">
+                                <field name="pesonnes2_ids" widget="many2many_tags"/>
+                            </group>
+
+                        </group>
+
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

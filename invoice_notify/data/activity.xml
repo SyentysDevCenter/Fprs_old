@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record forcecreate="true" id="facture_en_attente_activity" model="mail.activity.type">
+        <field name="name">Facture en attente !</field>
+        <field name="summary">Cette Facture est passée en état 'Attente de Validation'!</field>
+        <field name="icon">fa-thumbs-up</field>
+        <field name="res_model_id" ref="invoice_notify.model_facture_en_attente"/>
+    </record>
+</odoo>

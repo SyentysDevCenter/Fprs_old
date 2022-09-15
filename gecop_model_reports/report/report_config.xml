@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--                                                                 FACTURE-->
+        <record id="gecop_invoice_report_id" model="ir.actions.report">
+            <field name="name">Factures Gecop</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_invoice</field>
+            <field name="report_file">gecop_model_reports.report_gecop_invoice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="gecop_invoice_siret_report_id" model="ir.actions.report">
+            <field name="name">Factures siret</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_invoice_siret</field>
+            <field name="report_file">gecop_model_reports.report_gecop_invoice_siret</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures siret - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="gecop_invoice_oph_report_id" model="ir.actions.report">
+            <field name="name">Factures PARIS HABITAT OPH</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_invoice_oph</field>
+            <field name="report_file">gecop_model_reports.report_gecop_invoice_oph</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures PARIS HABITAT - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="gecop_invoice_valophis_report_id" model="ir.actions.report">
+            <field name="name">Factures VALOPHIS</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_valophis_invoice</field>
+            <field name="report_file">gecop_model_reports.report_gecop_valophis_invoice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures VALOPHIS - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="gecop_invoice_rivp_report_id" model="ir.actions.report">
+            <field name="name">Factures RIVP</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_rivp_invoice</field>
+            <field name="report_file">gecop_model_reports.report_gecop_rivp_invoice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures RIVP - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="gecop_invoice_reha_report_id" model="ir.actions.report">
+            <field name="name">Factures Réha</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_reha_invoice</field>
+            <field name="report_file">gecop_model_reports.report_gecop_reha_invoice</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="print_report_name">'factures Réha - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="gecop_invoice_sous_traitant_report_id" model="ir.actions.report">
+            <field name="name">Factures Sous-Traitant</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_gecop_sous_traitant_invoice</field>
+            <field name="report_file">gecop_model_reports.report_gecop_sous_traitant_invoice</field>
+            <field name="binding_model_id" ref="gecop_model_reports.model_account_move"/>
+            <field name="print_report_name">'factures sous traitant - %s' % (object.name)</field>
+            <field name="binding_type">report</field>
+        </record>
+        <!--                                                                 BC-->
+
+        <record id="bc_creteil_report_id" model="ir.actions.report">
+            <field name="name">Bon de commande Créteil</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.bc_creteil_template</field>
+            <field name="report_file">gecop_model_reports.bc_creteil_template</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="report_qweb_paperformat_devis" model="report.paperformat">
+            <field name="name">A4 devis</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">42</field>
+            <field name="margin_bottom">27</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">47</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="report_qweb_paperformat_bc_regule_1" model="report.paperformat">
+            <field name="name">A4 BC Régule</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">42</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">47</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="sale_report_first" model="ir.actions.report">
+            <field name="name">Devis</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_saleorder_first</field>
+            <field name="report_file">gecop_model_reports.report_saleorder_first</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Devis - %s' % (object.name) or
+                'Commande - %s' % (object.name))
+            </field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="sale_report_second" model="ir.actions.report">
+            <field name="name">Devis de régule</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_saleorder_second</field>
+            <field name="report_file">gecop_model_reports.report_saleorder_second</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Devis de régul - %s' %
+                (object.name)) or 'Commande de régul - %s' % (object.name)
+            </field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="sale_regul_report" model="ir.actions.report">
+            <field name="name">BC de régule</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">gecop_model_reports.report_saleorder_regul</field>
+            <field name="report_file">gecop_model_reports.report_saleorder_regul</field>
+            <field name="print_report_name">(object.state in ('draft', 'sent') and 'Devis de régul - %s' %
+                (object.name)) or 'Commande de régul - %s' % (object.name)
+            </field>
+            <field name="paperformat_id" ref="gecop_model_reports.report_qweb_paperformat_bc_regule_1"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+        </record>
+
+
+        <record id="gecop_model_reports.sale_report_second" model="ir.actions.report">
+            <field name="paperformat_id" ref="gecop_model_reports.report_qweb_paperformat_devis"/>
+        </record>
+        <record id="gecop_model_reports.sale_report_first" model="ir.actions.report">
+            <field name="paperformat_id" ref="gecop_model_reports.report_qweb_paperformat_devis"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_wbs_form_view_inherit_extend" model="ir.ui.view">
+        <field name="name">project.wbs.form.view</field>
+        <field name="model">project.wbs</field>
+        <field name="inherit_id" ref="project_wbs.project_wbs_form_view"/>
+        <field name="arch" type="xml">
+            <field name="code" position="after">
+                <field name="numero_debourse"/>
+            </field>
+            <field name="qty" position="before">
+                <label for="price_suggest"/>
+
+                <div class="o_row">
+                    <span>
+                        <field name="price_suggest"/>
+                    </span>
+
+                    <button name="apply_suggested" string='Appliquer' type="object"/>
+                </div>
+            </field>
+        </field>
+    </record>
+    <record id="wbs_cost_line_view_tree_extend" model="ir.ui.view">
+        <field name="name">SDP</field>
+        <field name="model">wbs.cost.line</field>
+        <field name="inherit_id" ref="ao_sdp.wbs_cost_line_view_tree"></field>
+        <field name="arch" type="xml">
+            <field name="unit_cost" position="after">
+                <field name="sale_coef"/>
+                <field name="sale_price_unit"/>
+                <field name="sale_price_total"/>
+            </field>
+        </field>
+    </record>
+</odoo>

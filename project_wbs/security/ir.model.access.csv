@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_wbs_user,project_wbs_user,project_wbs.model_project_wbs,group_project_wbs,1,1,1,1
+access_project_wbs_relation_user,project_wbs_relation_user,project_wbs.model_project_wbs_relation,group_project_wbs,1,1,1,1

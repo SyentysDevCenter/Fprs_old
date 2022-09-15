@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="gecop_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+
+        <xpath expr="//div[@t-field='doc.partner_id']" position="after">
+            <div class="row" style="position:relative">
+                <br/>
+                <t t-if="doc.modalite_paiement_id">
+                    <strong>Modalité de paiement : </strong>
+                    <span t-field="doc.modalite_paiement_id"></span>
+                </t>
+                <br/>
+                <t t-if="doc.n_siret  and (doc.commande or doc.dpgf_sale or doc.depannage)">
+                    <strong>N° de SIRET : </strong>
+                    <span t-field="doc.n_siret"/>
+                    <br/>
+                </t>
+                <br/>
+            </div>
+
+        </xpath>
+
+        <!--        </t>-->
+    </template>
+
+</odoo>
